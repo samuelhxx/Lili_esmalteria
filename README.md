@@ -1,14 +1,13 @@
 # Lili Esmalteria — Itupeva/SP
 
-Landing page do salão. **Etapa atual: somente o fundo.** A página não tem
-conteúdo — nem texto, nem seções, nem menu. Só a camada de fundo, a paleta em
-variáveis CSS e as fontes carregadas para as próximas etapas.
+Landing page do salão. **Etapa atual: fundo animado + abertura (primeira
+dobra).** Ainda não há outras seções nem menu.
 
 ## Arquivos
 
 ```
-index.html            <body> vazio: só o fundo
-assets/css/style.css  variáveis, degradê animado, grão
+index.html            abertura: marca, frase e botão
+assets/css/style.css  variáveis, degradê animado, grão, abertura
 ```
 
 Abrir `index.html` direto no navegador. Não há build, framework ou dependência
@@ -48,12 +47,6 @@ Degradê linear a −45° com as quatro cores da paleta, dimensionado em
 400% × 400%, com a `background-position` deslocando num ciclo de 15s
 (`0% 50%` → `100% 50%` → `0% 50%`).
 
-Os stops estão deslocados para o escuro: o preto quente ocupa de 0% a 44% e de
-76% a 100% da linha do degradê, e ferrugem, pêssego e ouro passam como uma
-brasa estreita no meio. Medido ao longo do ciclo, o fundo tem luminância média
-de 72 (de 255), variando entre 22 e 137 — escuro na maior parte do tempo, com a
-brasa atravessando a tela em diagonal.
-
 Por cima, o grão de verniz a 5%: ruído SVG embutido como data URI em
 `body::after`, sem requisição extra.
 
@@ -67,7 +60,33 @@ O `html` recebe `background-color` como rede de segurança: o degradê é
 dimensionado pela caixa do `body`, então qualquer área além dela — a barra do
 navegador móvel se recolhendo, por exemplo — apareceria branca sem isso.
 
+## A abertura
+
+Ocupa a altura da tela, com o conteúdo centralizado nos dois eixos: marca
+(`Lili` em Bodoni Moda itálica + `ESMALTERIA` em Jost espaçada), frase
+principal em duas linhas — a primeira em display grande, a segunda de apoio,
+menor — e o botão **Agendar horário**, ainda com `href="#"` até o destino ser
+definido.
+
+O contraste sobre o fundo animado vem de um véu radial translúcido
+(`.abertura::before`), nunca de um bloco sólido: fechado no centro, aberto nas
+bordas, deixando o degradê visível. As opacidades do véu e do texto de apoio
+foram calibradas por medição na fase mais clara do ciclo — o pior caso. Todos
+os elementos passam nos mínimos da WCAG AA:
+
+| elemento | contraste | mínimo |
+| --- | --- | --- |
+| `Lili` (pêssego, texto grande) | 4,53:1 | 3:1 |
+| `ESMALTERIA` (creme) | 5,88:1 | 4,5:1 |
+| frase principal (creme, grande) | 5,89:1 | 3:1 |
+| linha de apoio (creme 92%) | 5,27:1 | 4,5:1 |
+| botão (creme) | 8,37:1 | 4,5:1 |
+
+O botão tem alvo de toque de 48px (`--toque-min`) e foco de teclado visível via
+`:focus-visible`. Não há animação de entrada nesta etapa — movimento fica para
+uma fase própria.
+
 ## Próximo passo
 
-Colocar conteúdo por cima do fundo, usando os papéis semânticos e a escala de
-espaçamento já definidos.
+Seção de agendamento: a cliente escolhe serviço, dia e período, e a mensagem
+chega pronta no WhatsApp da dona. É o destino do botão da abertura.

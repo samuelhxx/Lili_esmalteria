@@ -1,6 +1,6 @@
 /* =========================================================
    Lili Esmalteria — Itupeva/SP
-   Etapa atual: somente o fundo. Nenhum conteúdo na página.
+   Etapa atual: fundo animado + abertura (primeira dobra).
    HTML/CSS puros. Sem dependências além das fontes.
    ========================================================= */
 
@@ -16,7 +16,7 @@
   /* Papéis semânticos — usar estes nas próximas etapas */
   --fundo:         var(--cor-preto);
   --texto:         var(--cor-creme);
-  --texto-suave:   rgba(243, 228, 206, 0.72);
+  --texto-suave:   rgba(243, 228, 206, 0.92);
   --destaque:      var(--cor-pessego);
   --acento:        var(--cor-ferrugem);
   --linha:         rgba(200, 155, 90, 0.38);
@@ -42,6 +42,14 @@
 
   /* Movimento */
   --ciclo-fundo: 15s;
+
+  /* Véu de leitura: translúcido, para o fundo animado continuar visível
+     por baixo do conteúdo. Nunca um bloco sólido. */
+  --veu-centro: rgba(22, 17, 14, 0.64);
+  --veu-borda:  rgba(22, 17, 14, 0.20);
+
+  /* Alvo mínimo de toque */
+  --toque-min: 3rem;  /* 48px */
 }
 
 /* ---------- Reset enxuto ---------- */
@@ -61,22 +69,12 @@ html {
    ========================================================= */
 body {
   margin: 0;
-  /* Stops deslocados para o escuro: o preto quente ocupa a maior parte da
-     linha do degradê e as cores quentes passam como uma brasa estreita.
-     A técnica é a mesma — só a distribuição muda. */
-  background: linear-gradient(
-    -45deg,
-    #16110E 0%,
-    #16110E 44%,
-    #D95A21 53%,
-    #FFC06A 58%,
-    #C89B5A 64%,
-    #16110E 76%,
-    #16110E 100%
-  );
+  background: linear-gradient(-45deg, #16110E, #D95A21, #FFC06A, #C89B5A);
   background-size: 400% 400%;
   animation: gradient var(--ciclo-fundo) ease infinite;
-  height: 100vh;
+  /* min-height, e não height: agora que há conteúdo, uma tela baixa
+     (celular deitado) precisa poder rolar em vez de cortar o botão. */
+  min-height: 100vh;
 
   color: var(--texto);
   font-family: var(--fonte-corpo);
@@ -100,6 +98,149 @@ body::after {
   opacity: 0.05;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23g)'/%3E%3C/svg%3E");
   background-size: 180px 180px;
+}
+
+/* =========================================================
+   ABERTURA (primeira dobra)
+   ========================================================= */
+.abertura {
+  position: relative;
+  min-height: 100vh;
+  min-height: 100svh;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  align-content: center;
+  justify-items: center;
+  text-align: center;
+  padding: var(--espaco-4) var(--margem-lateral);
+}
+
+/* Véu de leitura: degradê radial, mais fechado no centro (onde está o
+   texto) e quase aberto nas bordas, para o fundo animado seguir visível. */
+.abertura::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  /* alto o bastante para cobrir do nome até o botão — medido: fora
+     desse alcance o texto cai abaixo de 4.5:1 na fase clara do ciclo */
+  background-image: radial-gradient(
+    85% 72% at 50% 52%,
+    var(--veu-centro) 0%,
+    var(--veu-centro) 45%,
+    var(--veu-borda) 88%,
+    transparent 100%
+  );
+}
+
+.abertura > * {
+  position: relative;  /* acima do véu */
+  max-width: var(--largura-max);
+}
+
+/* --- Marca --- */
+.marca {
+  margin: 0;
+  display: grid;
+  justify-items: center;
+}
+
+.marca__nome {
+  font-family: var(--fonte-display);
+  font-style: italic;
+  font-weight: var(--peso-display);
+  font-optical-sizing: auto;
+  font-size: clamp(4.5rem, 26vw, 11rem);
+  line-height: 0.92;
+  color: var(--destaque);
+}
+
+.marca__tipo {
+  margin-top: clamp(0.4rem, 2vw, 0.9rem);
+  font-family: var(--fonte-corpo);
+  font-weight: var(--peso-corpo);
+  font-size: clamp(0.78rem, 4vw, 1.3rem);
+  /* o espaço após a última letra desloca o texto centralizado meio
+     tracking para a esquerda; o recuo devolve esse meio */
+  letter-spacing: var(--tracking-largo);
+  text-indent: calc(var(--tracking-largo) / 2);
+  text-transform: uppercase;
+  color: var(--texto);
+}
+
+/* --- Frase principal: a primeira linha carrega o peso --- */
+.frase {
+  margin: clamp(2rem, 8vw, 3.25rem) 0 0;
+  font-family: var(--fonte-display);
+  font-weight: var(--peso-display);
+  font-optical-sizing: auto;
+  font-size: clamp(1.75rem, 8.5vw, 3.25rem);
+  line-height: 1.15;
+  color: var(--texto);
+  text-wrap: balance;
+}
+
+.frase__apoio {
+  margin: clamp(0.75rem, 3vw, 1.15rem) 0 0;
+  font-family: var(--fonte-corpo);
+  font-weight: var(--peso-corpo);
+  font-size: clamp(0.95rem, 4vw, 1.15rem);
+  line-height: 1.5;
+  letter-spacing: 0.02em;
+  color: var(--texto-suave);
+  text-wrap: balance;
+}
+
+/* --- Botão --- */
+.botao {
+  margin-top: clamp(2.25rem, 9vw, 3.5rem);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: var(--toque-min);
+  padding: 0.9rem clamp(1.75rem, 8vw, 2.75rem);
+  font-family: var(--fonte-corpo);
+  font-weight: var(--peso-medio);
+  font-size: clamp(0.82rem, 3.6vw, 0.95rem);
+  letter-spacing: var(--tracking-medio);
+  text-indent: calc(var(--tracking-medio) / 2);
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--texto);
+  background-color: rgba(22, 17, 14, 0.62);
+  border: 1px solid var(--cor-ouro);
+  border-radius: 999px;
+  transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+}
+
+.botao:hover {
+  background-color: var(--cor-pessego);
+  border-color: var(--cor-pessego);
+  color: var(--cor-preto);
+}
+
+.botao:active {
+  background-color: var(--cor-ouro);
+  border-color: var(--cor-ouro);
+  color: var(--cor-preto);
+}
+
+.botao:focus-visible {
+  outline: 2px solid var(--cor-pessego);
+  outline-offset: 3px;
+}
+
+/* Telas muito estreitas: alivia o espaçamento entre letras */
+@media (max-width: 22.5rem) {
+  :root { --tracking-largo: 0.3em; --tracking-medio: 0.16em; }
+}
+
+/* Paisagem baixa (celular deitado): comprime a vertical */
+@media (max-height: 32rem) and (orientation: landscape) {
+  .marca__nome { font-size: clamp(3rem, 13vh, 5rem); }
+  .frase       { font-size: clamp(1.4rem, 6vh, 2rem); margin-top: 1.25rem; }
+  .botao       { margin-top: 1.5rem; }
+  .abertura    { padding-block: var(--espaco-3); }
 }
 
 /* =========================================================

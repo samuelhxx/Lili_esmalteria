@@ -45,8 +45,15 @@
 
   /* Véu de leitura: translúcido, para o fundo animado continuar visível
      por baixo do conteúdo. Nunca um bloco sólido. */
-  --veu-centro: rgba(22, 17, 14, 0.64);
-  --veu-borda:  rgba(22, 17, 14, 0.20);
+  --veu-centro: rgba(22, 17, 14, 0.46);
+  --veu-meio:   rgba(22, 17, 14, 0.32);
+  --veu-borda:  rgba(22, 17, 14, 0.16);
+
+  /* Halo de leitura: escurece só o entorno imediato das letras. Devolve
+     o contraste que o véu mais claro abriu mão, sem desenhar forma
+     nenhuma na tela. */
+  --halo-forte: 0 1px 2px rgba(22, 17, 14, 0.75), 0 0 16px rgba(22, 17, 14, 0.60);
+  --halo-leve:  0 1px 2px rgba(22, 17, 14, 0.95), 0 0 5px rgba(22, 17, 14, 0.92), 0 0 11px rgba(22, 17, 14, 0.7);
 
   /* Alvo mínimo de toque */
   --toque-min: 3rem;  /* 48px */
@@ -122,14 +129,17 @@ body::after {
   position: absolute;
   inset: 0;
   pointer-events: none;
-  /* alto o bastante para cobrir do nome até o botão — medido: fora
-     desse alcance o texto cai abaixo de 4.5:1 na fase clara do ciclo */
+  /* Sem platô e transbordando a tela: é o platô de opacidade constante
+     seguido de queda rápida que faz o olho enxergar um oval. Uma queda
+     contínua e mais larga que a viewport lê como atmosfera, não como
+     forma. Termina em opacidade baixa, e não em transparente, para não
+     criar borda perceptível nos cantos. */
   background-image: radial-gradient(
-    85% 72% at 50% 52%,
+    135% 105% at 50% 48%,
     var(--veu-centro) 0%,
-    var(--veu-centro) 45%,
-    var(--veu-borda) 88%,
-    transparent 100%
+    var(--veu-meio) 42%,
+    var(--veu-borda) 78%,
+    rgba(22, 17, 14, 0.08) 100%
   );
 }
 
@@ -178,17 +188,21 @@ body::after {
   font-size: clamp(1.75rem, 8.5vw, 3.25rem);
   line-height: 1.15;
   color: var(--texto);
+  text-shadow: var(--halo-forte);
   text-wrap: balance;
 }
 
 .frase__apoio {
   margin: clamp(0.75rem, 3vw, 1.15rem) 0 0;
   font-family: var(--fonte-corpo);
-  font-weight: var(--peso-corpo);
+  /* peso 400 e não 300: no corpo pequeno o traço fino não segura
+     contraste sobre o fundo claro, mesmo com halo */
+  font-weight: 400;
   font-size: clamp(0.95rem, 4vw, 1.15rem);
   line-height: 1.5;
   letter-spacing: 0.02em;
-  color: var(--texto-suave);
+  color: var(--texto);
+  text-shadow: var(--halo-leve);
   text-wrap: balance;
 }
 

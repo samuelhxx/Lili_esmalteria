@@ -44,10 +44,20 @@
     return document.querySelector('[data-revela="' + n + '"]');
   }
 
+  /* Ritmo da entrada. DURACAO é quanto cada bloco leva para subir;
+     PASSO é o intervalo entre a partida de um bloco e a do seguinte.
+     Como PASSO é bem menor que DURACAO, os movimentos convivem na tela
+     e a sequência lê como uma coisa só. Fecha em ~2,4s. */
+  var DURACAO = 1.4;
+  var PASSO = 0.38;
+
   function animar() {
     linha = gsap.timeline({
-      defaults: { duration: 0.9, ease: "power3.out" },
-      delay: 0.15,
+      /* power2.out, e não power3: numa duração mais longa a curva do
+         power3 concentra quase todo o percurso no início e o fim fica
+         arrastando. A power2 distribui melhor — desacelera sem frear. */
+      defaults: { duration: DURACAO, ease: "power2.out" },
+      delay: 0.2,
       onComplete: assentar
     });
 
@@ -63,17 +73,19 @@
        As sobreposições negativas são o ponto do efeito — cada bloco parte
        antes de o anterior assentar, e a sequência lê como um movimento só,
        não como cinco animações enfileiradas. Fecha em ~1,5s. */
+    var emenda = "-=" + (DURACAO - PASSO);
+
     linha
       /* 1 é a logo — revelada pela máscara igual ao texto */
       .fromTo(alvo(1), { yPercent: 110, y: 0 }, { yPercent: 0, y: 0 })
-      .fromTo(alvo(2), { yPercent: 110, y: 0 }, { yPercent: 0, y: 0 }, "-=0.70")
-      .fromTo(alvo(3), { yPercent: 110, y: 0 }, { yPercent: 0, y: 0 }, "-=0.72")
+      .fromTo(alvo(2), { yPercent: 110, y: 0 }, { yPercent: 0, y: 0 }, emenda)
+      .fromTo(alvo(3), { yPercent: 110, y: 0 }, { yPercent: 0, y: 0 }, emenda)
       /* o botão não é texto: entra só com opacidade, sem máscara */
       .fromTo(
         ".botao",
         { opacity: 0 },
-        { opacity: 1, duration: 0.6 },
-        "-=0.50"
+        { opacity: 1, duration: 1.0 },
+        "-=0.95"
       );
   }
 

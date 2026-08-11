@@ -29,8 +29,7 @@ Logo Art Déco (mulher dos anos 1920 com chapéu) e nome em serifada Didone.
 | Creme        | `#F3E4CE` | `--cor-creme`     |
 
 Tipografia: **Bodoni Moda** (display, itálico) e **Jost** (corpo e utilidades —
-desenhada a partir da Futura de 1927, do mesmo período da marca). As duas já
-estão carregando, ainda que nenhum texto as use nesta etapa.
+desenhada a partir da Futura de 1927, do mesmo período da marca).
 
 ## Variáveis disponíveis para as próximas etapas
 
@@ -42,7 +41,10 @@ Declaradas em `:root`, em `assets/css/style.css`:
 - **Tipografia**: `--fonte-display`, `--fonte-corpo`, `--peso-display`,
   `--peso-corpo`, `--peso-medio`, `--tracking-largo`, `--tracking-medio`.
 - **Ritmo**: `--espaco-1` … `--espaco-4`, `--margem-lateral`, `--largura-max`.
-- **Movimento**: `--ciclo-fundo`.
+- **Movimento**: `--ciclo-fundo`. O ritmo da entrada fica em `DURACAO` e
+  `PASSO`, no topo de `assets/js/abertura.js`.
+- **Leitura sobre o fundo**: `--veu-centro`, `--veu-meio`, `--veu-borda`,
+  `--halo-forte`, `--halo-leve`.
 
 ## O fundo
 
@@ -65,25 +67,30 @@ navegador móvel se recolhendo, por exemplo — apareceria branca sem isso.
 
 ## A abertura
 
-Ocupa a altura da tela, com o conteúdo centralizado nos dois eixos: marca
-(`Lili` em Bodoni Moda itálica + `ESMALTERIA` em Jost espaçada), frase
-principal em duas linhas — a primeira em display grande, a segunda de apoio,
-menor — e o botão **Agendar horário**, ainda com `href="#"` até o destino ser
-definido.
+Ocupa a altura da tela, com o conteúdo centralizado nos dois eixos: a logo, a
+frase principal em duas linhas — a primeira em display grande, a segunda de
+apoio, menor — e o botão **Agendar horário**, ainda com `href="#"` até o
+destino ser definido.
 
 O contraste sobre o fundo animado vem de um véu radial translúcido
-(`.abertura::before`), nunca de um bloco sólido: fechado no centro, aberto nas
-bordas, deixando o degradê visível. As opacidades do véu e do texto de apoio
-foram calibradas por medição na fase mais clara do ciclo — o pior caso. Todos
-os elementos passam nos mínimos da WCAG AA:
+(`.abertura::before`), nunca de um bloco sólido. A queda de opacidade é
+contínua e mais larga que a viewport: um platô seguido de queda rápida faz o
+olho enxergar um oval, e é isso que se evita aqui.
+
+Como o véu é claro, a legibilidade vem sobretudo de um halo (`text-shadow`)
+que escurece só o entorno imediato das letras, sem desenhar forma na tela.
+Medido na fase mais clara do ciclo — o pior caso — contra o anel de pixels
+ao redor dos glifos:
 
 | elemento | contraste | mínimo |
 | --- | --- | --- |
-| `Lili` (pêssego, texto grande) | 4,53:1 | 3:1 |
-| `ESMALTERIA` (creme) | 5,88:1 | 4,5:1 |
-| frase principal (creme, grande) | 5,89:1 | 3:1 |
-| linha de apoio (creme 92%) | 5,27:1 | 4,5:1 |
-| botão (creme) | 8,37:1 | 4,5:1 |
+| frase principal (texto grande) | 3,47:1 | 3:1 |
+| linha de apoio | 3,31:1 | 4,5:1 ⚠️ |
+| botão (fundo próprio) | 4,76:1 | 4,5:1 |
+
+> **Pendente:** a linha de apoio não alcança o mínimo. É consequência direta de
+> clarear o véu, decisão tomada por gosto. Os caminhos são escurecer o véu de
+> volta (`--veu-centro`), aumentar o corpo da linha, ou aceitar o desvio.
 
 O botão tem alvo de toque de 48px (`--toque-min`) e foco de teclado visível via
 `:focus-visible`.
@@ -116,8 +123,11 @@ máscara, e sobe até a posição final: emerge por trás da cortina, em vez de
 aparecer por transparência. O botão não é texto e entra só com opacidade.
 
 Uma timeline única do GSAP conduz a sequência, com sobreposição negativa entre
-os blocos para ler como um movimento só. Fecha em ~1,4s. Só `transform` e
-`opacity`, com easing `power3.out`.
+os blocos para ler como um movimento só: cada bloco parte 0,38s depois do
+anterior (`PASSO`) enquanto leva 1,4s para subir (`DURACAO`), então os
+movimentos convivem na tela. Fecha em ~2,4s. Só `transform` e `opacity`, com
+easing `power2.out` — numa duração longa, a curva do `power3` concentra o
+percurso no início e o fim arrasta.
 
 O estado inicial fica no CSS, nunca no JavaScript, para nada piscar antes de
 animar. A classe `js` no `<html>` garante que sem JavaScript a página nasça

@@ -61,7 +61,19 @@ html {
    ========================================================= */
 body {
   margin: 0;
-  background: linear-gradient(-45deg, #16110E, #D95A21, #FFC06A, #C89B5A);
+  /* Stops deslocados para o escuro: o preto quente ocupa a maior parte da
+     linha do degradê e as cores quentes passam como uma brasa estreita.
+     A técnica é a mesma — só a distribuição muda. */
+  background: linear-gradient(
+    -45deg,
+    #16110E 0%,
+    #16110E 44%,
+    #D95A21 53%,
+    #FFC06A 58%,
+    #C89B5A 64%,
+    #16110E 76%,
+    #16110E 100%
+  );
   background-size: 400% 400%;
   animation: gradient var(--ciclo-fundo) ease infinite;
   height: 100vh;

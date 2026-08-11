@@ -16,7 +16,7 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..600;1,6..96,400..500&family=Jost:wght@300;400;500&display=swap">
   <!-- ?v= é cache-busting manual: incrementar a cada mudança no CSS, senão o
        navegador serve a folha antiga por horas depois do deploy -->
-  <link rel="stylesheet" href="assets/css/style.css?v=9">
+  <link rel="stylesheet" href="assets/css/style.css?v=10">
 
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%2316110E'/><text x='16' y='24' font-family='Georgia,serif' font-style='italic' font-size='21' fill='%23FFC06A' text-anchor='middle'>L</text></svg>">
 </head>
@@ -50,107 +50,7 @@
     <a class="botao" href="#">Agendar horário</a>
   </main>
 
-  <section class="cartela" id="cartela" aria-labelledby="cartela-titulo">
-    <p class="rotulo">A cartela</p>
-    <h2 class="cartela__titulo" id="cartela-titulo">Comece pela cor</h2>
-    <p class="cartela__apoio">Antes de marcar, escolha o tom. É assim que começa
-      toda visita aqui — você na cadeira, o leque na mão, decidindo como quer sair.</p>
-
-    <svg class="leque" viewBox="0 0 920 512" xmlns="http://www.w3.org/2000/svg" role="group" aria-label="Leque com doze cores de esmalte">
-<defs><radialGradient id="verniz" gradientUnits="userSpaceOnUse" cx="460" cy="465" r="440"><stop offset="0.50" stop-color="#000" stop-opacity="0.42"/><stop offset="0.63" stop-color="#000" stop-opacity="0.10"/><stop offset="0.74" stop-color="#fff" stop-opacity="0.10"/><stop offset="0.88" stop-color="#fff" stop-opacity="0.30"/><stop offset="0.97" stop-color="#fff" stop-opacity="0.04"/></radialGradient></defs>
-<g class="leque__guarda"><path d="M 425.2 463.96 L 21.97 361.09 L 28.7 335.97 L 429.34 448.5 Z"/><path class="leque__ornato" d="M 151.67 391.7 L 137.57 378.61 L 156.32 374.31 L 170.42 387.41 Z"/><path class="leque__ranhura" d="M 279.94 422.97 L 283.05 411.37"/><path class="leque__ranhura" d="M 237.44 411.58 L 240.55 399.99"/></g>
-<g class="gomo" data-abre data-ordem="0" style="--rot:-137.5deg" data-rot="-137.5" data-cor="#C8102E" data-nome="Vermelho clássico" tabindex="0" role="button" aria-pressed="false" aria-label="Vermelho clássico">
-<path class="gomo__tecido" d="M 672.5 408.06 A 220 220 0 0 0 655.14 363.42 L 842.3 265.99 C 863.67 278.91 883.34 329.49 876.31 353.45 Z" fill="#C8102E"/>
-<path class="gomo__verniz" d="M 672.5 408.06 A 220 220 0 0 0 655.14 363.42 L 842.3 265.99 C 863.67 278.91 883.34 329.49 876.31 353.45 Z" fill="url(#verniz)"/>
-<path class="gomo__foco" d="M 672.5 408.06 A 220 220 0 0 0 655.14 363.42 L 842.3 265.99 C 863.67 278.91 883.34 329.49 876.31 353.45 Z"/>
-<path class="leque__vareta" d="M 519.5 449.06 L 876.31 353.45"/>
-</g>
-<g class="gomo" data-abre data-ordem="1" style="--rot:-125.0deg" data-rot="-125.0" data-cor="#6E1423" data-nome="Vinho" tabindex="0" role="button" aria-pressed="false" aria-label="Vinho">
-<path class="gomo__tecido" d="M 655.14 363.42 A 220 220 0 0 0 628.53 323.59 L 790.17 187.96 C 813.82 195.95 843.97 241.07 842.3 265.99 Z" fill="#6E1423"/>
-<path class="gomo__verniz" d="M 655.14 363.42 A 220 220 0 0 0 628.53 323.59 L 790.17 187.96 C 813.82 195.95 843.97 241.07 842.3 265.99 Z" fill="url(#verniz)"/>
-<path class="gomo__foco" d="M 655.14 363.42 A 220 220 0 0 0 628.53 323.59 L 790.17 187.96 C 813.82 195.95 843.97 241.07 842.3 265.99 Z"/>
-<path class="leque__vareta" d="M 514.64 436.56 L 842.3 265.99"/>
-</g>
-<g class="gomo" data-abre data-ordem="2" style="--rot:-112.5deg" data-rot="-112.5" data-cor="#D4A59A" data-nome="Rosé" tabindex="0" role="button" aria-pressed="false" aria-label="Rosé">
-<path class="gomo__tecido" d="M 628.53 323.59 A 220 220 0 0 0 593.93 290.46 L 722.38 123.06 C 747.2 125.74 786.41 163.27 790.17 187.96 Z" fill="#D4A59A"/>
-<path class="gomo__verniz" d="M 628.53 323.59 A 220 220 0 0 0 593.93 290.46 L 722.38 123.06 C 747.2 125.74 786.41 163.27 790.17 187.96 Z" fill="url(#verniz)"/>
-<path class="gomo__foco" d="M 628.53 323.59 A 220 220 0 0 0 593.93 290.46 L 722.38 123.06 C 747.2 125.74 786.41 163.27 790.17 187.96 Z"/>
-<path class="leque__vareta" d="M 507.19 425.4 L 790.17 187.96"/>
-</g>
-<g class="gomo" data-abre data-ordem="3" style="--rot:-100.0deg" data-rot="-100.0" data-cor="#F4C2C2" data-nome="Rosa bebê" tabindex="0" role="button" aria-pressed="false" aria-label="Rosa bebê">
-<path class="gomo__tecido" d="M 593.93 290.46 A 220 220 0 0 0 552.98 265.61 L 642.15 74.38 C 666.97 71.62 713.36 99.78 722.38 123.06 Z" fill="#F4C2C2"/>
-<path class="gomo__verniz" d="M 593.93 290.46 A 220 220 0 0 0 552.98 265.61 L 642.15 74.38 C 666.97 71.62 713.36 99.78 722.38 123.06 Z" fill="url(#verniz)"/>
-<path class="gomo__foco" d="M 593.93 290.46 A 220 220 0 0 0 552.98 265.61 L 642.15 74.38 C 666.97 71.62 713.36 99.78 722.38 123.06 Z"/>
-<path class="leque__vareta" d="M 497.5 416.13 L 722.38 123.06"/>
-</g>
-<g class="gomo" data-abre data-ordem="4" style="--rot:-87.5deg" data-rot="-87.5" data-cor="#F5F0E8" data-nome="Branco leitoso" tabindex="0" role="button" aria-pressed="false" aria-label="Branco leitoso">
-<path class="gomo__tecido" d="M 552.98 265.61 A 220 220 0 0 0 507.62 250.21 L 553.29 44.22 C 576.92 36.15 628.31 53.6 642.15 74.38 Z" fill="#F5F0E8"/>
-<path class="gomo__verniz" d="M 552.98 265.61 A 220 220 0 0 0 507.62 250.21 L 553.29 44.22 C 576.92 36.15 628.31 53.6 642.15 74.38 Z" fill="url(#verniz)"/>
-<path class="gomo__foco" d="M 552.98 265.61 A 220 220 0 0 0 507.62 250.21 L 553.29 44.22 C 576.92 36.15 628.31 53.6 642.15 74.38 Z"/>
-<path class="leque__vareta" d="M 486.03 409.17 L 642.15 74.38"/>
-</g>
-<g class="gomo" data-abre data-ordem="5" style="--rot:-75.0deg" data-rot="-75.0" data-cor="#14100E" data-nome="Preto ônix" tabindex="0" role="button" aria-pressed="false" aria-label="Preto ônix">
-<path class="gomo__tecido" d="M 507.62 250.21 A 220 220 0 0 0 460 245 L 460 34 C 481.33 21.01 535.28 26.92 553.29 44.22 Z" fill="#14100E"/>
-<path class="gomo__verniz" d="M 507.62 250.21 A 220 220 0 0 0 460 245 L 460 34 C 481.33 21.01 535.28 26.92 553.29 44.22 Z" fill="url(#verniz)"/>
-<path class="gomo__foco" d="M 507.62 250.21 A 220 220 0 0 0 460 245 L 460 34 C 481.33 21.01 535.28 26.92 553.29 44.22 Z"/>
-<path class="leque__vareta" d="M 473.33 404.86 L 553.29 44.22"/>
-</g>
-<g class="gomo" data-abre data-ordem="6" style="--rot:-62.5deg" data-rot="-62.5" data-cor="#1B2A4A" data-nome="Azul marinho" tabindex="0" role="button" aria-pressed="false" aria-label="Azul marinho">
-<path class="gomo__tecido" d="M 460 245 A 220 220 0 0 0 412.38 250.21 L 366.71 44.22 C 384.72 26.92 438.67 21.01 460 34 Z" fill="#1B2A4A"/>
-<path class="gomo__verniz" d="M 460 245 A 220 220 0 0 0 412.38 250.21 L 366.71 44.22 C 384.72 26.92 438.67 21.01 460 34 Z" fill="url(#verniz)"/>
-<path class="gomo__foco" d="M 460 245 A 220 220 0 0 0 412.38 250.21 L 366.71 44.22 C 384.72 26.92 438.67 21.01 460 34 Z"/>
-<path class="leque__vareta" d="M 460 403.4 L 460 34"/>
-</g>
-<g class="gomo" data-abre data-ordem="7" style="--rot:-50.0deg" data-rot="-50.0" data-cor="#0F5C4A" data-nome="Verde esmeralda" tabindex="0" role="button" aria-pressed="false" aria-label="Verde esmeralda">
-<path class="gomo__tecido" d="M 412.38 250.21 A 220 220 0 0 0 367.02 265.61 L 277.85 74.38 C 291.69 53.6 343.08 36.15 366.71 44.22 Z" fill="#0F5C4A"/>
-<path class="gomo__verniz" d="M 412.38 250.21 A 220 220 0 0 0 367.02 265.61 L 277.85 74.38 C 291.69 53.6 343.08 36.15 366.71 44.22 Z" fill="url(#verniz)"/>
-<path class="gomo__foco" d="M 412.38 250.21 A 220 220 0 0 0 367.02 265.61 L 277.85 74.38 C 291.69 53.6 343.08 36.15 366.71 44.22 Z"/>
-<path class="leque__vareta" d="M 446.67 404.86 L 366.71 44.22"/>
-</g>
-<g class="gomo" data-abre data-ordem="8" style="--rot:-37.5deg" data-rot="-37.5" data-cor="#9B7EBD" data-nome="Lilás" tabindex="0" role="button" aria-pressed="false" aria-label="Lilás">
-<path class="gomo__tecido" d="M 367.02 265.61 A 220 220 0 0 0 326.07 290.46 L 197.62 123.06 C 206.64 99.78 253.03 71.62 277.85 74.38 Z" fill="#9B7EBD"/>
-<path class="gomo__verniz" d="M 367.02 265.61 A 220 220 0 0 0 326.07 290.46 L 197.62 123.06 C 206.64 99.78 253.03 71.62 277.85 74.38 Z" fill="url(#verniz)"/>
-<path class="gomo__foco" d="M 367.02 265.61 A 220 220 0 0 0 326.07 290.46 L 197.62 123.06 C 206.64 99.78 253.03 71.62 277.85 74.38 Z"/>
-<path class="leque__vareta" d="M 433.97 409.17 L 277.85 74.38"/>
-</g>
-<g class="gomo" data-abre data-ordem="9" style="--rot:-25.0deg" data-rot="-25.0" data-cor="#FF6F5E" data-nome="Coral" tabindex="0" role="button" aria-pressed="false" aria-label="Coral">
-<path class="gomo__tecido" d="M 326.07 290.46 A 220 220 0 0 0 291.47 323.59 L 129.83 187.96 C 133.59 163.27 172.8 125.74 197.62 123.06 Z" fill="#FF6F5E"/>
-<path class="gomo__verniz" d="M 326.07 290.46 A 220 220 0 0 0 291.47 323.59 L 129.83 187.96 C 133.59 163.27 172.8 125.74 197.62 123.06 Z" fill="url(#verniz)"/>
-<path class="gomo__foco" d="M 326.07 290.46 A 220 220 0 0 0 291.47 323.59 L 129.83 187.96 C 133.59 163.27 172.8 125.74 197.62 123.06 Z"/>
-<path class="leque__vareta" d="M 422.5 416.13 L 197.62 123.06"/>
-</g>
-<g class="gomo" data-abre data-ordem="10" style="--rot:-12.5deg" data-rot="-12.5" data-cor="#FFC06A" data-nome="Pêssego" tabindex="0" role="button" aria-pressed="false" aria-label="Pêssego">
-<path class="gomo__tecido" d="M 291.47 323.59 A 220 220 0 0 0 264.86 363.42 L 77.7 265.99 C 76.03 241.07 106.18 195.95 129.83 187.96 Z" fill="#FFC06A"/>
-<path class="gomo__verniz" d="M 291.47 323.59 A 220 220 0 0 0 264.86 363.42 L 77.7 265.99 C 76.03 241.07 106.18 195.95 129.83 187.96 Z" fill="url(#verniz)"/>
-<path class="gomo__foco" d="M 291.47 323.59 A 220 220 0 0 0 264.86 363.42 L 77.7 265.99 C 76.03 241.07 106.18 195.95 129.83 187.96 Z"/>
-<path class="leque__vareta" d="M 412.81 425.4 L 129.83 187.96"/>
-</g>
-<g class="gomo" data-abre data-ordem="11" style="--rot:0.0deg" data-rot="0.0" data-cor="#D95A21" data-nome="Ferrugem" tabindex="0" role="button" aria-pressed="false" aria-label="Ferrugem">
-<path class="gomo__tecido" d="M 264.86 363.42 A 220 220 0 0 0 247.5 408.06 L 43.69 353.45 C 36.66 329.49 56.33 278.91 77.7 265.99 Z" fill="#D95A21"/>
-<path class="gomo__verniz" d="M 264.86 363.42 A 220 220 0 0 0 247.5 408.06 L 43.69 353.45 C 36.66 329.49 56.33 278.91 77.7 265.99 Z" fill="url(#verniz)"/>
-<path class="gomo__foco" d="M 264.86 363.42 A 220 220 0 0 0 247.5 408.06 L 43.69 353.45 C 36.66 329.49 56.33 278.91 77.7 265.99 Z"/>
-<path class="leque__vareta" d="M 405.36 436.56 L 77.7 265.99"/>
-</g>
-<g class="leque__guarda" data-abre data-ordem="12" style="--rot:-137.5deg" data-rot="-137.5"><path d="M 494.8 463.96 L 898.03 361.09 L 891.3 335.97 L 490.66 448.5 Z"/><path class="leque__ornato" d="M 768.33 391.7 L 782.43 378.61 L 763.68 374.31 L 749.58 387.41 Z"/><path class="leque__ranhura" d="M 640.06 422.97 L 636.95 411.37"/><path class="leque__ranhura" d="M 682.56 411.58 L 679.45 399.99"/></g>
-<path class="leque__filete" d="M 860.86 357.59 A 415 415 0 0 0 59.14 357.59"/>
-<path class="leque__filete leque__filete--fino" d="M 847.34 361.21 A 401 401 0 0 0 72.66 361.21"/>
-<path class="leque__filete" d="M 681.2 405.73 A 229 229 0 0 0 238.8 405.73"/>
-<g class="leque__rebite"><circle cx="460" cy="465" r="26"/><circle class="leque__rebite-miolo" cx="460" cy="465" r="15"/><circle class="leque__rebite-luz" cx="455" cy="459" r="4"/></g>
-</svg>
-
-    <!-- Só entra em cena depois da primeira escolha -->
-    <div class="escolha" hidden>
-      <p class="rotulo escolha__cor" aria-live="polite"></p>
-      <p class="escolha__convite">Gostou desse tom? Leve ele pro seu horário.</p>
-      <!-- Destino a definir: a cor escolhida vai compor a mensagem -->
-      <a class="botao escolha__botao" href="#">Agendar com essa cor</a>
-    </div>
-  </section>
-
-  <div class="onda" aria-hidden="true"></div>
-
   <script src="assets/js/gsap.min.js" defer></script>
   <script src="assets/js/abertura.js?v=4" defer></script>
-  <script src="assets/js/cartela.js?v=5" defer></script>
 </body>
 </html>

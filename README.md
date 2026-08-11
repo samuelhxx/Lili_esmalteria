@@ -1,22 +1,17 @@
 # Lili Esmalteria — Itupeva/SP
 
-Landing page do salão. **Etapa atual: fundo animado, abertura e cartela de
-cores.** Ainda não há menu nem agendamento.
+Landing page do salão. **Etapa atual: fundo animado e abertura (primeira
+dobra).** Ainda não há outras seções, menu ou agendamento.
 
 ## Arquivos
 
 ```
-index.html                abertura + cartela (o leque é SVG inline)
-assets/css/style.css      variáveis, degradê animado, grão, abertura, cartela
+index.html                a abertura
+assets/css/style.css      variáveis, degradê animado, grão, abertura
 assets/js/abertura.js     timeline de entrada (mask reveal)
-assets/js/cartela.js      abertura do leque e a onda de cor
 assets/js/gsap.min.js     GSAP 3.13.0, hospedado aqui
 assets/img/logo-lili.svg  logo da marca
 ```
-
-O leque não foi escrito à mão: `ferramentas/gera_leque.py` calcula a geometria
-e imprime o SVG, que é colado no `index.html`. Mexer no arco, no número de
-gomos ou no festonado é mexer no script e gerar de novo.
 
 Abrir `index.html` direto no navegador. Não há build, framework ou dependência
 além das duas fontes do Google Fonts.
@@ -48,16 +43,15 @@ Declaradas em `:root`, em `assets/css/style.css`:
 - **Ritmo**: `--espaco-1` … `--espaco-4`, `--margem-lateral`, `--largura-max`.
 - **Movimento**: `--ciclo-fundo`. O ritmo da entrada fica em `DURACAO` e
   `PASSO`, no topo de `assets/js/abertura.js`.
-- **Tema dinâmico** (trocado pela cartela): `--fundo-1` … `--fundo-4`,
-  `--tema-texto`, `--tema-contraste`, `--tema-acento`, `--tema-veu-rgb`.
 - **Leitura sobre o fundo**: `--veu-centro`, `--veu-meio`, `--veu-borda`,
   `--halo-forte`, `--halo-leve`.
 
 ## O fundo
 
-Degradê linear a −45° com as quatro cores da paleta, dimensionado em
-400% × 400%, com a `background-position` deslocando num ciclo de 15s
-(`0% 50%` → `100% 50%` → `0% 50%`).
+Degradê linear a −45° com as quatro cores da identidade — `#16110E`,
+`#D95A21`, `#FFC06A`, `#C89B5A` —, dimensionado em 400% × 400%, com a
+`background-position` deslocando num ciclo de 15s
+(`0% 50%` → `100% 50%` → `0% 50%`). É estado fixo: nenhuma interação o altera.
 
 Por cima, o grão de verniz a 5%: ruído SVG embutido como data URI em
 `body::after`, sem requisição extra.
@@ -140,68 +134,6 @@ O estado inicial fica no CSS, nunca no JavaScript, para nada piscar antes de
 animar. A classe `js` no `<html>` garante que sem JavaScript a página nasça
 inteira, e uma trava de 5s pula a timeline para o fim caso os quadros nunca
 cheguem. Com `prefers-reduced-motion`, tudo aparece no estado final de imediato.
-
-## A cartela de cores
-
-É um momento da jornada, não um brinquedo: título **Comece pela cor**, texto
-de apoio, o leque no centro e — só depois da primeira escolha — a frase
-*Gostou desse tom? Leve ele pro seu horário* e o botão **Agendar com essa
-cor**, que entram com uma animação suave. Antes disso o bloco nem existe no
-DOM acessível (`hidden`). O destino do botão segue sem definir; a cor
-escolhida ficará disponível para compor a mensagem de agendamento.
-
-**Tipografia.** Títulos em Bodoni Moda; rótulos e nomes de cor em Jost, caixa
-alta, peso leve, com `--tracking-largo` — o mesmo tratamento do `ESMALTERIA`
-da abertura. O salto de escala entre título (até 3,5rem) e apoio (até 1,1rem)
-é o que cria hierarquia. Nenhum peso ou família fora do `:root`.
-
-**O leque.** Arco de 150°, rebite na base, doze gomos festonados, varetas e
-guardas ornamentadas em ouro fosco, filetes no arco e brilho de laca por um
-degradê radial ancorado no rebite. A geometria sai de
-`ferramentas/gera_leque.py`. Os gomos partem empilhados sobre a guarda
-esquerda e abrem em cascata quando a seção entra em cena; o estado fechado
-vem do CSS (`rotate(var(--rot))`) e o GSAP anima a própria variável `--rot`,
-para não existir um segundo `transform-origin` brigando com o
-`transform-box: view-box`.
-
-**A camada de cor.** Ao tocar um gomo, uma camada única cresce do ponto exato
-do toque e **permanece** — não é um flash. Ela vive em `z-index: 0`, abaixo do
-conteúdo (`z-index: 1`), e entra com opacidade parcial: tinge o fundo em vez
-de cobrir a tela, então logo, textos, botão e leque seguem visíveis o tempo
-todo. A borda difusa vem do próprio degradê radial, nunca de um círculo de
-borda dura. Anima só `transform: scale` e `opacity`, com `will-change`
-declarado e `expo.out` — saída rápida, desaceleração longa. A escolha
-seguinte tinge por cima, partindo do novo ponto, sem voltar ao estado
-anterior.
-
-As variáveis de tema são aplicadas no início do movimento e migram por
-transição de 1,05s, a mesma duração da onda: o degradê e os textos são
-tingidos progressivamente, acompanhando a frente. A mudança é vista
-acontecendo.
-
-**O fundo continua vivo.** O degradê nunca vira cor chapada: os quatro pontos
-são o preto quente `#16110E` como âncora, a variação escura, a cor dominante
-e a variação clara. Essa última é adaptativa — mistura-se com creme até haver
-distância de luminância suficiente contra a âncora, senão uma cor já escura
-geraria quatro tons quase iguais (o preto ônix é o caso limite). Medida a
-amplitude de luminância do ciclo nas doze, a menor é 0,081; o movimento
-sobrevive em todas.
-
-**Legibilidade.** Cada tema escolhe seu par testando as duas combinações
-possíveis — véu escuro com texto creme, véu claro com texto preto — contra os
-quatro tons de fundo, já tingidos pela camada de cor e cobertos pelo véu.
-Fica a que garante o melhor pior caso. Nas doze, o pior é **5,56:1**, contra
-o mínimo de 4,5:1.
-
-**O que não muda:** a logo e toda a ferragem do leque em ouro fosco. Os gomos
-também mantêm suas cores reais — uma cartela que se tinge não serviria para
-escolher cor.
-
-**Acessibilidade.** Cada gomo é `role="button"`, navegável por Tab, acionável
-por Enter ou espaço, com `aria-label` da cor, `aria-pressed` marcando a
-seleção e foco desenhado no próprio gomo. O nome da cor escolhida é anunciado
-por `aria-live`. Com `prefers-reduced-motion`, o leque nasce aberto e a cor
-troca sem onda, apenas pela transição.
 
 ## Próximo passo
 

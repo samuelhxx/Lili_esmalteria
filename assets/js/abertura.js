@@ -13,9 +13,19 @@
   "use strict";
 
   var raiz = document.documentElement;
+  var linha = null;
 
-  /* Estado final imediato: reduced-motion, GSAP ausente, ou fim da timeline. */
+  /* Estado final imediato: reduced-motion, GSAP ausente, ou fim da timeline.
+
+     Pular a timeline para o fim não é opcional. Assim que a timeline é
+     criada, o GSAP escreve transform inline em cada alvo, e estilo inline
+     vence qualquer classe — a classe .pronto sozinha não desfaz isso.
+     Sem o progress(1), o conteúdo ficaria escondido para sempre se os
+     quadros nunca chegassem. */
   function assentar() {
+    if (linha) {
+      linha.progress(1);
+    }
     raiz.classList.add("pronto");
   }
 
@@ -35,7 +45,7 @@
   }
 
   function animar() {
-    var linha = gsap.timeline({
+    linha = gsap.timeline({
       defaults: { duration: 0.9, ease: "power3.out" },
       delay: 0.15,
       onComplete: assentar
@@ -54,16 +64,16 @@
        antes de o anterior assentar, e a sequência lê como um movimento só,
        não como cinco animações enfileiradas. Fecha em ~1,5s. */
     linha
+      /* 1 é a logo — revelada pela máscara igual ao texto */
       .fromTo(alvo(1), { yPercent: 110, y: 0 }, { yPercent: 0, y: 0 })
       .fromTo(alvo(2), { yPercent: 110, y: 0 }, { yPercent: 0, y: 0 }, "-=0.70")
       .fromTo(alvo(3), { yPercent: 110, y: 0 }, { yPercent: 0, y: 0 }, "-=0.72")
-      .fromTo(alvo(4), { yPercent: 110, y: 0 }, { yPercent: 0, y: 0 }, "-=0.74")
       /* o botão não é texto: entra só com opacidade, sem máscara */
       .fromTo(
         ".botao",
         { opacity: 0 },
         { opacity: 1, duration: 0.6 },
-        "-=0.55"
+        "-=0.50"
       );
   }
 

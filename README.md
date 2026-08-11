@@ -6,8 +6,11 @@ dobra).** Ainda não há outras seções nem menu.
 ## Arquivos
 
 ```
-index.html            abertura: marca, frase e botão
-assets/css/style.css  variáveis, degradê animado, grão, abertura
+index.html                abertura: logo, frase e botão
+assets/css/style.css      variáveis, degradê animado, grão, abertura
+assets/js/abertura.js     timeline de entrada (mask reveal)
+assets/js/gsap.min.js     GSAP 3.13.0, hospedado aqui
+assets/img/logo-lili.svg  logo da marca
 ```
 
 Abrir `index.html` direto no navegador. Não há build, framework ou dependência
@@ -83,8 +86,43 @@ os elementos passam nos mínimos da WCAG AA:
 | botão (creme) | 8,37:1 | 4,5:1 |
 
 O botão tem alvo de toque de 48px (`--toque-min`) e foco de teclado visível via
-`:focus-visible`. Não há animação de entrada nesta etapa — movimento fica para
-uma fase própria.
+`:focus-visible`.
+
+## A logo
+
+`assets/img/logo-lili.svg` é a logo da marca, dimensionada pela largura
+(`min(76vw, 26rem)`) com altura automática. O `aspect-ratio` no CSS, junto dos
+atributos `width`/`height` no HTML, reserva a caixa antes do arquivo chegar,
+para a página não pular durante o carregamento.
+
+O arquivo é um SVG apenas na embalagem: dentro há um bitmap. O original tinha
+duas imagens PNG embutidas em base64 — uma de cor e uma de luminância usada
+como máscara de transparência — somando 621 KB. Foram compostas numa única PNG
+com canal alfa de verdade, recortada nas margens vazias e reduzida a 256 cores:
+**87 KB, 86% menor**, com erro médio de cor de 3,17/255 (imperceptível). Não
+havia retângulo de fundo nem metadados de editor a remover; o peso era o bitmap.
+
+> **Pendente de decisão:** as palavras *Esmalteria* e *BELEZA · ESTÉTICA ·
+> PRESENTES* são pretas (`rgb(3,1,1)`) e somem sobre o fundo — contraste medido
+> entre 1,98:1 e 2,85:1, contra o mínimo de 3:1. O *Lili* em ferrugem fica ainda
+> pior, entre 1,50:1 e 2,16:1, porque o fundo é da mesma família de cor. Nenhuma
+> cor foi alterada, à espera de definição.
+
+## A entrada (mask reveal)
+
+Cada bloco — a logo e as duas linhas da frase — vive dentro de um `.mascara`
+com `overflow: hidden`. O conteúdo nasce 110% abaixo, fora da área visível da
+máscara, e sobe até a posição final: emerge por trás da cortina, em vez de
+aparecer por transparência. O botão não é texto e entra só com opacidade.
+
+Uma timeline única do GSAP conduz a sequência, com sobreposição negativa entre
+os blocos para ler como um movimento só. Fecha em ~1,4s. Só `transform` e
+`opacity`, com easing `power3.out`.
+
+O estado inicial fica no CSS, nunca no JavaScript, para nada piscar antes de
+animar. A classe `js` no `<html>` garante que sem JavaScript a página nasça
+inteira, e uma trava de 5s pula a timeline para o fim caso os quadros nunca
+cheguem. Com `prefers-reduced-motion`, tudo aparece no estado final de imediato.
 
 ## Próximo passo
 

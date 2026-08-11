@@ -16,7 +16,7 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..600;1,6..96,400..500&family=Jost:wght@300;400;500&display=swap">
   <!-- ?v= é cache-busting manual: incrementar a cada mudança no CSS, senão o
        navegador serve a folha antiga por horas depois do deploy -->
-  <link rel="stylesheet" href="assets/css/style.css?v=3">
+  <link rel="stylesheet" href="assets/css/style.css?v=4">
 
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%2316110E'/><text x='16' y='24' font-family='Georgia,serif' font-style='italic' font-size='21' fill='%23FFC06A' text-anchor='middle'>L</text></svg>">
 </head>
@@ -26,23 +26,23 @@
     <!-- Cada .mascara corta o que estiver fora dela; o .revela nasce
          deslocado para baixo e sobe até a posição final. -->
     <h1 class="marca">
-      <span class="mascara marca__nome">
-        <span class="revela" data-revela="1">Lili</span>
-      </span>
-      <span class="mascara marca__tipo">
-        <span class="revela" data-revela="2">Esmalteria</span>
+      <span class="mascara">
+        <img class="marca__logo revela" data-revela="1"
+             src="assets/img/logo-lili.svg?v=1"
+             alt="Lili Esmalteria"
+             width="1111" height="752">
       </span>
     </h1>
 
     <p class="frase">
       <span class="mascara">
-        <span class="revela" data-revela="3">Um tempo só seu</span>
+        <span class="revela" data-revela="2">Um tempo só seu</span>
       </span>
     </p>
 
     <p class="frase__apoio">
       <span class="mascara">
-        <span class="revela" data-revela="4">Beleza e estética no centro de Itupeva</span>
+        <span class="revela" data-revela="3">Beleza e estética no centro de Itupeva</span>
       </span>
     </p>
 
@@ -51,6 +51,6 @@
   </main>
 
   <script src="assets/js/gsap.min.js" defer></script>
-  <script src="assets/js/abertura.js?v=1" defer></script>
+  <script src="assets/js/abertura.js?v=3" defer></script>
 </body>
 </html>

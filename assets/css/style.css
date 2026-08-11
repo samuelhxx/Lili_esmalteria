@@ -160,33 +160,13 @@ body::after {
   justify-items: center;
 }
 
-.marca__nome {
-  font-family: var(--fonte-display);
-  font-style: italic;
-  font-weight: var(--peso-display);
-  font-optical-sizing: auto;
-  font-size: clamp(4.5rem, 26vw, 11rem);
-  /* 1, e não 0.92: com a máscara cortando, uma entrelinha menor que o
-     corpo comeria o topo do L */
-  line-height: 1;
-  color: var(--destaque);
-}
-
-.marca__tipo {
-  margin-top: clamp(0.4rem, 2vw, 0.9rem);
-  font-family: var(--fonte-corpo);
-  font-weight: var(--peso-corpo);
-  font-size: clamp(0.78rem, 4vw, 1.3rem);
-  letter-spacing: var(--tracking-largo);
-  text-transform: uppercase;
-  color: var(--texto);
-}
-
-/* o espaço após a última letra desloca o texto centralizado meio tracking
-   para a esquerda; o recuo devolve esse meio. Fica no filho, e não na
-   máscara, para não ser aplicado duas vezes. */
-.marca__tipo > .revela {
-  text-indent: calc(var(--tracking-largo) / 2);
+/* Dimensiona pela largura, altura automática. O aspect-ratio (junto dos
+   atributos width/height no HTML) reserva a caixa antes do arquivo chegar,
+   para a página não pular durante o carregamento. */
+.marca__logo {
+  width: min(76vw, 26rem);
+  height: auto;
+  aspect-ratio: 1111 / 752;
 }
 
 /* --- Frase principal: a primeira linha carrega o peso --- */

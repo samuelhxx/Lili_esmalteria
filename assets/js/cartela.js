@@ -7,9 +7,12 @@
       (rotação inicial escrita no próprio SVG, em --rot) e giram em
       cascata até a posição final.
 
-   2. A onda. Ao tocar um gomo, um círculo daquela cor cresce do ponto
-      tocado e inunda a tela; no meio do percurso as variáveis de tema
-      trocam, e quando a onda se dissipa o site já está na cor nova.
+   2. A onda. Ao tocar um gomo, uma camada daquela cor cresce do ponto
+      tocado, tinge a tela e FICA. Ela não cobre nada: vive abaixo do
+      conteúdo e entra com opacidade parcial, então logo, textos, botão e
+      leque seguem visíveis o tempo todo. As variáveis de tema migram por
+      transição enquanto a frente avança, de modo que a mudança é vista
+      acontecendo — e não trocada atrás de um flash.
 
    O que nunca muda: a logo e a ferragem do leque em ouro fosco.
    ========================================================= */
@@ -20,6 +23,8 @@
   var leque = document.querySelector(".leque");
   var secao = document.querySelector(".cartela");
   var onda = document.querySelector(".onda");
+  var escolha = document.querySelector(".escolha");
+  var corAtual = null;
   if (!leque || !secao) return;
 
   var gomos = Array.prototype.slice.call(leque.querySelectorAll(".gomo"));
@@ -81,44 +86,62 @@
      escolhido por contraste medido, não por gosto. E o véu acompanha —
      num tema claro ele precisa ser creme, senão o texto escuro perde o
      fundo que o sustenta. */
-  var ALFA_VEU = 0.46;  /* o mesmo do --veu-centro, no CSS */
+  var ALFA_VEU = 0.46;   /* o mesmo do --veu-centro, no CSS */
+  var ALFA_ONDA = 0.38;  /* a camada de cor que permanece */
+
+  /* A variação clara precisa ficar clara de verdade, senão uma cor já
+     escura gera quatro tons quase iguais e o degradê morre — o preto
+     ônix é o caso limite. Então mistura-se com creme até haver distância
+     de luminância suficiente contra a âncora preta. */
+  function variacaoClara(cor) {
+    var t = 0.30;
+    while (t < 0.75 && luminancia(mistura(cor, CREME, t)) - luminancia(PRETO) < 0.16) {
+      t += 0.05;
+    }
+    return mistura(cor, CREME, t);
+  }
 
   function montarTema(hex) {
     var cor = paraRGB(hex);
-    var claro = luminancia(cor) > 0.35;
 
-    var fundos = claro
-      ? [mistura(cor, CREME, 0.42), mistura(cor, PRETO, 0.22), cor,
-         mistura(cor, CREME, 0.6)]
-      : [mistura(cor, PRETO, 0.88), mistura(cor, PRETO, 0.52), cor,
-         mistura(cor, OURO, 0.3)];
+    /* Quatro pontos, sempre: o preto quente como âncora, a variação
+       escura, a cor dominante e a variação clara. É isso que mantém o
+       degradê com amplitude para continuar se movendo — cor chapada
+       seria o mesmo tom nos quatro pontos. */
+    var fundos = [
+      PRETO,
+      mistura(cor, PRETO, 0.45),
+      cor,
+      variacaoClara(cor)
+    ];
 
-    var veu = claro ? CREME : PRETO;
-
-    /* O texto não fica sobre a cor do gomo: fica sobre os quatro tons
-       derivados dela, já cobertos pelo véu. Escolher o par olhando a cor
-       crua erra feio — a ferrugem, por exemplo, pede texto preto se
-       comparada consigo mesma, mas o fundo que ela gera é escuro, e o
-       preto sumiria nele. Então mede-se contra os quatro tons reais e
-       fica o par que garante o melhor pior caso. */
-    function piorCaso(candidato) {
+    /* O texto não fica sobre a cor do gomo: fica sobre esses quatro tons,
+       já tingidos pela camada de cor e cobertos pelo véu. Testa-se as
+       duas combinações possíveis — véu escuro com texto creme, véu claro
+       com texto preto — e fica a que garante o melhor pior caso. */
+    function piorCaso(texto, veu) {
       return fundos.reduce(function (menor, f) {
-        return Math.min(menor, contraste(candidato, mistura(f, veu, ALFA_VEU)));
+        var efetivo = mistura(mistura(f, cor, ALFA_ONDA), veu, ALFA_VEU);
+        return Math.min(menor, contraste(texto, efetivo));
       }, Infinity);
     }
 
-    var texto = piorCaso(CREME) >= piorCaso(PRETO) ? CREME : PRETO;
+    var escuro = { texto: CREME, veu: PRETO, nota: piorCaso(CREME, PRETO) };
+    var claro = { texto: PRETO, veu: CREME, nota: piorCaso(PRETO, CREME) };
+    var par = escuro.nota >= claro.nota ? escuro : claro;
 
     return {
       fundo1: paraHex(fundos[0]),
       fundo2: paraHex(fundos[1]),
       fundo3: paraHex(fundos[2]),
       fundo4: paraHex(fundos[3]),
-      texto: paraHex(texto),
-      contraste: paraHex(texto === CREME ? PRETO : CREME),
-      acento: paraHex(claro ? mistura(cor, PRETO, 0.45) : mistura(cor, CREME, 0.28)),
-      veuRGB: veu.join(" "),
-      onda: paraHex(claro ? cor : mistura(cor, PRETO, 0.35))
+      texto: paraHex(par.texto),
+      contraste: paraHex(par.texto === CREME ? PRETO : CREME),
+      acento: paraHex(par.veu === PRETO
+        ? mistura(cor, CREME, 0.28)
+        : mistura(cor, PRETO, 0.45)),
+      veuRGB: par.veu.join(" "),
+      onda: hex
     };
   }
 
@@ -144,27 +167,49 @@
     });
   }
 
+  function revelarEscolha(nome) {
+    if (escolha) {
+      var rotulo = escolha.querySelector(".escolha__cor");
+      if (rotulo) rotulo.textContent = nome;
+    }
+    if (!escolha || !escolha.hidden) return;
+
+    escolha.hidden = false;
+    if (querMenosMovimento || !window.gsap) return;
+    gsap.fromTo(
+      escolha,
+      { opacity: 0, y: 18 },
+      { opacity: 1, y: 0, duration: 0.7, ease: "power2.out" }
+    );
+  }
+
   function escolher(gomo, x, y) {
     var hex = gomo.getAttribute("data-cor");
+    if (hex === corAtual) return;   /* nada a refazer */
+    corAtual = hex;
     marcar(gomo);
 
-    /* Sem onda: a transição das variáveis, declarada no CSS, já entrega
-       a troca suave que a preferência pede. */
-    if (querMenosMovimento || !window.gsap || !onda) {
-      aplicarTema(hex);
-      return;
-    }
+    /* O tema entra já: são as variáveis migrando, por transição, que
+       tingem o degradê e os textos enquanto a frente da onda avança. */
+    aplicarTema(hex);
+    revelarEscolha(gomo.getAttribute("data-nome"));
 
-    var t = montarTema(hex);
-    onda.style.backgroundColor = t.onda;
+    if (querMenosMovimento || !window.gsap || !onda) return;
 
+    onda.style.setProperty("--onda-cor", hex);
+
+    /* Uma camada só, partindo do ponto exato do toque, animada apenas em
+       transform e opacity. A saída é rápida e a desaceleração longa —
+       expo.out, nunca linear —, e no fim ela fica: não há volta ao
+       estado anterior, a próxima escolha tinge por cima desta. */
     gsap.killTweensOf(onda);
-    gsap.set(onda, { x: x, y: y, scale: 0, opacity: 1 });
-    gsap.timeline()
-      .to(onda, { scale: 1, duration: 0.85, ease: "power2.out" })
-      /* a troca acontece com a tela já coberta: ninguém vê o salto */
-      .add(function () { aplicarTema(hex); }, 0.42)
-      .to(onda, { opacity: 0, duration: 0.55, ease: "power1.out" }, 0.6);
+    gsap.set(onda, { x: x, y: y, scale: 0, opacity: 0 });
+    gsap.to(onda, {
+      scale: 1,
+      opacity: ALFA_ONDA,
+      duration: 1.05,
+      ease: "expo.out"
+    });
   }
 
   function centro(el) {

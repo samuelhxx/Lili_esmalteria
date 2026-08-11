@@ -113,6 +113,7 @@ body::after {
   position: fixed;
   inset: 0;
   pointer-events: none;
+  z-index: 3;   /* o grão fica por cima de tudo */
   opacity: 0.05;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23g)'/%3E%3C/svg%3E");
   background-size: 180px 180px;
@@ -123,6 +124,7 @@ body::after {
    ========================================================= */
 .abertura {
   position: relative;
+  z-index: 1;   /* acima da camada de cor, que fica em z-index 0 */
   min-height: 100vh;
   min-height: 100svh;
   display: grid;
@@ -324,12 +326,16 @@ body::after {
 @property --tema-acento { syntax: "<color>"; inherits: true; initial-value: #D95A21; }
 
 :root {
-  transition: --fundo-1 0.9s ease, --fundo-2 0.9s ease, --fundo-3 0.9s ease,
-              --fundo-4 0.9s ease, --tema-acento 0.9s ease;
+  /* mesma duração da onda: as variáveis migram enquanto a frente
+     avança, então a mudança é vista acontecendo */
+  transition: --fundo-1 1.05s ease-out, --fundo-2 1.05s ease-out,
+              --fundo-3 1.05s ease-out, --fundo-4 1.05s ease-out,
+              --tema-acento 1.05s ease-out;
 }
 
 .cartela {
   position: relative;
+  z-index: 1;   /* acima da camada de cor */
   display: grid;
   justify-items: center;
   text-align: center;
@@ -353,11 +359,14 @@ body::after {
 
 .cartela > * { position: relative; }
 
-.cartela__titulo {
+/* Rótulo utilitário: Jost, caixa alta, tracking largo — o mesmo
+   tratamento do ESMALTERIA da abertura, para as duas seções soarem
+   como a mesma marca. */
+.rotulo {
   margin: 0;
   font-family: var(--fonte-corpo);
   font-weight: var(--peso-corpo);
-  font-size: clamp(0.72rem, 3.2vw, 0.9rem);
+  font-size: clamp(0.68rem, 3vw, 0.82rem);
   letter-spacing: var(--tracking-largo);
   text-indent: calc(var(--tracking-largo) / 2);
   text-transform: uppercase;
@@ -365,15 +374,56 @@ body::after {
   text-shadow: var(--halo-leve);
 }
 
-.cartela__convite {
-  margin: clamp(0.6rem, 2.5vw, 0.9rem) 0 clamp(1.75rem, 7vw, 2.75rem);
-  font-family: var(--fonte-corpo);
-  font-weight: 400;
-  font-size: clamp(0.85rem, 3.6vw, 1rem);
+/* Título em Bodoni, e em corpo grande: sem salto de escala não existe
+   hierarquia, só três textos do mesmo tamanho. */
+.cartela__titulo {
+  margin: clamp(0.75rem, 3vw, 1.15rem) 0 0;
+  font-family: var(--fonte-display);
+  font-weight: var(--peso-display);
+  font-optical-sizing: auto;
+  font-size: clamp(2rem, 9vw, 3.5rem);
+  line-height: 1.1;
   color: var(--tema-texto);
-  text-shadow: var(--halo-leve);
+  text-shadow: var(--halo-forte);
   text-wrap: balance;
 }
+
+.cartela__apoio {
+  margin: clamp(0.9rem, 3.5vw, 1.35rem) auto clamp(2.25rem, 8vw, 3.25rem);
+  max-width: 34rem;
+  font-family: var(--fonte-corpo);
+  font-weight: 400;
+  font-size: clamp(0.95rem, 4vw, 1.1rem);
+  line-height: 1.6;
+  color: var(--tema-texto);
+  text-shadow: var(--halo-leve);
+  text-wrap: pretty;
+}
+
+/* --- Bloco revelado depois da primeira escolha --- */
+.escolha {
+  margin-top: clamp(2rem, 8vw, 3rem);
+  display: grid;
+  justify-items: center;
+}
+
+.escolha[hidden] { display: none; }
+
+.escolha__cor { opacity: 0.85; }
+
+.escolha__convite {
+  margin: clamp(0.7rem, 3vw, 1rem) 0 0;
+  font-family: var(--fonte-display);
+  font-weight: var(--peso-display);
+  font-optical-sizing: auto;
+  font-size: clamp(1.25rem, 5.5vw, 1.9rem);
+  line-height: 1.25;
+  color: var(--tema-texto);
+  text-shadow: var(--halo-forte);
+  text-wrap: balance;
+}
+
+.escolha__botao { margin-top: clamp(1.5rem, 6vw, 2.25rem); }
 
 /* --- O leque --- */
 .leque {
@@ -457,7 +507,13 @@ body::after {
 .js .cartela--aberta .leque__filete { opacity: 0.7; }
 .js .cartela--aberta .leque__filete--fino { opacity: 0.45; }
 
-/* --- A onda: círculo que cresce do ponto tocado e inunda a tela --- */
+/* --- A camada de cor: cresce do ponto tocado, tinge e fica ------------
+   Não cobre: entra com opacidade parcial e vive ABAIXO do conteúdo
+   (z-index 0 contra o z-index 1 das seções), então logo, textos, botão e
+   leque continuam visíveis e legíveis o tempo todo — o que muda por
+   baixo deles é o fundo. E não se dissipa: a partir dali, aquela cor é
+   o estado do site. A borda difusa vem do próprio degradê radial, para
+   nunca aparecer um círculo de borda dura. */
 .onda {
   position: fixed;
   top: 0;
@@ -468,11 +524,18 @@ body::after {
   border-radius: 50%;
   pointer-events: none;
   opacity: 0;
-  z-index: 60;
+  z-index: 0;
   will-change: transform, opacity;
+  background-image: radial-gradient(
+    circle,
+    var(--onda-cor, transparent) 0%,
+    var(--onda-cor, transparent) 62%,
+    transparent 100%
+  );
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .js .leque [data-abre] { transform: none; }
+  .js .leque [data-abre] { --rot: 0deg; }
+  /* sem onda: a cor troca só pela transição das variáveis */
   .onda { display: none; }
 }

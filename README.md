@@ -143,45 +143,65 @@ cheguem. Com `prefers-reduced-motion`, tudo aparece no estado final de imediato.
 
 ## A cartela de cores
 
-Um leque de mão dos anos 1920, em SVG inline: arco de 150°, rebite na base,
-doze gomos de tecido, varetas em ouro fosco, guardas laterais mais largas e
-ornamentadas, borda festonada e filetes acompanhando a curva. Cada gomo tem
-brilho de laca — um degradê radial ancorado no rebite, que acompanha a
-curvatura do leque em vez de cair reto.
+É um momento da jornada, não um brinquedo: título **Comece pela cor**, texto
+de apoio, o leque no centro e — só depois da primeira escolha — a frase
+*Gostou desse tom? Leve ele pro seu horário* e o botão **Agendar com essa
+cor**, que entram com uma animação suave. Antes disso o bloco nem existe no
+DOM acessível (`hidden`). O destino do botão segue sem definir; a cor
+escolhida ficará disponível para compor a mensagem de agendamento.
 
-**A abertura.** Os gomos partem empilhados sobre a guarda esquerda e giram em
-cascata até a posição final, quando a seção entra em cena
-(`IntersectionObserver`). O estado fechado vem do CSS (`rotate(var(--rot))`,
-com o valor escrito em cada grupo do SVG), e o GSAP anima a própria variável
-`--rot`. Isso é deliberado: se o GSAP usasse sua rotação própria, escreveria
-também um `transform-origin`, que brigaria com o `transform-box: view-box` do
-CSS e abriria os gomos tortos. Um eixo só, o do CSS.
+**Tipografia.** Títulos em Bodoni Moda; rótulos e nomes de cor em Jost, caixa
+alta, peso leve, com `--tracking-largo` — o mesmo tratamento do `ESMALTERIA`
+da abertura. O salto de escala entre título (até 3,5rem) e apoio (até 1,1rem)
+é o que cria hierarquia. Nenhum peso ou família fora do `:root`.
 
-**A onda.** Ao tocar um gomo, um círculo daquela cor cresce do ponto tocado e
-inunda a tela (`transform: scale`, composto na GPU). Com a tela coberta, as
-variáveis de tema trocam; quando a onda se dissipa, o site já está na cor
-nova. As cores do degradê são registradas com `@property`, então também
-migram sozinhas, por transição.
+**O leque.** Arco de 150°, rebite na base, doze gomos festonados, varetas e
+guardas ornamentadas em ouro fosco, filetes no arco e brilho de laca por um
+degradê radial ancorado no rebite. A geometria sai de
+`ferramentas/gera_leque.py`. Os gomos partem empilhados sobre a guarda
+esquerda e abrem em cascata quando a seção entra em cena; o estado fechado
+vem do CSS (`rotate(var(--rot))`) e o GSAP anima a própria variável `--rot`,
+para não existir um segundo `transform-origin` brigando com o
+`transform-box: view-box`.
 
-**O que muda e o que não muda.** Assumem a cor: fundo animado, textos, botão,
-véu e acentos. Ficam intactos: a logo e toda a ferragem do leque em ouro
-fosco — varetas, guardas, filetes e rebite.
+**A camada de cor.** Ao tocar um gomo, uma camada única cresce do ponto exato
+do toque e **permanece** — não é um flash. Ela vive em `z-index: 0`, abaixo do
+conteúdo (`z-index: 1`), e entra com opacidade parcial: tinge o fundo em vez
+de cobrir a tela, então logo, textos, botão e leque seguem visíveis o tempo
+todo. A borda difusa vem do próprio degradê radial, nunca de um círculo de
+borda dura. Anima só `transform: scale` e `opacity`, com `will-change`
+declarado e `expo.out` — saída rápida, desaceleração longa. A escolha
+seguinte tinge por cima, partindo do novo ponto, sem voltar ao estado
+anterior.
 
-**Legibilidade.** Cada tema calcula seu próprio par de texto. O par não é
-escolhido contra a cor do gomo, e sim contra os quatro tons de fundo que ela
-gera, já cobertos pelo véu: fica o que garante o melhor pior caso. Sem isso,
-ferrugem, coral e lilás pediriam texto preto sobre fundo escuro — medido,
-1,06:1. Com a correção, o pior caso das doze é **5,32:1**, contra o mínimo de
-4,5:1. Quatro temas foram conferidos também por medição do render: branco
-leitoso 11,59:1, preto ônix 11,64:1, lilás 5,52:1, coral 4,98:1.
+As variáveis de tema são aplicadas no início do movimento e migram por
+transição de 1,05s, a mesma duração da onda: o degradê e os textos são
+tingidos progressivamente, acompanhando a frente. A mudança é vista
+acontecendo.
+
+**O fundo continua vivo.** O degradê nunca vira cor chapada: os quatro pontos
+são o preto quente `#16110E` como âncora, a variação escura, a cor dominante
+e a variação clara. Essa última é adaptativa — mistura-se com creme até haver
+distância de luminância suficiente contra a âncora, senão uma cor já escura
+geraria quatro tons quase iguais (o preto ônix é o caso limite). Medida a
+amplitude de luminância do ciclo nas doze, a menor é 0,081; o movimento
+sobrevive em todas.
+
+**Legibilidade.** Cada tema escolhe seu par testando as duas combinações
+possíveis — véu escuro com texto creme, véu claro com texto preto — contra os
+quatro tons de fundo, já tingidos pela camada de cor e cobertos pelo véu.
+Fica a que garante o melhor pior caso. Nas doze, o pior é **5,56:1**, contra
+o mínimo de 4,5:1.
+
+**O que não muda:** a logo e toda a ferragem do leque em ouro fosco. Os gomos
+também mantêm suas cores reais — uma cartela que se tinge não serviria para
+escolher cor.
 
 **Acessibilidade.** Cada gomo é `role="button"`, navegável por Tab, acionável
-por Enter ou espaço, com `aria-label` do nome da cor, `aria-pressed` marcando
-a seleção e contorno de foco desenhado no próprio gomo — `outline` não
-acompanha forma de SVG.
-
-Com `prefers-reduced-motion`, o leque já nasce aberto e a cor troca sem onda,
-apenas pela transição das variáveis.
+por Enter ou espaço, com `aria-label` da cor, `aria-pressed` marcando a
+seleção e foco desenhado no próprio gomo. O nome da cor escolhida é anunciado
+por `aria-live`. Com `prefers-reduced-motion`, o leque nasce aberto e a cor
+troca sem onda, apenas pela transição.
 
 ## Próximo passo
 

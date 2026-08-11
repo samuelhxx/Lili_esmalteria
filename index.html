@@ -16,7 +16,7 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..600;1,6..96,400..500&family=Jost:wght@300;400;500&display=swap">
   <!-- ?v= é cache-busting manual: incrementar a cada mudança no CSS, senão o
        navegador serve a folha antiga por horas depois do deploy -->
-  <link rel="stylesheet" href="assets/css/style.css?v=8">
+  <link rel="stylesheet" href="assets/css/style.css?v=9">
 
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%2316110E'/><text x='16' y='24' font-family='Georgia,serif' font-style='italic' font-size='21' fill='%23FFC06A' text-anchor='middle'>L</text></svg>">
 </head>
@@ -51,8 +51,10 @@
   </main>
 
   <section class="cartela" id="cartela" aria-labelledby="cartela-titulo">
-    <h2 class="cartela__titulo" id="cartela-titulo">Cartela de cores</h2>
-    <p class="cartela__convite">Toque num gomo para ver a cor tomar a página.</p>
+    <p class="rotulo">A cartela</p>
+    <h2 class="cartela__titulo" id="cartela-titulo">Comece pela cor</h2>
+    <p class="cartela__apoio">Antes de marcar, escolha o tom. É assim que começa
+      toda visita aqui — você na cadeira, o leque na mão, decidindo como quer sair.</p>
 
     <svg class="leque" viewBox="0 0 920 512" xmlns="http://www.w3.org/2000/svg" role="group" aria-label="Leque com doze cores de esmalte">
 <defs><radialGradient id="verniz" gradientUnits="userSpaceOnUse" cx="460" cy="465" r="440"><stop offset="0.50" stop-color="#000" stop-opacity="0.42"/><stop offset="0.63" stop-color="#000" stop-opacity="0.10"/><stop offset="0.74" stop-color="#fff" stop-opacity="0.10"/><stop offset="0.88" stop-color="#fff" stop-opacity="0.30"/><stop offset="0.97" stop-color="#fff" stop-opacity="0.04"/></radialGradient></defs>
@@ -135,12 +137,20 @@
 <path class="leque__filete" d="M 681.2 405.73 A 229 229 0 0 0 238.8 405.73"/>
 <g class="leque__rebite"><circle cx="460" cy="465" r="26"/><circle class="leque__rebite-miolo" cx="460" cy="465" r="15"/><circle class="leque__rebite-luz" cx="455" cy="459" r="4"/></g>
 </svg>
+
+    <!-- Só entra em cena depois da primeira escolha -->
+    <div class="escolha" hidden>
+      <p class="rotulo escolha__cor" aria-live="polite"></p>
+      <p class="escolha__convite">Gostou desse tom? Leve ele pro seu horário.</p>
+      <!-- Destino a definir: a cor escolhida vai compor a mensagem -->
+      <a class="botao escolha__botao" href="#">Agendar com essa cor</a>
+    </div>
   </section>
 
   <div class="onda" aria-hidden="true"></div>
 
   <script src="assets/js/gsap.min.js" defer></script>
   <script src="assets/js/abertura.js?v=4" defer></script>
-  <script src="assets/js/cartela.js?v=4" defer></script>
+  <script src="assets/js/cartela.js?v=5" defer></script>
 </body>
 </html>

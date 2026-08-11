@@ -7,30 +7,50 @@
   <meta name="description" content="Lili Esmalteria — beleza e estética no centro de Itupeva/SP. Um tempo só seu.">
   <meta name="theme-color" content="#16110E">
 
+  <!-- Marca o documento antes da primeira pintura: só com JS ativo os
+       blocos começam escondidos, então sem JS a página aparece inteira. -->
+  <script>document.documentElement.classList.add("js");</script>
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..600;1,6..96,400..500&family=Jost:wght@300;400;500&display=swap">
   <!-- ?v= é cache-busting manual: incrementar a cada mudança no CSS, senão o
        navegador serve a folha antiga por horas depois do deploy -->
-  <link rel="stylesheet" href="assets/css/style.css?v=2">
+  <link rel="stylesheet" href="assets/css/style.css?v=3">
 
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%2316110E'/><text x='16' y='24' font-family='Georgia,serif' font-style='italic' font-size='21' fill='%23FFC06A' text-anchor='middle'>L</text></svg>">
 </head>
 <body>
 
   <main class="abertura">
-    <!-- Marcador da marca até a logo definitiva chegar -->
+    <!-- Cada .mascara corta o que estiver fora dela; o .revela nasce
+         deslocado para baixo e sobe até a posição final. -->
     <h1 class="marca">
-      <span class="marca__nome">Lili</span>
-      <span class="marca__tipo">Esmalteria</span>
+      <span class="mascara marca__nome">
+        <span class="revela" data-revela="1">Lili</span>
+      </span>
+      <span class="mascara marca__tipo">
+        <span class="revela" data-revela="2">Esmalteria</span>
+      </span>
     </h1>
 
-    <p class="frase">Um tempo só seu</p>
-    <p class="frase__apoio">Beleza e estética no centro de Itupeva</p>
+    <p class="frase">
+      <span class="mascara">
+        <span class="revela" data-revela="3">Um tempo só seu</span>
+      </span>
+    </p>
+
+    <p class="frase__apoio">
+      <span class="mascara">
+        <span class="revela" data-revela="4">Beleza e estética no centro de Itupeva</span>
+      </span>
+    </p>
 
     <!-- Destino a definir: link do agendamento entra aqui -->
     <a class="botao" href="#">Agendar horário</a>
   </main>
 
+  <script src="assets/js/gsap.min.js" defer></script>
+  <script src="assets/js/abertura.js?v=1" defer></script>
 </body>
 </html>

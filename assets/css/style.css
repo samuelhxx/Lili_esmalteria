@@ -40,20 +40,31 @@
   --margem-lateral: clamp(1.25rem, 6vw, 4rem);
   --largura-max: 68rem;
 
+  /* --- Tema dinâmico: trocado pelo JS quando uma cor da cartela é
+     escolhida. O default é a identidade original da marca. --------- */
+  --fundo-1: #16110E;
+  --fundo-2: #D95A21;
+  --fundo-3: #FFC06A;
+  --fundo-4: #C89B5A;
+  --tema-texto:  #F3E4CE;
+  --tema-acento: #D95A21;
+  /* trios r g b, para compor opacidades com rgb(... / alfa) */
+  --tema-veu-rgb: 22 17 14;
+
   /* Movimento */
   --ciclo-fundo: 15s;
 
   /* Véu de leitura: translúcido, para o fundo animado continuar visível
      por baixo do conteúdo. Nunca um bloco sólido. */
-  --veu-centro: rgba(22, 17, 14, 0.46);
-  --veu-meio:   rgba(22, 17, 14, 0.32);
-  --veu-borda:  rgba(22, 17, 14, 0.16);
+  --veu-centro: rgb(var(--tema-veu-rgb) / 0.46);
+  --veu-meio:   rgb(var(--tema-veu-rgb) / 0.32);
+  --veu-borda:  rgb(var(--tema-veu-rgb) / 0.16);
 
   /* Halo de leitura: escurece só o entorno imediato das letras. Devolve
      o contraste que o véu mais claro abriu mão, sem desenhar forma
      nenhuma na tela. */
-  --halo-forte: 0 1px 2px rgba(22, 17, 14, 0.75), 0 0 16px rgba(22, 17, 14, 0.60);
-  --halo-leve:  0 1px 2px rgba(22, 17, 14, 0.95), 0 0 5px rgba(22, 17, 14, 0.92), 0 0 11px rgba(22, 17, 14, 0.7);
+  --halo-forte: 0 1px 2px rgb(var(--tema-veu-rgb) / 0.75), 0 0 16px rgb(var(--tema-veu-rgb) / 0.60);
+  --halo-leve:  0 1px 2px rgb(var(--tema-veu-rgb) / 0.95), 0 0 5px rgb(var(--tema-veu-rgb) / 0.92), 0 0 11px rgb(var(--tema-veu-rgb) / 0.7);
 
   /* Alvo mínimo de toque */
   --toque-min: 3rem;  /* 48px */
@@ -76,7 +87,7 @@ html {
    ========================================================= */
 body {
   margin: 0;
-  background: linear-gradient(-45deg, #16110E, #D95A21, #FFC06A, #C89B5A);
+  background: linear-gradient(-45deg, var(--fundo-1), var(--fundo-2), var(--fundo-3), var(--fundo-4));
   background-size: 400% 400%;
   animation: gradient var(--ciclo-fundo) ease infinite;
   /* min-height, e não height: agora que há conteúdo, uma tela baixa
@@ -139,7 +150,7 @@ body::after {
     var(--veu-centro) 0%,
     var(--veu-meio) 42%,
     var(--veu-borda) 78%,
-    rgba(22, 17, 14, 0.08) 100%
+    rgb(var(--tema-veu-rgb) / 0.08) 100%
   );
 }
 
@@ -187,7 +198,7 @@ body::after {
   font-optical-sizing: auto;
   font-size: clamp(1.75rem, 8.5vw, 3.25rem);
   line-height: 1.15;
-  color: var(--texto);
+  color: var(--tema-texto);
   text-shadow: var(--halo-forte);
   text-wrap: balance;
 }
@@ -201,7 +212,7 @@ body::after {
   font-size: clamp(0.95rem, 4vw, 1.15rem);
   line-height: 1.5;
   letter-spacing: 0.02em;
-  color: var(--texto);
+  color: var(--tema-texto);
   text-shadow: var(--halo-leve);
   text-wrap: balance;
 }
@@ -221,9 +232,9 @@ body::after {
   text-indent: calc(var(--tracking-medio) / 2);
   text-transform: uppercase;
   text-decoration: none;
-  color: var(--texto);
-  background-color: rgba(22, 17, 14, 0.62);
-  border: 1px solid var(--cor-ouro);
+  color: var(--tema-texto);
+  background-color: rgb(var(--tema-veu-rgb) / 0.62);
+  border: 1px solid var(--tema-acento);
   border-radius: 999px;
   transition: background-color 0.25s ease, color 0.25s ease,
               border-color 0.25s ease, transform 0.18s ease;
@@ -232,21 +243,21 @@ body::after {
 /* micro-movimento ao toque/hover — o GSAP só anima a opacidade do botão,
    então o transform fica livre para o CSS */
 .botao:hover {
-  background-color: var(--cor-pessego);
-  border-color: var(--cor-pessego);
-  color: var(--cor-preto);
+  background-color: var(--tema-acento);
+  border-color: var(--tema-acento);
+  color: var(--tema-contraste, var(--cor-preto));
   transform: translate3d(0, -2px, 0);
 }
 
 .botao:active {
-  background-color: var(--cor-ouro);
-  border-color: var(--cor-ouro);
-  color: var(--cor-preto);
+  background-color: var(--tema-acento);
+  border-color: var(--tema-acento);
+  color: var(--tema-contraste, var(--cor-preto));
   transform: translate3d(0, 0, 0) scale(0.985);
 }
 
 .botao:focus-visible {
-  outline: 2px solid var(--cor-pessego);
+  outline: 2px solid var(--tema-acento);
   outline-offset: 3px;
 }
 
@@ -297,4 +308,171 @@ body::after {
   .js .botao  { opacity: 1;      will-change: auto; }
   .botao      { transition: none; }
   .botao:hover, .botao:active { transform: none; }
+}
+
+/* =========================================================
+   CARTELA DE CORES
+   ========================================================= */
+/* @property torna as cores do tema interpoláveis: sem isso, trocar a
+   variável salta de um valor a outro e o degradê pisca. Com isso, o
+   fundo migra suavemente para o novo tom. Navegador sem suporte
+   simplesmente troca na hora — a onda cobre esse instante. */
+@property --fundo-1 { syntax: "<color>"; inherits: true; initial-value: #16110E; }
+@property --fundo-2 { syntax: "<color>"; inherits: true; initial-value: #D95A21; }
+@property --fundo-3 { syntax: "<color>"; inherits: true; initial-value: #FFC06A; }
+@property --fundo-4 { syntax: "<color>"; inherits: true; initial-value: #C89B5A; }
+@property --tema-acento { syntax: "<color>"; inherits: true; initial-value: #D95A21; }
+
+:root {
+  transition: --fundo-1 0.9s ease, --fundo-2 0.9s ease, --fundo-3 0.9s ease,
+              --fundo-4 0.9s ease, --tema-acento 0.9s ease;
+}
+
+.cartela {
+  position: relative;
+  display: grid;
+  justify-items: center;
+  text-align: center;
+  padding: clamp(3.5rem, 12vw, 7rem) var(--margem-lateral)
+           clamp(4rem, 14vw, 8rem);
+}
+
+.cartela::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: radial-gradient(
+    130% 100% at 50% 50%,
+    var(--veu-centro) 0%,
+    var(--veu-meio) 45%,
+    var(--veu-borda) 80%,
+    rgb(var(--tema-veu-rgb) / 0.06) 100%
+  );
+}
+
+.cartela > * { position: relative; }
+
+.cartela__titulo {
+  margin: 0;
+  font-family: var(--fonte-corpo);
+  font-weight: var(--peso-corpo);
+  font-size: clamp(0.72rem, 3.2vw, 0.9rem);
+  letter-spacing: var(--tracking-largo);
+  text-indent: calc(var(--tracking-largo) / 2);
+  text-transform: uppercase;
+  color: var(--tema-texto);
+  text-shadow: var(--halo-leve);
+}
+
+.cartela__convite {
+  margin: clamp(0.6rem, 2.5vw, 0.9rem) 0 clamp(1.75rem, 7vw, 2.75rem);
+  font-family: var(--fonte-corpo);
+  font-weight: 400;
+  font-size: clamp(0.85rem, 3.6vw, 1rem);
+  color: var(--tema-texto);
+  text-shadow: var(--halo-leve);
+  text-wrap: balance;
+}
+
+/* --- O leque --- */
+.leque {
+  display: block;
+  width: min(94vw, 44rem);
+  height: auto;
+}
+
+.gomo { cursor: pointer; }
+
+.gomo__tecido,
+.gomo__verniz,
+.gomo__foco,
+.leque__vareta,
+.leque__filete,
+.leque__ranhura,
+.leque__rebite,
+.leque__guarda { pointer-events: none; }
+
+/* só o tecido recebe o toque: área cheia, sem zonas mortas entre gomos */
+.gomo__tecido { pointer-events: auto; }
+
+/* Ferragem do leque: ouro fosco, fixo. É a parte da identidade que a
+   onda de cor nunca toca. */
+.leque__vareta {
+  fill: none;
+  stroke: var(--cor-ouro);
+  stroke-width: 2.2;
+  opacity: 0.8;
+}
+
+.leque__guarda > path { fill: var(--cor-ouro); }
+.leque__ornato { fill: #8A6733; }
+.leque__ranhura { fill: none; stroke: #8A6733; stroke-width: 2.2; }
+
+.leque__filete {
+  fill: none;
+  stroke: var(--cor-ouro);
+  stroke-width: 2.4;
+  opacity: 0.7;
+}
+
+.leque__filete--fino { stroke-width: 1.2; opacity: 0.45; }
+
+.leque__rebite > circle { fill: var(--cor-ouro); }
+.leque__rebite-miolo { fill: #3A2415; }
+.leque__rebite-luz { fill: var(--cor-creme); opacity: 0.55; }
+
+/* Foco de teclado: contorno no próprio gomo, já que outline não
+   acompanha forma de SVG. */
+.gomo__foco {
+  fill: none;
+  stroke: var(--cor-creme);
+  stroke-width: 5;
+  opacity: 0;
+}
+
+.gomo:focus { outline: none; }
+
+.gomo:focus-visible .gomo__foco { opacity: 1; }
+
+.gomo[aria-pressed="true"] .gomo__foco {
+  opacity: 1;
+  stroke: var(--cor-ouro);
+  stroke-width: 4;
+}
+
+/* Estado fechado do leque, antes de abrir. Fica no CSS para não haver
+   piscada: o transform inicial vem do --rot escrito no próprio SVG. */
+.js .leque [data-abre] {
+  transform: rotate(var(--rot));
+  transform-origin: 460px 465px;
+  transform-box: view-box;
+}
+
+.js .cartela--aberta .leque [data-abre] { --rot: 0deg; }
+
+/* Os filetes pertencem ao leque aberto: com ele fechado ficariam
+   flutuando no vazio, já que não dobram junto com o tecido. */
+.js .leque__filete { opacity: 0; transition: opacity 0.6s ease 0.15s; }
+.js .cartela--aberta .leque__filete { opacity: 0.7; }
+.js .cartela--aberta .leque__filete--fino { opacity: 0.45; }
+
+/* --- A onda: círculo que cresce do ponto tocado e inunda a tela --- */
+.onda {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 300vmax;
+  height: 300vmax;
+  margin: -150vmax 0 0 -150vmax;
+  border-radius: 50%;
+  pointer-events: none;
+  opacity: 0;
+  z-index: 60;
+  will-change: transform, opacity;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .js .leque [data-abre] { transform: none; }
+  .onda { display: none; }
 }

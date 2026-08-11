@@ -1,17 +1,22 @@
 # Lili Esmalteria — Itupeva/SP
 
-Landing page do salão. **Etapa atual: fundo animado + abertura (primeira
-dobra).** Ainda não há outras seções nem menu.
+Landing page do salão. **Etapa atual: fundo animado, abertura e cartela de
+cores.** Ainda não há menu nem agendamento.
 
 ## Arquivos
 
 ```
-index.html                abertura: logo, frase e botão
-assets/css/style.css      variáveis, degradê animado, grão, abertura
+index.html                abertura + cartela (o leque é SVG inline)
+assets/css/style.css      variáveis, degradê animado, grão, abertura, cartela
 assets/js/abertura.js     timeline de entrada (mask reveal)
+assets/js/cartela.js      abertura do leque e a onda de cor
 assets/js/gsap.min.js     GSAP 3.13.0, hospedado aqui
 assets/img/logo-lili.svg  logo da marca
 ```
+
+O leque não foi escrito à mão: `ferramentas/gera_leque.py` calcula a geometria
+e imprime o SVG, que é colado no `index.html`. Mexer no arco, no número de
+gomos ou no festonado é mexer no script e gerar de novo.
 
 Abrir `index.html` direto no navegador. Não há build, framework ou dependência
 além das duas fontes do Google Fonts.
@@ -43,6 +48,8 @@ Declaradas em `:root`, em `assets/css/style.css`:
 - **Ritmo**: `--espaco-1` … `--espaco-4`, `--margem-lateral`, `--largura-max`.
 - **Movimento**: `--ciclo-fundo`. O ritmo da entrada fica em `DURACAO` e
   `PASSO`, no topo de `assets/js/abertura.js`.
+- **Tema dinâmico** (trocado pela cartela): `--fundo-1` … `--fundo-4`,
+  `--tema-texto`, `--tema-contraste`, `--tema-acento`, `--tema-veu-rgb`.
 - **Leitura sobre o fundo**: `--veu-centro`, `--veu-meio`, `--veu-borda`,
   `--halo-forte`, `--halo-leve`.
 
@@ -133,6 +140,48 @@ O estado inicial fica no CSS, nunca no JavaScript, para nada piscar antes de
 animar. A classe `js` no `<html>` garante que sem JavaScript a página nasça
 inteira, e uma trava de 5s pula a timeline para o fim caso os quadros nunca
 cheguem. Com `prefers-reduced-motion`, tudo aparece no estado final de imediato.
+
+## A cartela de cores
+
+Um leque de mão dos anos 1920, em SVG inline: arco de 150°, rebite na base,
+doze gomos de tecido, varetas em ouro fosco, guardas laterais mais largas e
+ornamentadas, borda festonada e filetes acompanhando a curva. Cada gomo tem
+brilho de laca — um degradê radial ancorado no rebite, que acompanha a
+curvatura do leque em vez de cair reto.
+
+**A abertura.** Os gomos partem empilhados sobre a guarda esquerda e giram em
+cascata até a posição final, quando a seção entra em cena
+(`IntersectionObserver`). O estado fechado vem do CSS (`rotate(var(--rot))`,
+com o valor escrito em cada grupo do SVG), e o GSAP anima a própria variável
+`--rot`. Isso é deliberado: se o GSAP usasse sua rotação própria, escreveria
+também um `transform-origin`, que brigaria com o `transform-box: view-box` do
+CSS e abriria os gomos tortos. Um eixo só, o do CSS.
+
+**A onda.** Ao tocar um gomo, um círculo daquela cor cresce do ponto tocado e
+inunda a tela (`transform: scale`, composto na GPU). Com a tela coberta, as
+variáveis de tema trocam; quando a onda se dissipa, o site já está na cor
+nova. As cores do degradê são registradas com `@property`, então também
+migram sozinhas, por transição.
+
+**O que muda e o que não muda.** Assumem a cor: fundo animado, textos, botão,
+véu e acentos. Ficam intactos: a logo e toda a ferragem do leque em ouro
+fosco — varetas, guardas, filetes e rebite.
+
+**Legibilidade.** Cada tema calcula seu próprio par de texto. O par não é
+escolhido contra a cor do gomo, e sim contra os quatro tons de fundo que ela
+gera, já cobertos pelo véu: fica o que garante o melhor pior caso. Sem isso,
+ferrugem, coral e lilás pediriam texto preto sobre fundo escuro — medido,
+1,06:1. Com a correção, o pior caso das doze é **5,32:1**, contra o mínimo de
+4,5:1. Quatro temas foram conferidos também por medição do render: branco
+leitoso 11,59:1, preto ônix 11,64:1, lilás 5,52:1, coral 4,98:1.
+
+**Acessibilidade.** Cada gomo é `role="button"`, navegável por Tab, acionável
+por Enter ou espaço, com `aria-label` do nome da cor, `aria-pressed` marcando
+a seleção e contorno de foco desenhado no próprio gomo — `outline` não
+acompanha forma de SVG.
+
+Com `prefers-reduced-motion`, o leque já nasce aberto e a cor troca sem onda,
+apenas pela transição das variáveis.
 
 ## Próximo passo
 

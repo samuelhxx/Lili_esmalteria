@@ -580,11 +580,12 @@ body::after {
   will-change: transform;
 }
 
-/* As poucas que pegam a luz. O recorte em oito pontas evita o círculo
-   perfeito — grão de purpurina não é bolinha. */
+/* As poucas que pegam a luz. Cada uma é um caco vetorial próprio, pelo
+   mesmo motivo da textura: forma torta e borda nítida em qualquer tela. */
 .glitter__centelha {
   position: absolute;
-  clip-path: polygon(50% 0%, 62% 38%, 100% 50%, 62% 62%, 50% 100%, 38% 62%, 0% 50%, 38% 38%);
+  background-repeat: no-repeat;
+  background-size: contain;
   opacity: 0;
   animation: cintila var(--cintila-tempo, 7s) ease-in-out
              var(--cintila-atraso, 0s) infinite;

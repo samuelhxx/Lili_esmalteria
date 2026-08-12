@@ -73,37 +73,40 @@ estático.
 
 ### O glitter suspenso
 
-Por cima do degradê, e por baixo do conteúdo, uma textura de pó de purpurina.
-A diferença em relação a pontos desenhados está na técnica:
+Por cima do degradê, e por baixo do conteúdo, uma textura de cacos de
+purpurina. Duas decisões explicam por que não parece bolinha:
 
-**A massa de grãos é textura, não elemento.** Um ladrilho SVG com
-`feTurbulence` cortado por limiar alto rende milhares de grãos irregulares por
-tela ao custo de um `background-image`. Como elementos no DOM, essa quantidade
-seria impraticável. O limiar é `alfa = ganho × ruído − corte`: como o ruído
-fractal se concentra perto de 0,5, um corte alto deixa passar só os picos, e é
-essa passagem estreita que produz grão áspero de borda dura em vez de bolha
-suave.
+**Forma.** Ruído por pixel produz grão quadrado de 1px que o antialiasing
+arredonda — vira bolinha. Aqui cada partícula é um quadrilátero irregular,
+com raios diferentes em cada vértice e achatamento variável: sai torto, com
+cantos vivos, e parte deles alongado como lasca. Caco de purpurina tem faceta.
 
-**A concentração é desigual de propósito.** Um segundo ruído, de frequência
-baixa, multiplica o alfa do primeiro: onde a mancha é forte os grãos se
-juntam, onde é fraca eles rareiam. Sem isso a distribuição fica uniforme, que
-é o oposto de purpurina.
+**Nitidez.** Textura de ruído é rasterizada em pixels de CSS e, numa tela de
+2x ou 3x, cada grão é esticado e borra. Os cacos são caminhos vetoriais dentro
+de um ladrilho SVG, então o navegador rasteriza na densidade real do aparelho
+e eles ficam nítidos em qualquer tela. O piso de tamanho também não desce de
+~1,5px: abaixo disso o caco cai sob um pixel em tela 1x e o antialiasing o
+arredonda de volta.
 
-Ganho e corte foram calibrados medindo a cobertura no ladrilho renderizado.
-Acima de `baseFrequency` 1 o ruído fica alto demais e nenhum pico passa do
-limiar — a tela sai limpa. Em 0,9, o par 16/−10,8 rende 2,2% de cobertura;
-19/−13,3 rende 1,2%; 22/−16 rende 0,44%. São três camadas, uma por cor
-(ouro fosco, pêssego e creme), com ladrilhos de lados diferentes — 263, 341 e
-421px — para as repetições nunca coincidirem e desenharem grade.
+A massa continua sendo **textura repetida, não elemento no DOM** — são
+milhares de cacos por tela, e como elementos isso seria impraticável. Cada
+ladrilho traz de 300 a 520 cacos, agrupados por cor e opacidade para o arquivo
+não triplicar de tamanho; os três somam 102 KB de data URI, gerados em memória
+e sem custo de rede.
 
-Medida a diferença entre a página com e sem a camada, o glitter toca **3,8% dos
-pixels na fase clara do degradê e 4,6% na escura**, com diferença máxima de 53
-e 70 níveis. Para comparar, a camada de pontos anterior tocava 0,1% da tela.
+**A concentração é desigual de propósito:** em vez de espalhar por igual,
+sorteiam-se nove núcleos por ladrilho e os cacos caem em volta deles, com
+desvio variado. Purpurina não se distribui em tapete uniforme. Os ladrilhos
+têm lados diferentes — 263, 341 e 421px — para as repetições nunca
+coincidirem e desenharem grade.
 
-**As centelhas** — as poucas que pegam a luz — são os únicos elementos: 16
-partículas com recorte em oito pontas, que acendem e apagam em ciclos de 4,5s
-a 11s, fora de fase. Quase todo o ciclo elas estão apagadas; a centelha é o
-pico curto no meio.
+Medida a diferença entre a página com e sem a camada, o glitter toca **4,7%
+dos pixels**, com diferença máxima de 100 níveis nos cacos maiores e média de
+0,57. Sete por cento deles são grandes e mais opacos: são os que pegam a luz.
+
+**As centelhas** — 18 elementos, os únicos do DOM — são cacos maiores que
+acendem e apagam em ciclos de 4,5s a 11s, fora de fase, apagados na maior
+parte do tempo.
 
 **Sem deriva:** glitter preso no esmalte não flutua. O paralaxe do scroll
 continua por camada, percorrendo −16, −34, −52 e −70 px do topo ao fim da

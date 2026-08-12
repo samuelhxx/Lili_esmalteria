@@ -556,3 +556,51 @@ body::after {
   .abas__trilho { scroll-behavior: auto; }
   .aba, .aba__icone { transition: none; }
 }
+
+/* =========================================================
+   POEIRA SUSPENSA
+   Camada entre o degradê e o conteúdo. Puramente decorativa:
+   fora do fluxo, sem eventos, invisível para leitor de tela.
+   ========================================================= */
+.poeira {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+  /* isola o repintar dos pontos do resto da página */
+  contain: strict;
+}
+
+/* Cada camada é uma profundidade, e é ela — não cada ponto — que recebe
+   o paralaxe. As bordas transbordam para o deslocamento nunca esvaziar
+   o topo ou o rodapé. */
+.poeira__camada {
+  position: absolute;
+  inset: -12vh 0;
+  will-change: transform;
+}
+
+.poeira__ponto {
+  position: absolute;
+  border-radius: 50%;
+  animation: deriva var(--deriva-tempo, 30s) ease-in-out
+             var(--deriva-atraso, 0s) infinite alternate;
+  will-change: transform;
+}
+
+/* Deriva própria: amplitude curta e ciclo longo. Fica no CSS, e não no
+   GSAP, para o compositor cuidar dela sem custo de quadro em JS. */
+@keyframes deriva {
+  from { transform: translate3d(0, 0, 0); }
+  to   { transform: translate3d(var(--deriva-x, 0), var(--deriva-y, 0), 0); }
+}
+
+/* O conteúdo fica acima da poeira; o grão de verniz, acima de tudo. */
+.abertura, .servicos { z-index: 1; }
+body::after { z-index: 2; }
+
+@media (prefers-reduced-motion: reduce) {
+  .poeira__ponto { animation: none; }
+  .poeira__camada { will-change: auto; }
+}

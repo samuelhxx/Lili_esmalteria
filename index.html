@@ -16,7 +16,7 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..600;1,6..96,400..500&family=Jost:wght@300;400;500&display=swap">
   <!-- ?v= é cache-busting manual: incrementar a cada mudança no CSS, senão o
        navegador serve a folha antiga por horas depois do deploy -->
-  <link rel="stylesheet" href="assets/css/style.css?v=10">
+  <link rel="stylesheet" href="assets/css/style.css?v=12">
 
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%2316110E'/><text x='16' y='24' font-family='Georgia,serif' font-style='italic' font-size='21' fill='%23FFC06A' text-anchor='middle'>L</text></svg>">
 </head>
@@ -50,7 +50,101 @@
     <a class="botao" href="#">Agendar horário</a>
   </main>
 
+  <section class="servicos" id="servicos" aria-labelledby="servicos-titulo">
+    <h2 class="servicos__titulo" id="servicos-titulo">
+      <span class="mascara"><span class="revela-adiada">Nossos serviços</span></span>
+    </h2>
+    <div class="mascara abas__mascara">
+      <div class="abas revela-adiada">
+        <div class="abas__trilho" role="tablist" aria-label="Categorias de serviços">
+          <span class="abas__destaque" aria-hidden="true"></span>
+          <button class="aba" type="button" role="tab" id="aba-gel" aria-controls="painel-gel" aria-selected="true" tabindex="0">
+            <svg class="aba__icone" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9.7 20.6c-.5-3.6-.8-7.2-.3-10.8.3-2.3 1.2-3.6 2.6-3.6s2.3 1.3 2.6 3.6c.5 3.6.2 7.2-.3 10.8-1.5.4-3.1.4-4.6 0Z"/><path d="M18.6 4.2l.6 1.6 1.6.6-1.6.6-.6 1.6-.6-1.6-1.6-.6 1.6-.6.6-1.6Z"/></svg>
+            <span class="aba__rotulo">Unhas em Gel</span>
+          </button>
+          <button class="aba" type="button" role="tab" id="aba-tradicional" aria-controls="painel-tradicional" aria-selected="false" tabindex="-1">
+            <svg class="aba__icone" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8.6 11.4h6.8v7.1a2 2 0 0 1-2 2h-2.8a2 2 0 0 1-2-2v-7.1Z"/><path d="M10.6 8.8h2.8v2.6h-2.8V8.8Z"/><path d="M12 8.8V6.2"/><path d="M10.9 3.4h2.2l-.6 2.8h-1l-.6-2.8Z"/></svg>
+            <span class="aba__rotulo">Unhas Tradicionais</span>
+          </button>
+          <button class="aba" type="button" role="tab" id="aba-cilios" aria-controls="painel-cilios" aria-selected="false" tabindex="-1">
+            <svg class="aba__icone" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3.4 13.6c3-3.9 5.9-5.8 8.6-5.8s5.6 1.9 8.6 5.8"/><path d="M3.4 13.6c3 2.6 5.9 3.9 8.6 3.9s5.6-1.3 8.6-3.9"/><path d="M6.2 8.6 4.7 6.2"/><path d="M9.4 6.9 8.6 4.3"/><path d="M12 6.4V3.7"/><path d="M14.6 6.9l.8-2.6"/><path d="M17.8 8.6l1.5-2.4"/></svg>
+            <span class="aba__rotulo">Cílios</span>
+          </button>
+          <button class="aba" type="button" role="tab" id="aba-sobrancelha" aria-controls="painel-sobrancelha" aria-selected="false" tabindex="-1">
+            <svg class="aba__icone" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3.6 15.2c4.3-4.6 9.1-7 14.4-7.2 1.5 0 2.4.6 2.4 1.5 0 1-1 1.7-2.9 2.1-4.8 1-9.5 2.2-13.9 3.6Z"/></svg>
+            <span class="aba__rotulo">Sobrancelha</span>
+          </button>
+          <button class="aba" type="button" role="tab" id="aba-cabelo" aria-controls="painel-cabelo" aria-selected="false" tabindex="-1">
+            <svg class="aba__icone" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8.4 3.2c-2.6 3.4 2.4 5.2 0 8.8-2.4 3.6 2 5.2.6 8.8"/><path d="M14.6 3.2c-2.6 3.4 2.4 5.2 0 8.8-2.4 3.6 2 5.2.6 8.8"/></svg>
+            <span class="aba__rotulo">Cabelo</span>
+          </button>
+          <button class="aba" type="button" role="tab" id="aba-tesoura" aria-controls="painel-tesoura" aria-selected="false" tabindex="-1">
+            <svg class="aba__icone" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="7.3" cy="18.2" r="2.3"/><circle cx="16.7" cy="18.2" r="2.3"/><path d="M8.9 16.5 17.4 4.2"/><path d="M15.1 16.5 6.6 4.2"/></svg>
+            <span class="aba__rotulo">Coloração e Tratamento</span>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="servicos__paineis">
+      <div class="painel" id="painel-gel" role="tabpanel" aria-labelledby="aba-gel" tabindex="0">
+        <ul class="preco">
+          <li class="preco__linha"><span class="preco__nome">Alongamento molde F1</span><span class="preco__filete" aria-hidden="true"></span><span class="preco__valor">R$&nbsp;130</span></li>
+          <li class="preco__linha"><span class="preco__nome">Blindagem + esmaltação em gel (mão)</span><span class="preco__filete" aria-hidden="true"></span><span class="preco__valor">R$&nbsp;85</span></li>
+          <li class="preco__linha"><span class="preco__nome">Blindagem + esmaltação em gel (pé)</span><span class="preco__filete" aria-hidden="true"></span><span class="preco__valor">R$&nbsp;85</span></li>
+          <li class="preco__linha"><span class="preco__nome">Pé + mão em gel</span><span class="preco__filete" aria-hidden="true"></span><span class="preco__valor">R$&nbsp;155</span></li>
+          <li class="preco__linha"><span class="preco__nome">Manutenção até 30 dias</span><span class="preco__filete" aria-hidden="true"></span><span class="preco__valor">R$&nbsp;90</span></li>
+          <li class="preco__linha"><span class="preco__nome">Manutenção após 30 dias</span><span class="preco__filete" aria-hidden="true"></span><span class="preco__valor">R$&nbsp;100</span></li>
+          <li class="preco__linha"><span class="preco__nome">Remoção</span><span class="preco__filete" aria-hidden="true"></span><span class="preco__valor">R$&nbsp;50</span></li>
+        </ul>
+      </div>
+      <div class="painel" id="painel-tradicional" role="tabpanel" aria-labelledby="aba-tradicional" tabindex="0" hidden>
+        <ul class="preco">
+          <li class="preco__linha"><span class="preco__nome">Mão</span><span class="preco__filete" aria-hidden="true"></span><span class="preco__valor">R$&nbsp;45</span></li>
+          <li class="preco__linha"><span class="preco__nome">Pé</span><span class="preco__filete" aria-hidden="true"></span><span class="preco__valor">R$&nbsp;45</span></li>
+          <li class="preco__linha"><span class="preco__nome">Mão + pé</span><span class="preco__filete" aria-hidden="true"></span><span class="preco__valor">R$&nbsp;80</span></li>
+          <li class="preco__linha"><span class="preco__nome">Remoção + tratamento</span><span class="preco__filete" aria-hidden="true"></span><span class="preco__valor">R$&nbsp;80</span></li>
+          <li class="preco__linha"><span class="preco__nome">Tratamento</span><span class="preco__filete" aria-hidden="true"></span><span class="preco__valor">R$&nbsp;65</span></li>
+        </ul>
+      </div>
+      <div class="painel" id="painel-cilios" role="tabpanel" aria-labelledby="aba-cilios" tabindex="0" hidden>
+        <ul class="preco">
+          <li class="preco__linha"><span class="preco__nome">Volume brasileiro</span><span class="preco__filete" aria-hidden="true"></span><span class="preco__valor">R$&nbsp;150</span></li>
+          <li class="preco__linha"><span class="preco__nome">Volume egípcio</span><span class="preco__filete" aria-hidden="true"></span><span class="preco__valor">R$&nbsp;140</span></li>
+          <li class="preco__linha"><span class="preco__nome">Volume híbrido</span><span class="preco__filete" aria-hidden="true"></span><span class="preco__valor">R$&nbsp;150</span></li>
+          <li class="preco__linha"><span class="preco__nome">Fox eyes</span><span class="preco__filete" aria-hidden="true"></span><span class="preco__valor">R$&nbsp;150</span></li>
+          <li class="preco__linha"><span class="preco__nome">Boneca</span><span class="preco__filete" aria-hidden="true"></span><span class="preco__valor">R$&nbsp;140</span></li>
+          <li class="preco__linha"><span class="preco__nome">Manutenção</span><span class="preco__filete" aria-hidden="true"></span><span class="preco__valor">R$&nbsp;100</span></li>
+        </ul>
+      </div>
+      <div class="painel" id="painel-sobrancelha" role="tabpanel" aria-labelledby="aba-sobrancelha" tabindex="0" hidden>
+        <ul class="preco">
+          <li class="preco__linha"><span class="preco__nome">Design simples</span><span class="preco__filete" aria-hidden="true"></span><span class="preco__valor">R$&nbsp;45</span></li>
+          <li class="preco__linha"><span class="preco__nome">Design com henna</span><span class="preco__filete" aria-hidden="true"></span><span class="preco__valor">R$&nbsp;55</span></li>
+        </ul>
+      </div>
+      <div class="painel" id="painel-cabelo" role="tabpanel" aria-labelledby="aba-cabelo" tabindex="0" hidden>
+        <ul class="preco">
+          <li class="preco__linha"><span class="preco__nome">Escova</span><span class="preco__filete" aria-hidden="true"></span><span class="preco__valor">R$&nbsp;60</span></li>
+          <li class="preco__linha"><span class="preco__nome">Escova + hidratação</span><span class="preco__filete" aria-hidden="true"></span><span class="preco__valor">R$&nbsp;65</span></li>
+          <li class="preco__linha"><span class="preco__nome">Escova + hidratação + acidificação</span><span class="preco__filete" aria-hidden="true"></span><span class="preco__valor">R$&nbsp;80</span></li>
+          <li class="preco__linha"><span class="preco__nome">Escova + hidratação + prancha</span><span class="preco__filete" aria-hidden="true"></span><span class="preco__valor">R$&nbsp;80</span></li>
+          <li class="preco__linha"><span class="preco__nome">Definição de cachos</span><span class="preco__filete" aria-hidden="true"></span><span class="preco__valor">R$&nbsp;60</span></li>
+        </ul>
+      </div>
+      <div class="painel" id="painel-tesoura" role="tabpanel" aria-labelledby="aba-tesoura" tabindex="0" hidden>
+        <ul class="preco">
+          <li class="preco__linha"><span class="preco__nome">Retoque de raiz</span><span class="preco__filete" aria-hidden="true"></span><span class="preco__valor">R$&nbsp;60</span></li>
+          <li class="preco__linha"><span class="preco__nome">Coloração profissional</span><span class="preco__filete" aria-hidden="true"></span><span class="preco__valor">R$&nbsp;80</span></li>
+          <li class="preco__linha"><span class="preco__nome">Botox</span><span class="preco__filete" aria-hidden="true"></span><span class="preco__valor">R$&nbsp;130</span></li>
+          <li class="preco__linha"><span class="preco__nome">Corte</span><span class="preco__filete" aria-hidden="true"></span><span class="preco__valor">R$&nbsp;60</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
   <script src="assets/js/gsap.min.js" defer></script>
+  <script src="assets/js/ScrollTrigger.min.js" defer></script>
   <script src="assets/js/abertura.js?v=4" defer></script>
+  <script src="assets/js/servicos.js?v=1" defer></script>
 </body>
 </html>

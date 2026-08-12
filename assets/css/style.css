@@ -298,3 +298,216 @@ body::after {
   .botao      { transition: none; }
   .botao:hover, .botao:active { transform: none; }
 }
+
+/* =========================================================
+   SERVIÇOS E PREÇOS
+   ========================================================= */
+.servicos {
+  position: relative;
+  display: grid;
+  justify-items: center;
+  text-align: center;
+  padding: clamp(3.5rem, 12vw, 6.5rem) var(--margem-lateral)
+           clamp(4rem, 14vw, 8rem);
+}
+
+/* Véu da abertura, porém mais fechado. Aqui é uma lista densa de 29
+   linhas em corpo pequeno, e não uma frase solta: medido na fase mais
+   clara do ciclo, com o véu da abertura o nome do serviço dava 3,79:1,
+   abaixo do mínimo de 4,5:1. A queda continua contínua e sem platô,
+   então não desenha forma nenhuma. */
+.servicos::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: radial-gradient(
+    130% 100% at 50% 50%,
+    rgba(22, 17, 14, 0.68) 0%,
+    rgba(22, 17, 14, 0.52) 45%,
+    rgba(22, 17, 14, 0.3) 80%,
+    rgba(22, 17, 14, 0.12) 100%
+  );
+}
+
+.servicos > * { position: relative; width: 100%; }
+
+.servicos__titulo {
+  margin: 0 0 clamp(2rem, 8vw, 3rem);
+  font-family: var(--fonte-display);
+  font-weight: var(--peso-display);
+  font-optical-sizing: auto;
+  font-size: clamp(2rem, 9vw, 3.5rem);
+  line-height: 1.1;
+  color: var(--texto);
+  text-shadow: var(--halo-forte);
+}
+
+/* --- Barra de abas: pílula com desfoque, o degradê aparecendo por trás --- */
+.abas__mascara { max-width: 100%; }
+
+.abas {
+  max-width: 100%;
+  margin-inline: auto;
+  border-radius: 999px;
+  background-color: rgba(22, 17, 14, 0.5);
+  border: 1px solid rgba(200, 155, 90, 0.28);
+  -webkit-backdrop-filter: blur(10px);
+          backdrop-filter: blur(10px);
+  /* a pílula recorta o trilho que rola por dentro */
+  overflow: hidden;
+}
+
+.abas__trilho {
+  position: relative;
+  display: flex;
+  gap: 0.15rem;
+  padding: 0.35rem;
+  /* seis abas não cabem numa linha no celular: rola na horizontal, com o
+     toque arrastando e sem barra visível */
+  overflow-x: auto;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
+}
+
+.abas__trilho::-webkit-scrollbar { display: none; }
+
+/* O destaque é um bloco só, movido por transform entre as posições —
+   nunca some e reaparece. Largura base de 100px, ajustada por scaleX
+   para caber em cada aba: assim só transform anima. */
+.abas__destaque {
+  position: absolute;
+  top: 0.35rem;
+  left: 0;
+  width: 100px;
+  height: calc(100% - 0.7rem);
+  border-radius: 999px;
+  background-color: var(--cor-creme);
+  transform-origin: 0 50%;
+  pointer-events: none;
+  will-change: transform;
+}
+
+.aba {
+  position: relative;   /* acima do destaque */
+  z-index: 1;
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5em;
+  min-height: var(--toque-min);
+  padding: 0.6rem clamp(0.9rem, 3.5vw, 1.35rem);
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  cursor: pointer;
+  font-family: var(--fonte-corpo);
+  font-weight: var(--peso-corpo);
+  font-size: clamp(0.68rem, 3vw, 0.78rem);
+  letter-spacing: var(--tracking-medio);
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: var(--texto);
+  transition: color 0.3s ease;
+}
+
+.aba[aria-selected="true"] { color: var(--cor-preto); }
+
+.aba:focus { outline: none; }
+
+.aba:focus-visible {
+  outline: 2px solid var(--cor-pessego);
+  outline-offset: -2px;
+}
+
+.aba__icone {
+  flex: 0 0 auto;
+  width: 1.55em;
+  height: 1.55em;
+  color: var(--cor-ouro);
+  transition: color 0.3s ease;
+}
+
+.aba[aria-selected="true"] .aba__icone { color: var(--cor-preto); }
+
+/* --- Painéis e lista de preços --- */
+.servicos__paineis {
+  margin-top: clamp(2rem, 8vw, 3rem);
+  max-width: 42rem;
+  margin-inline: auto;
+}
+
+.painel[hidden] { display: none; }
+
+.painel:focus { outline: none; }
+
+.painel:focus-visible {
+  outline: 2px solid var(--cor-pessego);
+  outline-offset: 6px;
+  border-radius: 4px;
+}
+
+.preco {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* Linha de cardápio: nome à esquerda, valor à direita, filete pontilhado
+   preenchendo o vão. O filete é um flex item que estica — assim o
+   pontilhado nasce e morre exatamente onde há espaço. */
+.preco__linha {
+  display: flex;
+  align-items: baseline;
+  gap: 0.6rem;
+  padding: clamp(0.7rem, 3vw, 0.95rem) 0;
+  text-align: left;
+}
+
+.preco__nome {
+  font-family: var(--fonte-corpo);
+  font-weight: 400;
+  font-size: clamp(0.92rem, 4vw, 1.05rem);
+  line-height: 1.35;
+  color: var(--texto);
+  text-shadow: var(--halo-leve);
+}
+
+.preco__filete {
+  flex: 1 1 auto;
+  min-width: 1.5rem;
+  align-self: flex-end;
+  margin-bottom: 0.28em;
+  border-bottom: 1px dotted var(--cor-ouro);
+  opacity: 0.9;
+}
+
+.preco__valor {
+  flex: 0 0 auto;
+  font-family: var(--fonte-display);
+  font-weight: var(--peso-display);
+  font-optical-sizing: auto;
+  font-size: clamp(1.05rem, 4.6vw, 1.3rem);
+  color: var(--texto);
+  text-shadow: var(--halo-leve);
+  white-space: nowrap;
+}
+
+/* --- Entrada da seção: máscara própria, independente da abertura ------
+   A .revela da abertura é liberada pela trava daquela timeline; usar a
+   mesma classe aqui faria estes blocos aparecerem antes do scroll. */
+.js .revela-adiada {
+  display: block;
+  transform: translate3d(0, 110%, 0);
+  will-change: transform;
+}
+
+.js .servicos--revelada .revela-adiada,
+.js .servicos--revelada.abas { transform: none; will-change: auto; }
+
+@media (prefers-reduced-motion: reduce) {
+  .js .revela-adiada { transform: none; will-change: auto; }
+  .abas__trilho { scroll-behavior: auto; }
+  .aba, .aba__icone { transition: none; }
+}

@@ -1,17 +1,23 @@
 # Lili Esmalteria — Itupeva/SP
 
-Landing page do salão. **Etapa atual: fundo animado e abertura (primeira
-dobra).** Ainda não há outras seções, menu ou agendamento.
+Landing page do salão. **Etapa atual: fundo animado, abertura e serviços.**
+Ainda não há menu nem agendamento.
 
 ## Arquivos
 
 ```
-index.html                a abertura
-assets/css/style.css      variáveis, degradê animado, grão, abertura
-assets/js/abertura.js     timeline de entrada (mask reveal)
-assets/js/gsap.min.js     GSAP 3.13.0, hospedado aqui
-assets/img/logo-lili.svg  logo da marca
+index.html                     abertura + serviços
+assets/css/style.css           variáveis, fundo, abertura, serviços
+assets/js/abertura.js          timeline de entrada (mask reveal)
+assets/js/servicos.js          abas, troca de painel, entrada no scroll
+assets/js/gsap.min.js          GSAP 3.13.0, hospedado aqui
+assets/js/ScrollTrigger.min.js plugin do GSAP, hospedado aqui
+assets/img/logo-lili.svg       logo da marca
 ```
+
+A marcação da seção de serviços sai de `ferramentas/gera_servicos.py`, que
+guarda a tabela de preços e desenha os seis ícones. Mudar preço ou serviço é
+mudar o script e gerar de novo — assim as 29 linhas não divergem no formato.
 
 Abrir `index.html` direto no navegador. Não há build, framework ou dependência
 além das duas fontes do Google Fonts.
@@ -134,6 +140,50 @@ O estado inicial fica no CSS, nunca no JavaScript, para nada piscar antes de
 animar. A classe `js` no `<html>` garante que sem JavaScript a página nasça
 inteira, e uma trava de 5s pula a timeline para o fim caso os quadros nunca
 cheguem. Com `prefers-reduced-motion`, tudo aparece no estado final de imediato.
+
+## Serviços e preços
+
+Título em Bodoni Moda e um `tablist` com seis categorias. A barra é uma
+pílula com fundo translúcido e `backdrop-filter`, deixando o degradê aparecer
+por trás; os rótulos em Jost, caixa alta, com `--tracking-medio`.
+
+**O destaque da aba ativa** é um bloco só, que desliza entre as posições com
+mola suave (`back.out(1.5)`). Sua largura é fixa em 100px e o ajuste a cada
+aba vem de `scaleX` — animar `left` e `width` forçaria layout a cada quadro;
+assim só `transform` anima.
+
+**No celular** a barra rola na horizontal com o toque arrastando, e a aba
+ativa é centralizada mexendo apenas no `scrollLeft` do próprio trilho. Não se
+usa `scrollIntoView` aqui: ele arrastaria a página junto, e o scroll da página
+não podia ser tocado.
+
+**Os seis ícones** são SVG inline no mesmo sistema: `viewBox` 24×24, traço
+1.5, pontas e junções arredondadas, sem preenchimento. Ouro fosco quando
+inativos, cor do texto ativo quando selecionados, com transição. São
+decorativos (`aria-hidden`), já que o rótulo em texto identifica a aba.
+
+**A troca de painel** anima opacidade, escala a partir de 0,95, deslocamento
+horizontal e desfoque que se dissolve; as linhas entram logo atrás, em
+cascata de 45ms. Só `transform`, `opacity` e `filter`.
+
+**A lista** é um cardápio: nome em Jost à esquerda, filete pontilhado em ouro
+fosco esticando no vão, valor em Bodoni Moda à direita. O filete é um item
+flex que cresce, então o pontilhado nasce e morre exatamente onde há espaço.
+
+**A entrada** revela título e barra pela máscara, via ScrollTrigger, uma vez
+só (`once: true`). A classe é própria (`.revela-adiada`) e não a `.revela` da
+abertura: aquela é liberada pela trava de 5s da timeline da abertura, o que
+faria estes blocos aparecerem antes de o scroll chegar neles.
+
+**Contraste.** O véu desta seção é mais fechado que o da abertura. São 29
+linhas em corpo pequeno, e não uma frase solta: medido na fase mais clara do
+ciclo, com o véu da abertura o nome do serviço dava 3,79:1. Com o véu próprio,
+a lista fica em **5,53:1** e a barra de abas em **7,77:1**, contra o mínimo de
+4,5:1.
+
+**Teclado.** Setas navegam entre as abas, Home e End vão às pontas, o foco é
+visível e `aria-selected` acompanha a seleção. Com `prefers-reduced-motion`,
+tudo aparece sem movimento.
 
 ## Próximo passo
 

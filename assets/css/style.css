@@ -31,6 +31,7 @@
 
   --tracking-largo: 0.42em;  /* nome, títulos espaçados */
   --tracking-medio: 0.22em;  /* utilidades, botões */
+  --tracking-curto: 0.045em; /* corpo de leitura, respiro discreto */
 
   /* Ritmo e medidas */
   --espaco-1: 0.5rem;
@@ -432,10 +433,24 @@ body::after {
 .aba[aria-selected="true"] .aba__icone { color: var(--cor-preto); }
 
 /* --- Painéis e lista de preços --- */
+/* As listas ficam empilhadas na mesma célula do grid: a que entra nasce
+   exatamente onde a anterior estava, sem disputar espaço no fluxo. O
+   align-items: start impede que o painel se estique até a altura do
+   contêiner — assim dá para medir a altura natural de cada categoria.
+   A altura do contêiner é escrita pelo JS e animada na troca. */
 .servicos__paineis {
+  position: relative;
   margin-top: clamp(2rem, 8vw, 3rem);
   max-width: 42rem;
   margin-inline: auto;
+  display: grid;
+  align-items: start;
+  overflow: hidden;
+}
+
+.painel {
+  grid-area: 1 / 1;
+  width: 100%;
 }
 
 .painel[hidden] { display: none; }
@@ -457,42 +472,72 @@ body::after {
 /* Linha de cardápio: nome à esquerda, valor à direita, filete pontilhado
    preenchendo o vão. O filete é um flex item que estica — assim o
    pontilhado nasce e morre exatamente onde há espaço. */
+/* Linha de cardápio: nome à esquerda, valor à direita, filete pontilhado
+   preenchendo o vão — com respiro dos dois lados, nunca encostado no
+   texto. Ritmo vertical constante, sem régua entre as linhas: com o
+   pontilhado já estruturando cada linha, um segundo filete horizontal
+   vira grade de planilha. */
 .preco__linha {
   display: flex;
   align-items: baseline;
-  gap: 0.6rem;
-  padding: clamp(0.7rem, 3vw, 0.95rem) 0;
+  gap: clamp(0.75rem, 3.5vw, 1.1rem);
+  padding: clamp(0.85rem, 3.6vw, 1.15rem) 0;
   text-align: left;
 }
 
 .preco__nome {
   font-family: var(--fonte-corpo);
-  font-weight: 400;
+  font-weight: var(--peso-corpo);
   font-size: clamp(0.92rem, 4vw, 1.05rem);
-  line-height: 1.35;
+  line-height: 1.4;
+  letter-spacing: var(--tracking-curto);
   color: var(--texto);
   text-shadow: var(--halo-leve);
+}
+
+/* observação entre parênteses: menor e mais discreta que o serviço */
+.preco__nota {
+  font-size: 0.86em;
+  letter-spacing: var(--tracking-curto);
+  color: var(--texto-suave);
+  opacity: 0.72;
 }
 
 .preco__filete {
   flex: 1 1 auto;
-  min-width: 1.5rem;
+  min-width: 1.75rem;
   align-self: flex-end;
-  margin-bottom: 0.28em;
+  margin-bottom: 0.3em;
   border-bottom: 1px dotted var(--cor-ouro);
   opacity: 0.9;
 }
 
+/* O número em Bodoni e em pêssego, maior que o nome: é ele que fecha a
+   linha. O R$ entra menor e alinhado ao topo, como em cardápio. */
 .preco__valor {
   flex: 0 0 auto;
+  display: inline-flex;
+  align-items: flex-start;
+  gap: 0.18em;
   font-family: var(--fonte-display);
   font-weight: var(--peso-display);
   font-optical-sizing: auto;
-  font-size: clamp(1.05rem, 4.6vw, 1.3rem);
-  color: var(--texto);
+  font-size: clamp(1.2rem, 5.2vw, 1.5rem);
+  line-height: 1;
+  color: var(--destaque);
   text-shadow: var(--halo-leve);
   white-space: nowrap;
 }
+
+.preco__moeda {
+  font-size: 0.58em;
+  line-height: 1;
+  padding-top: 0.16em;
+  letter-spacing: 0.02em;
+  opacity: 0.9;
+}
+
+.preco__numero { line-height: 1; }
 
 /* --- Entrada da seção: máscara própria, independente da abertura ------
    A .revela da abertura é liberada pela trava daquela timeline; usar a

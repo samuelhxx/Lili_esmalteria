@@ -162,13 +162,29 @@ não podia ser tocado.
 inativos, cor do texto ativo quando selecionados, com transição. São
 decorativos (`aria-hidden`), já que o rótulo em texto identifica a aba.
 
-**A troca de painel** anima opacidade, escala a partir de 0,95, deslocamento
-horizontal e desfoque que se dissolve; as linhas entram logo atrás, em
-cascata de 45ms. Só `transform`, `opacity` e `filter`.
+**A troca de painel** é um cruzamento, não um revezamento: a lista que sai
+desce perdendo opacidade enquanto a que entra já está subindo. Medida a soma
+das opacidades ao longo da troca, ela fica em 1,0 ou acima em todos os
+instantes — em nenhum quadro a área fica vazia. O pico do cruzamento é por
+volta dos 0,15s. A troca dura o mesmo que o deslize do destaque (0,55s), então
+os dois movimentos leem como um gesto só.
 
-**A lista** é um cardápio: nome em Jost à esquerda, filete pontilhado em ouro
-fosco esticando no vão, valor em Bodoni Moda à direita. O filete é um item
-flex que cresce, então o pontilhado nasce e morre exatamente onde há espaço.
+**O alinhamento.** As listas ficam empilhadas na mesma célula de um grid
+(`grid-area: 1/1`), então a que entra nasce exatamente onde a anterior estava,
+igual nas seis categorias. `align-items: start` impede que o painel se estique
+até a altura do contêiner, o que permite medir a altura natural de cada
+categoria; a altura do contêiner é escrita pelo JS e animada na troca, para a
+diferença entre uma lista de dois itens e outra de sete não virar salto. A
+altura é a única coisa aqui que não dá para resolver com `transform` —
+escalar a caixa distorceria o texto.
+
+**A lista** é um cardápio: nome em Jost leve com `--tracking-curto`, filete
+pontilhado em ouro fosco esticando no vão com respiro dos dois lados, e o
+valor em Bodoni Moda na cor pêssego, maior que o nome — o `R$` menor e
+alinhado ao topo. A observação entre parênteses sai do nome e vira um span
+próprio, em corpo menor e cor mais discreta. Sem régua horizontal entre as
+linhas: com o pontilhado já estruturando cada linha, um segundo filete vira
+grade de planilha.
 
 **A entrada** revela título e barra pela máscara, via ScrollTrigger, uma vez
 só (`once: true`). A classe é própria (`.revela-adiada`) e não a `.revela` da

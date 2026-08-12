@@ -104,10 +104,19 @@ def montar():
             f'aria-labelledby="aba-{chave}" tabindex="0"{oculto}>')
         add('        <ul class="preco">')
         for nome, valor in itens:
+            # a observação entre parênteses sai do nome e vira um span
+            # próprio, para receber corpo menor e cor mais discreta
+            nota = ""
+            if "(" in nome:
+                nome, resto = nome.split("(", 1)
+                nome = nome.rstrip()
+                nota = f' <span class="preco__nota">({resto.rstrip(")")})</span>'
             add('          <li class="preco__linha">'
-                f'<span class="preco__nome">{nome}</span>'
+                f'<span class="preco__nome">{nome}{nota}</span>'
                 '<span class="preco__filete" aria-hidden="true"></span>'
-                f'<span class="preco__valor">R$&nbsp;{valor}</span></li>')
+                '<span class="preco__valor">'
+                '<span class="preco__moeda">R$</span>'
+                f'<span class="preco__numero">{valor}</span></span></li>')
         add('        </ul>')
         add('      </div>')
     add('    </div>')

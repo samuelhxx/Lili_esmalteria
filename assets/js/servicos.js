@@ -28,6 +28,14 @@
 
   var temGsap = !!window.gsap;
   var atual = 0;
+  var paineisCaixa = secao.querySelector(".servicos__paineis");
+
+  /* Um tempo só para os dois movimentos: o destaque deslizando e a troca
+     de lista partem juntos e terminam juntos, então leem como um gesto
+     único em vez de duas animações independentes. */
+  var DURACAO = 0.55;
+  var SAIDA = "power2.inOut";
+  var ENTRADA = "power3.out";
 
   /* ---------- o bloco de destaque ---------- */
 
@@ -48,7 +56,7 @@
     gsap.to(destaque, {
       x: x,
       scaleX: escala,
-      duration: 0.55,
+      duration: DURACAO,
       ease: "back.out(1.5)"   /* mola suave, sem estourar a posição */
     });
   }
@@ -74,39 +82,82 @@
 
   /* ---------- troca de painel ---------- */
 
-  function trocarPainel(indice) {
-    var entra = paineis[indice];
-    paineis.forEach(function (p, i) {
-      if (i !== indice) p.hidden = true;
+  /* A altura do contêiner é a única coisa aqui que não dá para resolver
+     com transform: escalar a caixa distorceria o texto dentro. Então ela
+     é animada, uma vez por troca, num elemento só. */
+  function ajustarAltura(entra, animar) {
+    if (!paineisCaixa) return;
+    var alvo = entra.offsetHeight;
+    if (!animar || !temGsap || querMenosMovimento) {
+      paineisCaixa.style.height = alvo + "px";
+      return;
+    }
+    gsap.to(paineisCaixa, {
+      height: alvo,
+      duration: DURACAO,
+      ease: ENTRADA,
+      overwrite: true
     });
+  }
+
+  function trocarPainel(indice, anterior) {
+    var entra = paineis[indice];
+    var sai = paineis[anterior];
     entra.hidden = false;
 
-    if (!temGsap || querMenosMovimento) return;
+    if (!temGsap || querMenosMovimento) {
+      paineis.forEach(function (p, i) { if (i !== indice) p.hidden = true; });
+      ajustarAltura(entra, false);
+      return;
+    }
 
     var linhas = entra.querySelectorAll(".preco__linha");
-    gsap.killTweensOf([entra, linhas]);
+    gsap.killTweensOf([entra, sai, linhas]);
+    ajustarAltura(entra, true);
+
+    /* As duas listas se sobrepõem no tempo: a que sai desce e some
+       enquanto a que entra já está subindo. Em nenhum quadro a área fica
+       vazia — é essa sobreposição que dá continuidade, e não um corte
+       seguido de outro. */
+    if (sai && sai !== entra) {
+      gsap.to(sai, {
+        opacity: 0,
+        y: 10,
+        filter: "blur(4px)",
+        duration: DURACAO * 0.82,
+        ease: SAIDA,
+        onComplete: function () {
+          sai.hidden = true;
+          gsap.set(sai, { clearProps: "opacity,transform,filter" });
+        }
+      });
+    }
 
     gsap.fromTo(
       entra,
-      { opacity: 0, scale: 0.95, x: 18, filter: "blur(6px)" },
+      { opacity: 0, y: -12, scale: 0.985, filter: "blur(5px)" },
       {
-        opacity: 1, scale: 1, x: 0, filter: "blur(0px)",
-        duration: 0.42, ease: "power2.out"
+        opacity: 1, y: 0, scale: 1, filter: "blur(0px)",
+        duration: DURACAO,
+        ease: ENTRADA,
+        delay: DURACAO * 0.08   /* entra com a outra ainda bem visível */
       }
     );
-    /* cascata curta: as linhas chegam logo atrás do painel, não depois */
     gsap.fromTo(
       linhas,
-      { opacity: 0, y: 12 },
+      { opacity: 0, y: 10 },
       {
-        opacity: 1, y: 0, duration: 0.35, ease: "power2.out",
-        stagger: 0.045, delay: 0.06
+        opacity: 1, y: 0,
+        duration: 0.4, ease: ENTRADA,
+        stagger: 0.04,
+        delay: DURACAO * 0.2
       }
     );
   }
 
   function selecionar(indice, focar) {
     if (indice === atual) return;
+    var anterior = atual;
     atual = indice;
 
     abas.forEach(function (aba, i) {
@@ -117,7 +168,7 @@
 
     posicionarDestaque(abas[indice], true);
     trazerParaVista(abas[indice]);
-    trocarPainel(indice);
+    trocarPainel(indice, anterior);
     if (focar) abas[indice].focus();
   }
 
@@ -141,15 +192,18 @@
 
   /* ---------- posição inicial e recálculo ---------- */
 
-  function assentarDestaque() {
+  function assentar() {
     posicionarDestaque(abas[atual], false);
+    ajustarAltura(paineis[atual], false);
   }
 
+  /* Antes das fontes carregarem, as medidas mudam: refaz quando elas
+     chegam, e a cada mudança de largura. */
   if (document.fonts && document.fonts.ready) {
-    document.fonts.ready.then(assentarDestaque);
+    document.fonts.ready.then(assentar);
   }
-  assentarDestaque();
-  window.addEventListener("resize", assentarDestaque);
+  assentar();
+  window.addEventListener("resize", assentar);
 
   /* ---------- entrada da seção ---------- */
 

@@ -10,7 +10,7 @@ index.html                     abertura + serviços
 assets/css/style.css           variáveis, fundo, abertura, serviços
 assets/js/abertura.js          timeline de entrada (mask reveal)
 assets/js/servicos.js          abas, troca de painel, entrada no scroll
-assets/js/poeira.js            camada de partículas e paralaxe
+assets/js/glitter.js           textura de glitter e paralaxe
 assets/js/galeria.js           painel ativo da galeria e entrada no scroll
 assets/js/gsap.min.js          GSAP 3.13.0, hospedado aqui
 assets/js/ScrollTrigger.min.js plugin do GSAP, hospedado aqui
@@ -71,36 +71,44 @@ GPU. É uma decisão tomada e aceita: a técnica foi mantida deliberadamente.
 Com `prefers-reduced-motion: reduce`, a animação é desligada e o degradê fica
 estático.
 
-### A poeira suspensa
+### O glitter suspenso
 
-Por cima do degradê, e por baixo do conteúdo, uma camada de 54 pontos finos
-em ouro fosco, pêssego e creme, entre 1,4 e 4,4 px e com opacidade de 10% a
-35%. Cerca de um terço tem halo difuso — a variação é o que impede o conjunto
-de parecer padrão gerado. A distribuição é por células com muito jitter:
-sorteio puro deixa buracos e grumos, célula sem jitter vira grade. O gerador
-tem semente fixa, então o desenho é sempre o mesmo e dá para julgar a
-composição em vez de sortear uma nova a cada visita.
+Por cima do degradê, e por baixo do conteúdo, uma textura de pó de purpurina.
+A diferença em relação a pontos desenhados está na técnica:
 
-Os pontos vivem em quatro camadas de profundidade. Tamanho, opacidade e
-velocidade saem todos da mesma profundidade: ponto pequeno e apagado está ao
-fundo e anda devagar; maior e mais visível está à frente e anda mais. Medido
-do topo ao fim da página, as camadas percorrem −16, −34, −52 e −70 px.
+**A massa de grãos é textura, não elemento.** Um ladrilho SVG com
+`feTurbulence` cortado por limiar alto rende milhares de grãos irregulares por
+tela ao custo de um `background-image`. Como elementos no DOM, essa quantidade
+seria impraticável. O limiar é `alfa = ganho × ruído − corte`: como o ruído
+fractal se concentra perto de 0,5, um corte alto deixa passar só os picos, e é
+essa passagem estreita que produz grão áspero de borda dura em vez de bolha
+suave.
 
-**Duas fontes de movimento, separadas de propósito.** A deriva de cada ponto é
-animação CSS, com amplitude curta, ciclo entre 22s e 48s e fase deslocada —
-fica no compositor, sem custo de quadro em JavaScript. O paralaxe é GSAP com
-ScrollTrigger, aplicado às quatro camadas e não a cada ponto: quatro alvos em
-vez de 54. O `scrub` é numérico (0,8) e não `true`, para o movimento
-interpolar em vez de grudar no pixel.
+**A concentração é desigual de propósito.** Um segundo ruído, de frequência
+baixa, multiplica o alfa do primeiro: onde a mancha é forte os grãos se
+juntam, onde é fraca eles rareiam. Sem isso a distribuição fica uniforme, que
+é o oposto de purpurina.
 
-Medida a diferença entre a página com e sem a camada, os pontos alteram no
-máximo 35 níveis por pixel na fase clara do degradê e 49 na escura, em cerca
-de 0,1% da tela. É o "quase subliminar" pedido: aparecem sob inspeção, não
-saltam à vista. Se a presença estiver fraca demais na tela real, os botões
-são `QUANTIDADE` e a faixa de opacidade, no topo de `assets/js/poeira.js`.
+Ganho e corte foram calibrados medindo a cobertura no ladrilho renderizado.
+Acima de `baseFrequency` 1 o ruído fica alto demais e nenhum pico passa do
+limiar — a tela sai limpa. Em 0,9, o par 16/−10,8 rende 2,2% de cobertura;
+19/−13,3 rende 1,2%; 22/−16 rende 0,44%. São três camadas, uma por cor
+(ouro fosco, pêssego e creme), com ladrilhos de lados diferentes — 263, 341 e
+421px — para as repetições nunca coincidirem e desenharem grade.
 
-Com `prefers-reduced-motion`, os pontos ficam parados: sem deriva e sem
-paralaxe.
+Medida a diferença entre a página com e sem a camada, o glitter toca **3,8% dos
+pixels na fase clara do degradê e 4,6% na escura**, com diferença máxima de 53
+e 70 níveis. Para comparar, a camada de pontos anterior tocava 0,1% da tela.
+
+**As centelhas** — as poucas que pegam a luz — são os únicos elementos: 16
+partículas com recorte em oito pontas, que acendem e apagam em ciclos de 4,5s
+a 11s, fora de fase. Quase todo o ciclo elas estão apagadas; a centelha é o
+pico curto no meio.
+
+**Sem deriva:** glitter preso no esmalte não flutua. O paralaxe do scroll
+continua por camada, percorrendo −16, −34, −52 e −70 px do topo ao fim da
+página. Com `prefers-reduced-motion`, o glitter fica estático: sem cintilância
+e sem paralaxe.
 
 O `html` recebe `background-color` como rede de segurança: o degradê é
 dimensionado pela caixa do `body`, então qualquer área além dela — a barra do

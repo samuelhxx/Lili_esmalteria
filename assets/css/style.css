@@ -559,51 +559,52 @@ body::after {
 }
 
 /* =========================================================
-   POEIRA SUSPENSA
-   Camada entre o degradê e o conteúdo. Puramente decorativa:
-   fora do fluxo, sem eventos, invisível para leitor de tela.
+   GLITTER SUSPENSO
+   Textura entre o degradê e o conteúdo. Decorativa: fora do fluxo,
+   sem eventos, invisível para leitor de tela.
    ========================================================= */
-.poeira {
+.glitter {
   position: fixed;
   inset: 0;
   z-index: 0;
   pointer-events: none;
   overflow: hidden;
-  /* isola o repintar dos pontos do resto da página */
   contain: strict;
 }
 
-/* Cada camada é uma profundidade, e é ela — não cada ponto — que recebe
-   o paralaxe. As bordas transbordam para o deslocamento nunca esvaziar
-   o topo ou o rodapé. */
-.poeira__camada {
+/* Cada camada é uma profundidade e recebe o paralaxe. As bordas
+   transbordam para o deslocamento nunca esvaziar topo ou rodapé. */
+.glitter__camada {
   position: absolute;
   inset: -12vh 0;
   will-change: transform;
 }
 
-.poeira__ponto {
+/* As poucas que pegam a luz. O recorte em oito pontas evita o círculo
+   perfeito — grão de purpurina não é bolinha. */
+.glitter__centelha {
   position: absolute;
-  border-radius: 50%;
-  animation: deriva var(--deriva-tempo, 30s) ease-in-out
-             var(--deriva-atraso, 0s) infinite alternate;
-  will-change: transform;
+  clip-path: polygon(50% 0%, 62% 38%, 100% 50%, 62% 62%, 50% 100%, 38% 62%, 0% 50%, 38% 38%);
+  opacity: 0;
+  animation: cintila var(--cintila-tempo, 7s) ease-in-out
+             var(--cintila-atraso, 0s) infinite;
+  will-change: opacity;
 }
 
-/* Deriva própria: amplitude curta e ciclo longo. Fica no CSS, e não no
-   GSAP, para o compositor cuidar dela sem custo de quadro em JS. */
-@keyframes deriva {
-  from { transform: translate3d(0, 0, 0); }
-  to   { transform: translate3d(var(--deriva-x, 0), var(--deriva-y, 0), 0); }
+/* Quase todo o ciclo apagada: a centelha é o pico curto no meio. */
+@keyframes cintila {
+  0%, 62%, 100% { opacity: 0; }
+  76%           { opacity: var(--cintila-pico, 0.7); }
+  90%           { opacity: 0.08; }
 }
 
-/* O conteúdo fica acima da poeira; o grão de verniz, acima de tudo. */
+/* O conteúdo fica acima do glitter; o grão de verniz, acima de tudo. */
 .abertura, .servicos { z-index: 1; }
 body::after { z-index: 2; }
 
 @media (prefers-reduced-motion: reduce) {
-  .poeira__ponto { animation: none; }
-  .poeira__camada { will-change: auto; }
+  .glitter__centelha { animation: none; opacity: 0.28; }
+  .glitter__camada { will-change: auto; }
 }
 
 /* =========================================================

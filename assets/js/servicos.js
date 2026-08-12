@@ -134,9 +134,14 @@
     );
   }
 
+  /* O rótulo da chamada acompanha o estado: quem já abriu precisa ver
+     que o mesmo toque fecha. A seta gira por CSS. */
   function marcar(indice) {
     cartoes.forEach(function (cartao, i) {
-      cartao.setAttribute("aria-expanded", String(i === indice));
+      var ativo = i === indice;
+      cartao.setAttribute("aria-expanded", String(ativo));
+      var texto = cartao.querySelector(".cartao__acao-texto");
+      if (texto) texto.textContent = ativo ? "Ocultar valores" : "Ver valores";
     });
   }
 

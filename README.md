@@ -199,6 +199,16 @@ removida: o problema dela era exatamente esconder categorias fora da tela.
 mesma de novo fecha e volta ao estado de escolha. O cartão ativo ganha filete
 dourado firme, fundo mais destacado e o ícone em pêssego.
 
+**O convite ao toque.** Cartão com ícone e nome não parece clicável: dá para
+passar a seção inteira sem perceber que os preços estão atrás dele. Então cada
+cartão carrega uma pílula de filete dourado — "Ver valores" e uma seta — e a
+seção abre com a linha "Toque numa categoria para ver os valores.". Aberto, o
+rótulo vira "Ocultar valores" e a seta gira 180°: quem já tocou vê que o mesmo
+toque fecha. A pílula fica presa no rodapé do cartão (`margin-top: auto`),
+senão um nome de duas linhas — "Coloração e tratamento" — empurraria só a dele
+para baixo e a fileira sairia desalinhada; medido, os topos da fileira agora
+coincidem no pixel (285/285, 429/429, 588/588).
+
 Não é mais um `tablist`: sem seleção inicial e com fechar disponível, o padrão
 correto é divulgação (`aria-expanded` no cartão, `role="region"` no painel), e
 é isso que o leitor de tela anuncia. As setas andam pela grade, respeitando o

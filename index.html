@@ -16,7 +16,7 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..600;1,6..96,400..500&family=Jost:wght@300;400;500&display=swap">
   <!-- ?v= é cache-busting manual: incrementar a cada mudança no CSS, senão o
        navegador serve a folha antiga por horas depois do deploy -->
-  <link rel="stylesheet" href="assets/css/style.css?v=21">
+  <link rel="stylesheet" href="assets/css/style.css?v=24">
 
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%2316110E'/><text x='16' y='24' font-family='Georgia,serif' font-style='italic' font-size='21' fill='%23FFC06A' text-anchor='middle'>L</text></svg>">
 </head>
@@ -56,31 +56,38 @@
     <h2 class="servicos__titulo" id="servicos-titulo">
       <span class="mascara"><span class="revela-adiada">Nossos serviços</span></span>
     </h2>
+    <p class="servicos__instrucao">Toque numa categoria para ver os valores.</p>
     <div class="mascara">
       <div class="cartoes revela-adiada">
         <button class="cartao" type="button" id="cartao-gel" aria-expanded="false" aria-controls="painel-gel">
           <svg class="cartao__icone" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9.7 20.6c-.5-3.6-.8-7.2-.3-10.8.3-2.3 1.2-3.6 2.6-3.6s2.3 1.3 2.6 3.6c.5 3.6.2 7.2-.3 10.8-1.5.4-3.1.4-4.6 0Z"/><path d="M18.6 4.2l.6 1.6 1.6.6-1.6.6-.6 1.6-.6-1.6-1.6-.6 1.6-.6.6-1.6Z"/></svg>
           <span class="cartao__nome">Unhas em Gel</span>
+          <span class="cartao__acao"><span class="cartao__acao-texto">Ver valores</span><svg class="cartao__seta" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m7 10 5 5 5-5"/></svg></span>
         </button>
         <button class="cartao" type="button" id="cartao-tradicional" aria-expanded="false" aria-controls="painel-tradicional">
           <svg class="cartao__icone" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8.6 11.4h6.8v7.1a2 2 0 0 1-2 2h-2.8a2 2 0 0 1-2-2v-7.1Z"/><path d="M10.6 8.8h2.8v2.6h-2.8V8.8Z"/><path d="M12 8.8V6.2"/><path d="M10.9 3.4h2.2l-.6 2.8h-1l-.6-2.8Z"/></svg>
           <span class="cartao__nome">Unhas Tradicionais</span>
+          <span class="cartao__acao"><span class="cartao__acao-texto">Ver valores</span><svg class="cartao__seta" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m7 10 5 5 5-5"/></svg></span>
         </button>
         <button class="cartao" type="button" id="cartao-cilios" aria-expanded="false" aria-controls="painel-cilios">
           <svg class="cartao__icone" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3.4 13.6c3-3.9 5.9-5.8 8.6-5.8s5.6 1.9 8.6 5.8"/><path d="M3.4 13.6c3 2.6 5.9 3.9 8.6 3.9s5.6-1.3 8.6-3.9"/><path d="M6.2 8.6 4.7 6.2"/><path d="M9.4 6.9 8.6 4.3"/><path d="M12 6.4V3.7"/><path d="M14.6 6.9l.8-2.6"/><path d="M17.8 8.6l1.5-2.4"/></svg>
           <span class="cartao__nome">Cílios</span>
+          <span class="cartao__acao"><span class="cartao__acao-texto">Ver valores</span><svg class="cartao__seta" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m7 10 5 5 5-5"/></svg></span>
         </button>
         <button class="cartao" type="button" id="cartao-sobrancelha" aria-expanded="false" aria-controls="painel-sobrancelha">
           <svg class="cartao__icone" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3.6 15.2c4.3-4.6 9.1-7 14.4-7.2 1.5 0 2.4.6 2.4 1.5 0 1-1 1.7-2.9 2.1-4.8 1-9.5 2.2-13.9 3.6Z"/></svg>
           <span class="cartao__nome">Sobrancelha</span>
+          <span class="cartao__acao"><span class="cartao__acao-texto">Ver valores</span><svg class="cartao__seta" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m7 10 5 5 5-5"/></svg></span>
         </button>
         <button class="cartao" type="button" id="cartao-cabelo" aria-expanded="false" aria-controls="painel-cabelo">
           <svg class="cartao__icone" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8.4 3.2c-2.6 3.4 2.4 5.2 0 8.8-2.4 3.6 2 5.2.6 8.8"/><path d="M14.6 3.2c-2.6 3.4 2.4 5.2 0 8.8-2.4 3.6 2 5.2.6 8.8"/></svg>
           <span class="cartao__nome">Cabelo</span>
+          <span class="cartao__acao"><span class="cartao__acao-texto">Ver valores</span><svg class="cartao__seta" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m7 10 5 5 5-5"/></svg></span>
         </button>
         <button class="cartao" type="button" id="cartao-tesoura" aria-expanded="false" aria-controls="painel-tesoura">
           <svg class="cartao__icone" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="7.3" cy="18.2" r="2.3"/><circle cx="16.7" cy="18.2" r="2.3"/><path d="M8.9 16.5 17.4 4.2"/><path d="M15.1 16.5 6.6 4.2"/></svg>
           <span class="cartao__nome">Coloração e Tratamento</span>
+          <span class="cartao__acao"><span class="cartao__acao-texto">Ver valores</span><svg class="cartao__seta" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m7 10 5 5 5-5"/></svg></span>
         </button>
       </div>
     </div>
@@ -266,7 +273,7 @@
   <script src="assets/js/gsap.min.js" defer></script>
   <script src="assets/js/ScrollTrigger.min.js" defer></script>
   <script src="assets/js/abertura.js?v=4" defer></script>
-  <script src="assets/js/servicos.js?v=4" defer></script>
+  <script src="assets/js/servicos.js?v=6" defer></script>
   <script src="assets/js/glitter.js?v=4" defer></script>
   <script src="assets/js/galeria.js?v=1" defer></script>
 </body>

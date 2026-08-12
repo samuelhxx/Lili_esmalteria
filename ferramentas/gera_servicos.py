@@ -76,32 +76,28 @@ def montar():
     add('      <span class="mascara"><span class="revela-adiada">Nossos serviços</span></span>')
     add('    </h2>')
 
-    # A barra também entra pela máscara. Classe própria, e não a .revela da
-    # abertura: aquela é liberada pela trava de 5s daquela timeline, o que
-    # revelaria estes blocos antes de o scroll chegar neles.
-    add('    <div class="mascara abas__mascara">')
-    add('      <div class="abas revela-adiada">')
-    add('        <div class="abas__trilho" role="tablist" aria-label="Categorias de serviços">')
-    add('          <span class="abas__destaque" aria-hidden="true"></span>')
-    for i, (chave, rotulo, _) in enumerate(ABAS):
-        ativa = "true" if i == 0 else "false"
-        tab = "0" if i == 0 else "-1"
-        add(f'          <button class="aba" type="button" role="tab" id="aba-{chave}" '
-            f'aria-controls="painel-{chave}" aria-selected="{ativa}" tabindex="{tab}">')
-        add(f'            <svg class="aba__icone" viewBox="0 0 24 24" aria-hidden="true" '
+    # Grade de escolha: as seis categorias visíveis de uma vez, sem
+    # preço nenhum na tela e nada selecionado. Classe própria de reveal,
+    # e não a .revela da abertura — aquela é liberada pela trava de 5s
+    # daquela timeline, o que mostraria este bloco antes do scroll.
+    add('    <div class="mascara">')
+    add('      <div class="cartoes revela-adiada">')
+    for chave, rotulo, _ in ABAS:
+        add(f'        <button class="cartao" type="button" id="cartao-{chave}" '
+            f'aria-expanded="false" aria-controls="painel-{chave}">')
+        add(f'          <svg class="cartao__icone" viewBox="0 0 24 24" aria-hidden="true" '
             f'focusable="false" {TRACO}>{ICONES[chave]}</svg>')
-        add(f'            <span class="aba__rotulo">{rotulo}</span>')
-        add('          </button>')
-    add('        </div>')
+        add(f'          <span class="cartao__nome">{rotulo}</span>')
+        add('        </button>')
     add('      </div>')
     add('    </div>')
 
     # painéis
     add('    <div class="servicos__paineis">')
-    for i, (chave, rotulo, itens) in enumerate(ABAS):
-        oculto = "" if i == 0 else " hidden"
-        add(f'      <div class="painel" id="painel-{chave}" role="tabpanel" '
-            f'aria-labelledby="aba-{chave}" tabindex="0"{oculto}>')
+    # todos começam fechados: o primeiro momento é o de escolher
+    for chave, rotulo, itens in ABAS:
+        add(f'      <div class="painel" id="painel-{chave}" role="region" '
+            f'aria-labelledby="cartao-{chave}" hidden>')
         add('        <ul class="preco">')
         for nome, valor in itens:
             # a observação entre parênteses sai do nome e vira um span

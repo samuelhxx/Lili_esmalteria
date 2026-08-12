@@ -188,53 +188,31 @@ cheguem. Com `prefers-reduced-motion`, tudo aparece no estado final de imediato.
 
 ## Serviços e preços
 
-Título em Bodoni Moda e um `tablist` com seis categorias. A barra é uma
-pílula com fundo translúcido e `backdrop-filter`, deixando o degradê aparecer
-por trás; os rótulos em Jost, caixa alta, com `--tracking-medio`.
+Título em Bodoni Moda e dois momentos, nesta ordem.
 
-**O destaque da aba ativa** é um bloco só, que desliza entre as posições com
-mola suave (`back.out(1.5)`). Sua largura é fixa em 100px e o ajuste a cada
-aba vem de `scaleX` — animar `left` e `width` forçaria layout a cada quadro;
-assim só `transform` anima.
+**Primeiro, escolher.** A seção abre com as seis categorias visíveis de uma
+vez — grade de duas colunas no celular, três a partir de 640px — e nenhum
+preço na tela. Nada vem selecionado. A barra que rolava na horizontal foi
+removida: o problema dela era exatamente esconder categorias fora da tela.
 
-**No celular** a barra rola na horizontal com o toque arrastando, e a aba
-ativa é centralizada mexendo apenas no `scrollLeft` do próprio trilho. Não se
-usa `scrollIntoView` aqui: ele arrastaria a página junto, e o scroll da página
-não podia ser tocado.
+**Depois, os preços.** Tocar numa categoria abre a lista logo abaixo; tocar na
+mesma de novo fecha e volta ao estado de escolha. O cartão ativo ganha filete
+dourado firme, fundo mais destacado e o ícone em pêssego.
 
-**Os seis ícones** são SVG inline no mesmo sistema: `viewBox` 24×24, traço
-1.5, pontas e junções arredondadas, sem preenchimento. Ouro fosco quando
-inativos, cor do texto ativo quando selecionados, com transição. São
-decorativos (`aria-hidden`), já que o rótulo em texto identifica a aba.
+Não é mais um `tablist`: sem seleção inicial e com fechar disponível, o padrão
+correto é divulgação (`aria-expanded` no cartão, `role="region"` no painel), e
+é isso que o leitor de tela anuncia. As setas andam pela grade, respeitando o
+número de colunas de cada largura.
 
-**A troca de painel** é um cruzamento, não um revezamento: a lista que sai
-desce perdendo opacidade enquanto a que entra já está subindo. Medida a soma
-das opacidades ao longo da troca, ela fica em 1,0 ou acima em todos os
-instantes — em nenhum quadro a área fica vazia. O pico do cruzamento é por
-volta dos 0,15s. A troca dura o mesmo que o deslize do destaque (0,55s), então
-os dois movimentos leem como um gesto só.
+**As transições.** A lista sobe com deslocamento curto e desaceleração longa,
+e as linhas entram em cascata de 40ms. Ao trocar de categoria, a que sai desce
+enquanto a que entra já sobe — os movimentos se cruzam, sem corte seco nem
+área vazia. A altura do contêiner é animada junto: é a única coisa aqui que
+não dá para resolver com `transform`, já que escalar a caixa distorceria o
+texto.
 
-**O alinhamento.** As listas ficam empilhadas na mesma célula de um grid
-(`grid-area: 1/1`), então a que entra nasce exatamente onde a anterior estava,
-igual nas seis categorias. `align-items: start` impede que o painel se estique
-até a altura do contêiner, o que permite medir a altura natural de cada
-categoria; a altura do contêiner é escrita pelo JS e animada na troca, para a
-diferença entre uma lista de dois itens e outra de sete não virar salto. A
-altura é a única coisa aqui que não dá para resolver com `transform` —
-escalar a caixa distorceria o texto.
-
-**A lista** é um cardápio: nome em Jost leve com `--tracking-curto`, filete
-pontilhado em ouro fosco esticando no vão com respiro dos dois lados, e o
-valor em Bodoni Moda na cor pêssego, maior que o nome — o `R$` menor e
-alinhado ao topo. A observação entre parênteses sai do nome e vira um span
-próprio, em corpo menor e cor mais discreta. Sem régua horizontal entre as
-linhas: com o pontilhado já estruturando cada linha, um segundo filete vira
-grade de planilha.
-
-**A entrada** revela título e barra pela máscara, via ScrollTrigger, uma vez
-só (`once: true`). A classe é própria (`.revela-adiada`) e não a `.revela` da
-abertura: aquela é liberada pela trava de 5s da timeline da abertura, o que
-faria estes blocos aparecerem antes de o scroll chegar neles.
+**A rolagem** só acontece se o começo da lista estiver fora de vista, e só o
+necessário para trazê-lo — nunca arrasta a página sem motivo.
 
 **Contraste.** O véu desta seção é mais fechado que o da abertura. São 29
 linhas em corpo pequeno, e não uma frase solta: medido na fase mais clara do

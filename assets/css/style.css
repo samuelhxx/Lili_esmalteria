@@ -345,93 +345,74 @@ body::after {
   text-shadow: var(--halo-forte);
 }
 
-/* --- Barra de abas: pílula com desfoque, o degradê aparecendo por trás --- */
-.abas__mascara { max-width: 100%; }
-
-.abas {
-  max-width: 100%;
+/* --- Grade de escolha: as seis categorias de uma vez ------------------
+   Duas colunas no celular, três em tela maior. Nada de rolagem lateral:
+   o problema da barra anterior era exatamente esconder categorias fora
+   da tela. */
+.cartoes {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(0.6rem, 2.5vw, 0.9rem);
+  max-width: 42rem;
   margin-inline: auto;
-  border-radius: 999px;
-  background-color: rgba(22, 17, 14, 0.5);
-  border: 1px solid rgba(200, 155, 90, 0.28);
-  -webkit-backdrop-filter: blur(10px);
-          backdrop-filter: blur(10px);
-  /* a pílula recorta o trilho que rola por dentro */
-  overflow: hidden;
 }
 
-.abas__trilho {
-  position: relative;
+.cartao {
   display: flex;
-  gap: 0.15rem;
-  padding: 0.35rem;
-  /* seis abas não cabem numa linha no celular: rola na horizontal, com o
-     toque arrastando e sem barra visível */
-  overflow-x: auto;
-  scrollbar-width: none;
-  -webkit-overflow-scrolling: touch;
-  scroll-behavior: smooth;
-}
-
-.abas__trilho::-webkit-scrollbar { display: none; }
-
-/* O destaque é um bloco só, movido por transform entre as posições —
-   nunca some e reaparece. Largura base de 100px, ajustada por scaleX
-   para caber em cada aba: assim só transform anima. */
-.abas__destaque {
-  position: absolute;
-  top: 0.35rem;
-  left: 0;
-  width: 100px;
-  height: calc(100% - 0.7rem);
-  border-radius: 999px;
-  background-color: var(--cor-creme);
-  transform-origin: 0 50%;
-  pointer-events: none;
-  will-change: transform;
-}
-
-.aba {
-  position: relative;   /* acima do destaque */
-  z-index: 1;
-  flex: 0 0 auto;
-  display: inline-flex;
+  flex-direction: column;
   align-items: center;
-  gap: 0.5em;
-  min-height: var(--toque-min);
-  padding: 0.6rem clamp(0.9rem, 3.5vw, 1.35rem);
-  border: 0;
-  border-radius: 999px;
-  background: transparent;
+  justify-content: center;
+  gap: 0.6rem;
+  min-height: 6.5rem;
+  padding: clamp(1rem, 4vw, 1.4rem) 0.75rem;
+  border: 1px solid rgba(200, 155, 90, 0.3);
+  border-radius: 14px;
+  background-color: rgba(22, 17, 14, 0.42);
+  -webkit-backdrop-filter: blur(8px);
+          backdrop-filter: blur(8px);
   cursor: pointer;
   font-family: var(--fonte-corpo);
   font-weight: var(--peso-corpo);
-  font-size: clamp(0.68rem, 3vw, 0.78rem);
+  font-size: clamp(0.66rem, 3vw, 0.76rem);
   letter-spacing: var(--tracking-medio);
   text-transform: uppercase;
-  white-space: nowrap;
+  text-align: center;
   color: var(--texto);
-  transition: color 0.3s ease;
+  transition: border-color 0.3s ease, background-color 0.3s ease,
+              color 0.3s ease;
 }
 
-.aba[aria-selected="true"] { color: var(--cor-preto); }
-
-.aba:focus { outline: none; }
-
-.aba:focus-visible {
-  outline: 2px solid var(--cor-pessego);
-  outline-offset: -2px;
-}
-
-.aba__icone {
-  flex: 0 0 auto;
-  width: 1.55em;
-  height: 1.55em;
+.cartao__icone {
+  width: 1.9rem;
+  height: 1.9rem;
   color: var(--cor-ouro);
   transition: color 0.3s ease;
 }
 
-.aba[aria-selected="true"] .aba__icone { color: var(--cor-preto); }
+.cartao__nome { line-height: 1.3; }
+
+@media (hover: hover) {
+  .cartao:hover { border-color: rgba(200, 155, 90, 0.55); }
+}
+
+/* Ativo: filete dourado mais presente e fundo destacado. */
+.cartao[aria-expanded="true"] {
+  border-color: var(--cor-ouro);
+  background-color: rgba(22, 17, 14, 0.68);
+}
+
+.cartao[aria-expanded="true"] .cartao__icone { color: var(--destaque); }
+
+.cartao:focus { outline: none; }
+
+.cartao:focus-visible {
+  outline: 2px solid var(--cor-pessego);
+  outline-offset: 3px;
+}
+
+@media (min-width: 640px) {
+  .cartoes { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
 
 /* --- Painéis e lista de preços --- */
 /* As listas ficam empilhadas na mesma célula do grid: a que entra nasce
@@ -441,7 +422,9 @@ body::after {
    A altura do contêiner é escrita pelo JS e animada na troca. */
 .servicos__paineis {
   position: relative;
-  margin-top: clamp(2rem, 8vw, 3rem);
+  /* fechado por padrão: o primeiro momento da seção é o de escolher */
+  height: 0;
+  margin-top: 0;
   max-width: 42rem;
   margin-inline: auto;
   display: grid;
@@ -452,6 +435,7 @@ body::after {
 .painel {
   grid-area: 1 / 1;
   width: 100%;
+  padding-top: clamp(1.5rem, 6vw, 2.25rem);
 }
 
 .painel[hidden] { display: none; }
@@ -549,14 +533,17 @@ body::after {
   will-change: transform;
 }
 
+/* A grade precisa vencer o display: block da regra de reveal acima —
+   duas classes contra duas, então vale a mais específica. Sem isto os
+   seis cartões empilham numa coluna só. */
+.js .cartoes.revela-adiada { display: grid; }
+
 .js .servicos--revelada .revela-adiada,
-.js .galeria--revelada .revela-adiada,
-.js .servicos--revelada.abas { transform: none; will-change: auto; }
+.js .galeria--revelada .revela-adiada { transform: none; will-change: auto; }
 
 @media (prefers-reduced-motion: reduce) {
   .js .revela-adiada { transform: none; will-change: auto; }
-  .abas__trilho { scroll-behavior: auto; }
-  .aba, .aba__icone { transition: none; }
+  .cartao, .cartao__icone { transition: none; }
 }
 
 /* =========================================================

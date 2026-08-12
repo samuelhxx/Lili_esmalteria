@@ -124,25 +124,25 @@ frase principal em duas linhas — a primeira em display grande, a segunda de
 apoio, menor — e o botão **Agendar horário**, ainda com `href="#"` até o
 destino ser definido.
 
-O contraste sobre o fundo animado vem de um véu radial translúcido
-(`.abertura::before`), nunca de um bloco sólido. A queda de opacidade é
-contínua e mais larga que a viewport: um platô seguido de queda rápida faz o
-olho enxergar um oval, e é isso que se evita aqui.
+**Não há véu por trás da abertura.** Qualquer camada escura ali apaga a cor
+do fundo animado, que é o ponto da página. A legibilidade fica por conta de um
+halo (`text-shadow`) mais fechado que o das outras seções — ele escurece só o
+entorno imediato das letras, sem desenhar forma na tela — e, no caso do botão,
+do fundo do próprio controle.
 
-Como o véu é claro, a legibilidade vem sobretudo de um halo (`text-shadow`)
-que escurece só o entorno imediato das letras, sem desenhar forma na tela.
-Medido na fase mais clara do ciclo — o pior caso — contra o anel de pixels
-ao redor dos glifos:
+Medido na fase mais clara do ciclo, o pior caso, contra o anel de pixels ao
+redor dos glifos:
 
-| elemento | contraste | mínimo |
-| --- | --- | --- |
-| frase principal (texto grande) | 3,47:1 | 3:1 |
-| linha de apoio | 3,31:1 | 4,5:1 ⚠️ |
-| botão (fundo próprio) | 4,76:1 | 4,5:1 |
+| elemento | antes (com véu) | agora (sem véu) | mínimo |
+| --- | --- | --- | --- |
+| frase principal (texto grande) | 3,47:1 | 3,19:1 | 3:1 |
+| linha de apoio | 3,31:1 | 2,31:1 | 4,5:1 ⚠️ |
+| botão | 4,76:1 | 5,96:1 | 4,5:1 |
 
-> **Pendente:** a linha de apoio não alcança o mínimo. É consequência direta de
-> clarear o véu, decisão tomada por gosto. Os caminhos são escurecer o véu de
-> volta (`--veu-centro`), aumentar o corpo da linha, ou aceitar o desvio.
+> **Pendente:** a linha de apoio é o que mais sofre sem o véu. Texto pequeno em
+> creme sobre o degradê claro não alcança 4,5:1 só com sombra; seria preciso
+> escurecê-la, aumentar o corpo, ou devolver alguma camada por trás. Registrado
+> como desvio conhecido.
 
 O botão tem alvo de toque de 48px (`--toque-min`) e foco de teclado visível via
 `:focus-visible`.

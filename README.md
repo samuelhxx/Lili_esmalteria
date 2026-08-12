@@ -11,14 +11,16 @@ assets/css/style.css           variáveis, fundo, abertura, serviços
 assets/js/abertura.js          timeline de entrada (mask reveal)
 assets/js/servicos.js          abas, troca de painel, entrada no scroll
 assets/js/poeira.js            camada de partículas e paralaxe
+assets/js/galeria.js           painel ativo da galeria e entrada no scroll
 assets/js/gsap.min.js          GSAP 3.13.0, hospedado aqui
 assets/js/ScrollTrigger.min.js plugin do GSAP, hospedado aqui
 assets/img/logo-lili.svg       logo da marca
 ```
 
-A marcação da seção de serviços sai de `ferramentas/gera_servicos.py`, que
-guarda a tabela de preços e desenha os seis ícones. Mudar preço ou serviço é
-mudar o script e gerar de novo — assim as 29 linhas não divergem no formato.
+A marcação das seções geradas sai de `ferramentas/`: `gera_servicos.py` guarda
+a tabela de preços e desenha os seis ícones das abas; `gera_galeria.py` monta
+os seis painéis da galeria. Mudar preço, serviço ou painel é mudar o script e
+gerar de novo — assim as linhas não divergem no formato.
 
 Abrir `index.html` direto no navegador. Não há build, framework ou dependência
 além das duas fontes do Google Fonts.
@@ -232,6 +234,44 @@ a lista fica em **5,53:1** e a barra de abas em **7,77:1**, contra o mínimo de
 **Teclado.** Setas navegam entre as abas, Home e End vão às pontas, o foco é
 visível e `aria-selected` acompanha a seleção. Com `prefers-reduced-motion`,
 tudo aparece sem movimento.
+
+## Galeria
+
+Porte fiel de um componente de referência em React com Tailwind. O painel
+ativo abre em `flex: 4` contra `flex: 1` dos outros; os tempos, curvas,
+proporções e opacidades são os do original:
+
+| | valor |
+| --- | --- |
+| altura do trilho | 500px no celular, 600px a partir de 768px |
+| direção e espaçamento | coluna com 8px; linha com 16px em tela maior |
+| transição de `flex` e `filter` | 700ms, `cubic-bezier(0.25, 1, 0.5, 1)` |
+| brilho | ativo 100%, inativo 50%, 75% ao passar o mouse |
+| imagem | `object-cover`, transform em 1000ms, escala 1 ativo / 1,1 inativo |
+| véu de leitura | preto 80% → transparente, opacidade 1/0, 500ms |
+| conteúdo ativo | 500ms, de `translateY(48px)` e opacidade 0, atraso 200ms |
+| rótulo inativo | opacidade 1 com atraso de 500ms; ao ativar, opacidade 0 e escala 0,5 |
+| cantos | 16px |
+
+**As transições ficam em CSS, não em GSAP.** É o mecanismo do original — as
+classes do Tailwind são `transition-*`. Recriá-las em GSAP trocaria curvas
+exatas por aproximações, que é justamente o que não se queria. O GSAP entra na
+entrada da seção pelo scroll, e o JavaScript só troca qual painel está ativo,
+via `aria-pressed`; o CSS reage a isso.
+
+Adaptações: borda em ouro fosco a 28% no lugar do cinza neutro, título em
+Bodoni Moda no lugar do peso pesado, chamada **Ver trabalhos** e seta em SVG
+de traço fino, no mesmo sistema dos ícones das abas.
+
+**As fotos ainda não existem.** Cada painel já traz o `<img>` com
+`loading="lazy"`, `alt` descritivo e proporção 1200×1600 — falta só o `src`,
+e há comentário no HTML marcando o lugar. Sem `src`, a imagem se esconde
+(`img:not([src])`) e aparece um espaço reservado com moldura em linha fina.
+
+Um painel está sempre ativo, o terceiro começa aberto, e os painéis são
+navegáveis por Tab e pelas setas — chegar pelo teclado já abre o painel, para
+quem navega assim ver o mesmo que quem passa o mouse. Com
+`prefers-reduced-motion`, os painéis ficam do mesmo tamanho e nada se move.
 
 ## Próximo passo
 

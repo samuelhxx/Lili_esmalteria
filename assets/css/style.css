@@ -549,6 +549,7 @@ body::after {
 }
 
 .js .servicos--revelada .revela-adiada,
+.js .galeria--revelada .revela-adiada,
 .js .servicos--revelada.abas { transform: none; will-change: auto; }
 
 @media (prefers-reduced-motion: reduce) {
@@ -603,4 +604,281 @@ body::after { z-index: 2; }
 @media (prefers-reduced-motion: reduce) {
   .poeira__ponto { animation: none; }
   .poeira__camada { will-change: auto; }
+}
+
+/* =========================================================
+   GALERIA ELÁSTICA
+
+   Porte fiel do componente de referência. Os tempos, curvas,
+   proporções e opacidades são os do original — as transições ficam
+   em CSS, que é o mecanismo dele; refazê-las em GSAP trocaria as
+   curvas por aproximações. O ponto de virada é 768px, o mesmo do
+   md: da referência.
+   ========================================================= */
+.galeria {
+  position: relative;
+  z-index: 1;
+  padding: 48px 0;              /* py-12 */
+}
+
+.galeria__titulo {
+  margin: 0 0 clamp(2rem, 8vw, 3rem);
+  padding-inline: var(--margem-lateral);
+  font-family: var(--fonte-display);
+  font-weight: var(--peso-display);
+  font-optical-sizing: auto;
+  font-size: clamp(2rem, 9vw, 3.5rem);
+  line-height: 1.1;
+  text-align: center;
+  color: var(--texto);
+  text-shadow: var(--halo-forte);
+}
+
+.galeria__trilho {
+  display: flex;
+  flex-direction: column;       /* flex-col */
+  gap: 8px;                     /* gap-2 */
+  height: 500px;                /* h-[500px] */
+  width: 100%;
+  max-width: 72rem;             /* max-w-6xl */
+  margin-inline: auto;
+  padding-inline: 16px;         /* px-4 */
+}
+
+/* --- O painel --- */
+.painel-foto {
+  position: relative;
+  flex: 1;                      /* flex-[1] */
+  min-height: 0;
+  overflow: hidden;
+  border-radius: 16px;          /* rounded-2xl */
+  border: 1px solid rgba(200, 155, 90, 0.28);
+  background-color: rgba(22, 17, 14, 0.55);
+  cursor: pointer;
+  filter: brightness(0.5);      /* brightness-50 */
+  transition: flex 700ms cubic-bezier(0.25, 1, 0.5, 1),
+              filter 700ms cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+@media (hover: hover) {
+  .painel-foto:hover { filter: brightness(0.75); }   /* hover:brightness-75 */
+}
+
+.painel-foto[aria-pressed="true"] {
+  flex: 4;                      /* flex-[4] */
+  filter: brightness(1);        /* brightness-100 */
+}
+
+.painel-foto:focus { outline: none; }
+
+.painel-foto:focus-visible {
+  outline: 2px solid var(--cor-pessego);
+  outline-offset: 3px;
+}
+
+/* --- Mídia --- */
+.painel-foto__midia {
+  position: absolute;
+  inset: 0;
+  height: 100%;
+  width: 100%;
+}
+
+.painel-foto__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;            /* object-cover */
+  transform: scale(1.1);        /* scale-110 */
+  transition: transform 1000ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.painel-foto[aria-pressed="true"] .painel-foto__img {
+  transform: scale(1);          /* scale-100 */
+}
+
+/* sem src ainda: some, e o espaço reservado aparece no lugar */
+.painel-foto__img:not([src]) { display: none; }
+
+.painel-foto__vazio {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background-color: rgba(22, 17, 14, 0.45);
+}
+
+.painel-foto__img[src] ~ .painel-foto__vazio { display: none; }
+
+.galeria__moldura {
+  width: 30px;
+  height: 30px;
+  flex: 0 0 auto;
+  color: var(--cor-ouro);
+  opacity: 0.5;
+}
+
+/* degradê de leitura: preto 80% na base ao transparente no topo */
+.painel-foto__veu {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  background-image: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.8) 0%,
+    rgba(0, 0, 0, 0.2) 50%,
+    transparent 100%
+  );
+  transition: opacity 500ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.painel-foto[aria-pressed="true"] .painel-foto__veu { opacity: 1; }
+
+/* --- Corpo --- */
+.painel-foto__corpo {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 16px;                /* p-4 */
+}
+
+.painel-foto__texto {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;                     /* gap-2 */
+  transform: translateY(48px);  /* translate-y-12 */
+  opacity: 0;
+  transition: transform 500ms cubic-bezier(0.4, 0, 0.2, 1),
+              opacity 500ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.painel-foto[aria-pressed="true"] .painel-foto__texto {
+  transform: translateY(0);
+  opacity: 1;
+  transition-delay: 200ms;      /* delay-200 */
+}
+
+.painel-foto__pilula {
+  padding: 4px 8px;             /* py-1 px-2 */
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  background-color: rgba(255, 255, 255, 0.1);
+  -webkit-backdrop-filter: blur(12px);
+          backdrop-filter: blur(12px);
+  font-family: var(--fonte-corpo);
+  font-weight: var(--peso-medio);
+  font-size: 10px;
+  letter-spacing: 0.05em;       /* tracking-wider */
+  text-transform: uppercase;
+  color: #fff;
+}
+
+/* Bodoni no lugar do peso pesado do original: o nome é da marca, não
+   da referência. */
+.painel-foto__nome {
+  margin: 0;
+  font-family: var(--fonte-display);
+  font-weight: var(--peso-display);
+  font-optical-sizing: auto;
+  font-size: 24px;              /* text-2xl */
+  line-height: 1;               /* leading-none */
+  text-transform: uppercase;
+  color: #fff;
+}
+
+.painel-foto__chamada {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;              /* mt-2 */
+  font-family: var(--fonte-corpo);
+  font-weight: var(--peso-medio);
+  font-size: 12px;              /* text-xs */
+  letter-spacing: 0.1em;        /* tracking-widest */
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.galeria__seta { width: 12px; height: 12px; flex: 0 0 auto; }
+
+/* --- Rótulo de quando está inativo --- */
+.painel-foto__rotulo {
+  position: absolute;
+  bottom: 16px;                 /* bottom-4 */
+  left: 50%;
+  transform: translateX(-50%);
+  opacity: 1;
+  transition: transform 500ms cubic-bezier(0.4, 0, 0.2, 1),
+              opacity 500ms cubic-bezier(0.4, 0, 0.2, 1);
+  transition-delay: 500ms;      /* delay-500 */
+}
+
+.painel-foto[aria-pressed="true"] .painel-foto__rotulo {
+  opacity: 0;
+  transform: translateX(-50%) scale(0.5);
+  transition-delay: 0ms;
+}
+
+.painel-foto__vertical { display: none; }
+
+.painel-foto__numero {
+  display: block;
+  font-family: var(--fonte-corpo);
+  font-weight: var(--peso-medio);
+  font-size: 12px;
+  color: #fff;
+}
+
+/* --- Tela maior: o md: da referência, em 768px --- */
+@media (min-width: 768px) {
+  .galeria { padding: 96px 0; }          /* md:py-24 */
+
+  .galeria__trilho {
+    flex-direction: row;                 /* md:flex-row */
+    gap: 16px;                           /* md:gap-4 */
+    height: 600px;                       /* md:h-[600px] */
+  }
+
+  .painel-foto__corpo { padding: 32px; } /* md:p-8 */
+
+  .painel-foto__pilula { padding-inline: 12px; font-size: 12px; }
+  .painel-foto__nome { font-size: 48px; }        /* md:text-5xl */
+  .painel-foto__chamada { margin-top: 16px; font-size: 14px; }
+  .galeria__seta { width: 16px; height: 16px; }
+
+  .painel-foto__rotulo { bottom: 32px; }         /* md:bottom-8 */
+
+  .painel-foto__vertical {
+    display: block;
+    writing-mode: vertical-rl;
+    white-space: nowrap;
+    font-family: var(--fonte-corpo);
+    font-weight: var(--peso-medio);
+    font-size: 20px;                     /* text-xl */
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #fff;
+  }
+
+  .painel-foto__numero { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* painéis do mesmo tamanho e nada em movimento */
+  .painel-foto,
+  .painel-foto[aria-pressed="true"] { flex: 1; transition: none; }
+  .painel-foto__img { transform: none; transition: none; }
+  .painel-foto__veu { transition: none; }
+  .painel-foto__texto,
+  .painel-foto[aria-pressed="true"] .painel-foto__texto {
+    transform: none;
+    transition: none;
+  }
+  .painel-foto__rotulo,
+  .painel-foto[aria-pressed="true"] .painel-foto__rotulo {
+    transition: none;
+    transform: translateX(-50%);
+  }
 }

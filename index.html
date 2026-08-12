@@ -16,7 +16,7 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..600;1,6..96,400..500&family=Jost:wght@300;400;500&display=swap">
   <!-- ?v= é cache-busting manual: incrementar a cada mudança no CSS, senão o
        navegador serve a folha antiga por horas depois do deploy -->
-  <link rel="stylesheet" href="assets/css/style.css?v=14">
+  <link rel="stylesheet" href="assets/css/style.css?v=16">
 
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%2316110E'/><text x='16' y='24' font-family='Georgia,serif' font-style='italic' font-size='21' fill='%23FFC06A' text-anchor='middle'>L</text></svg>">
 </head>
@@ -144,10 +144,133 @@
     </div>
   </section>
 
+  <section class="galeria" id="galeria" aria-labelledby="galeria-titulo">
+    <h2 class="galeria__titulo" id="galeria-titulo">
+      <span class="mascara"><span class="revela-adiada">Nossos trabalhos</span></span>
+    </h2>
+    <div class="galeria__trilho">
+      <article class="painel-foto" data-painel="01" tabindex="0" role="button" aria-pressed="false" aria-label="Unhas em Gel">
+        <div class="painel-foto__midia">
+          <!-- FOTO: inserir o src aqui, ex.: src="assets/img/galeria-01.jpg". Enquanto não houver, o espaço reservado abaixo aparece. -->
+          <img class="painel-foto__img" alt="Alongamento em gel feito na Lili Esmalteria" loading="lazy" decoding="async" width="1200" height="1600">
+          <div class="painel-foto__vazio" aria-hidden="true"><svg class="galeria__moldura" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="10" r="1.6"/><path d="m4.5 17.5 4.7-4.2a1.6 1.6 0 0 1 2.2.05L15 17"/><path d="m13.8 14.6 1.9-1.7a1.6 1.6 0 0 1 2.2.05l1.6 1.6"/></svg></div>
+          <div class="painel-foto__veu" aria-hidden="true"></div>
+        </div>
+        <div class="painel-foto__corpo">
+          <div class="painel-foto__texto">
+            <span class="painel-foto__pilula">Alongamento e blindagem</span>
+            <h3 class="painel-foto__nome">Unhas em Gel</h3>
+            <span class="painel-foto__chamada">Ver trabalhos <svg class="galeria__seta" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M8.5 7H17v8.5"/></svg></span>
+          </div>
+          <div class="painel-foto__rotulo" aria-hidden="true">
+            <span class="painel-foto__vertical">Unhas em Gel</span>
+            <span class="painel-foto__numero">01</span>
+          </div>
+        </div>
+      </article>
+      <article class="painel-foto" data-painel="02" tabindex="0" role="button" aria-pressed="false" aria-label="Unhas Tradicionais">
+        <div class="painel-foto__midia">
+          <!-- FOTO: inserir o src aqui, ex.: src="assets/img/galeria-02.jpg". Enquanto não houver, o espaço reservado abaixo aparece. -->
+          <img class="painel-foto__img" alt="Esmaltação tradicional feita na Lili Esmalteria" loading="lazy" decoding="async" width="1200" height="1600">
+          <div class="painel-foto__vazio" aria-hidden="true"><svg class="galeria__moldura" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="10" r="1.6"/><path d="m4.5 17.5 4.7-4.2a1.6 1.6 0 0 1 2.2.05L15 17"/><path d="m13.8 14.6 1.9-1.7a1.6 1.6 0 0 1 2.2.05l1.6 1.6"/></svg></div>
+          <div class="painel-foto__veu" aria-hidden="true"></div>
+        </div>
+        <div class="painel-foto__corpo">
+          <div class="painel-foto__texto">
+            <span class="painel-foto__pilula">Mão e pé</span>
+            <h3 class="painel-foto__nome">Unhas Tradicionais</h3>
+            <span class="painel-foto__chamada">Ver trabalhos <svg class="galeria__seta" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M8.5 7H17v8.5"/></svg></span>
+          </div>
+          <div class="painel-foto__rotulo" aria-hidden="true">
+            <span class="painel-foto__vertical">Unhas Tradicionais</span>
+            <span class="painel-foto__numero">02</span>
+          </div>
+        </div>
+      </article>
+      <article class="painel-foto" data-painel="03" tabindex="0" role="button" aria-pressed="true" aria-label="Cílios">
+        <div class="painel-foto__midia">
+          <!-- FOTO: inserir o src aqui, ex.: src="assets/img/galeria-03.jpg". Enquanto não houver, o espaço reservado abaixo aparece. -->
+          <img class="painel-foto__img" alt="Extensão de cílios feita na Lili Esmalteria" loading="lazy" decoding="async" width="1200" height="1600">
+          <div class="painel-foto__vazio" aria-hidden="true"><svg class="galeria__moldura" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="10" r="1.6"/><path d="m4.5 17.5 4.7-4.2a1.6 1.6 0 0 1 2.2.05L15 17"/><path d="m13.8 14.6 1.9-1.7a1.6 1.6 0 0 1 2.2.05l1.6 1.6"/></svg></div>
+          <div class="painel-foto__veu" aria-hidden="true"></div>
+        </div>
+        <div class="painel-foto__corpo">
+          <div class="painel-foto__texto">
+            <span class="painel-foto__pilula">Volume e fox eyes</span>
+            <h3 class="painel-foto__nome">Cílios</h3>
+            <span class="painel-foto__chamada">Ver trabalhos <svg class="galeria__seta" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M8.5 7H17v8.5"/></svg></span>
+          </div>
+          <div class="painel-foto__rotulo" aria-hidden="true">
+            <span class="painel-foto__vertical">Cílios</span>
+            <span class="painel-foto__numero">03</span>
+          </div>
+        </div>
+      </article>
+      <article class="painel-foto" data-painel="04" tabindex="0" role="button" aria-pressed="false" aria-label="Sobrancelha">
+        <div class="painel-foto__midia">
+          <!-- FOTO: inserir o src aqui, ex.: src="assets/img/galeria-04.jpg". Enquanto não houver, o espaço reservado abaixo aparece. -->
+          <img class="painel-foto__img" alt="Design de sobrancelha feito na Lili Esmalteria" loading="lazy" decoding="async" width="1200" height="1600">
+          <div class="painel-foto__vazio" aria-hidden="true"><svg class="galeria__moldura" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="10" r="1.6"/><path d="m4.5 17.5 4.7-4.2a1.6 1.6 0 0 1 2.2.05L15 17"/><path d="m13.8 14.6 1.9-1.7a1.6 1.6 0 0 1 2.2.05l1.6 1.6"/></svg></div>
+          <div class="painel-foto__veu" aria-hidden="true"></div>
+        </div>
+        <div class="painel-foto__corpo">
+          <div class="painel-foto__texto">
+            <span class="painel-foto__pilula">Design e henna</span>
+            <h3 class="painel-foto__nome">Sobrancelha</h3>
+            <span class="painel-foto__chamada">Ver trabalhos <svg class="galeria__seta" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M8.5 7H17v8.5"/></svg></span>
+          </div>
+          <div class="painel-foto__rotulo" aria-hidden="true">
+            <span class="painel-foto__vertical">Sobrancelha</span>
+            <span class="painel-foto__numero">04</span>
+          </div>
+        </div>
+      </article>
+      <article class="painel-foto" data-painel="05" tabindex="0" role="button" aria-pressed="false" aria-label="Cabelo">
+        <div class="painel-foto__midia">
+          <!-- FOTO: inserir o src aqui, ex.: src="assets/img/galeria-05.jpg". Enquanto não houver, o espaço reservado abaixo aparece. -->
+          <img class="painel-foto__img" alt="Escova e definição de cachos feitas na Lili Esmalteria" loading="lazy" decoding="async" width="1200" height="1600">
+          <div class="painel-foto__vazio" aria-hidden="true"><svg class="galeria__moldura" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="10" r="1.6"/><path d="m4.5 17.5 4.7-4.2a1.6 1.6 0 0 1 2.2.05L15 17"/><path d="m13.8 14.6 1.9-1.7a1.6 1.6 0 0 1 2.2.05l1.6 1.6"/></svg></div>
+          <div class="painel-foto__veu" aria-hidden="true"></div>
+        </div>
+        <div class="painel-foto__corpo">
+          <div class="painel-foto__texto">
+            <span class="painel-foto__pilula">Escova e cachos</span>
+            <h3 class="painel-foto__nome">Cabelo</h3>
+            <span class="painel-foto__chamada">Ver trabalhos <svg class="galeria__seta" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M8.5 7H17v8.5"/></svg></span>
+          </div>
+          <div class="painel-foto__rotulo" aria-hidden="true">
+            <span class="painel-foto__vertical">Cabelo</span>
+            <span class="painel-foto__numero">05</span>
+          </div>
+        </div>
+      </article>
+      <article class="painel-foto" data-painel="06" tabindex="0" role="button" aria-pressed="false" aria-label="Coloração">
+        <div class="painel-foto__midia">
+          <!-- FOTO: inserir o src aqui, ex.: src="assets/img/galeria-06.jpg". Enquanto não houver, o espaço reservado abaixo aparece. -->
+          <img class="painel-foto__img" alt="Coloração e tratamento capilar feitos na Lili Esmalteria" loading="lazy" decoding="async" width="1200" height="1600">
+          <div class="painel-foto__vazio" aria-hidden="true"><svg class="galeria__moldura" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="10" r="1.6"/><path d="m4.5 17.5 4.7-4.2a1.6 1.6 0 0 1 2.2.05L15 17"/><path d="m13.8 14.6 1.9-1.7a1.6 1.6 0 0 1 2.2.05l1.6 1.6"/></svg></div>
+          <div class="painel-foto__veu" aria-hidden="true"></div>
+        </div>
+        <div class="painel-foto__corpo">
+          <div class="painel-foto__texto">
+            <span class="painel-foto__pilula">Cor e tratamento</span>
+            <h3 class="painel-foto__nome">Coloração</h3>
+            <span class="painel-foto__chamada">Ver trabalhos <svg class="galeria__seta" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M8.5 7H17v8.5"/></svg></span>
+          </div>
+          <div class="painel-foto__rotulo" aria-hidden="true">
+            <span class="painel-foto__vertical">Coloração</span>
+            <span class="painel-foto__numero">06</span>
+          </div>
+        </div>
+      </article>
+    </div>
+  </section>
+
   <script src="assets/js/gsap.min.js" defer></script>
   <script src="assets/js/ScrollTrigger.min.js" defer></script>
   <script src="assets/js/abertura.js?v=4" defer></script>
   <script src="assets/js/servicos.js?v=3" defer></script>
   <script src="assets/js/poeira.js?v=2" defer></script>
+  <script src="assets/js/galeria.js?v=1" defer></script>
 </body>
 </html>

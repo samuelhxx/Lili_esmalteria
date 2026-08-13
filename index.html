@@ -16,7 +16,7 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..600;1,6..96,400..500&family=Jost:wght@300;400;500&display=swap">
   <!-- ?v= é cache-busting manual: incrementar a cada mudança no CSS, senão o
        navegador serve a folha antiga por horas depois do deploy -->
-  <link rel="stylesheet" href="assets/css/style.css?v=24">
+  <link rel="stylesheet" href="assets/css/style.css?v=25">
 
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%2316110E'/><text x='16' y='24' font-family='Georgia,serif' font-style='italic' font-size='21' fill='%23FFC06A' text-anchor='middle'>L</text></svg>">
 </head>
@@ -48,8 +48,7 @@
       </span>
     </p>
 
-    <!-- Destino a definir: link do agendamento entra aqui -->
-    <a class="botao" href="#">Agendar horário</a>
+    <a class="botao" href="#agendar">Agendar horário</a>
   </main>
 
   <section class="servicos" id="servicos" aria-labelledby="servicos-titulo">
@@ -270,11 +269,182 @@
     </div>
   </section>
 
+  <section class="agendamento" id="agendar" aria-labelledby="agendamento-titulo">
+    <h2 class="agendamento__titulo" id="agendamento-titulo">
+      <span class="mascara"><span class="revela-adiada">Agende seu horário</span></span>
+    </h2>
+    <p class="agendamento__apoio">Três toques e a gente já sabe o que você precisa.</p>
+    <ol class="progresso">
+      <li class="progresso__marca" data-estado="atual" aria-current="step">
+        <span class="progresso__traco" aria-hidden="true"></span>
+        <span class="progresso__rotulo">Serviço</span>
+      </li>
+      <li class="progresso__marca" data-estado="futura">
+        <span class="progresso__traco" aria-hidden="true"></span>
+        <span class="progresso__rotulo">Quando</span>
+      </li>
+      <li class="progresso__marca" data-estado="futura">
+        <span class="progresso__traco" aria-hidden="true"></span>
+        <span class="progresso__rotulo">Confirmar</span>
+      </li>
+    </ol>
+    <div class="passos">
+      <div class="passo" data-passo="1">
+        <button class="passo__resumo" type="button" hidden>
+          <span class="passo__filete" aria-hidden="true"></span>
+          <span class="passo__resumo-texto"></span>
+          <span class="passo__trocar">Trocar</span>
+        </button>
+        <div class="passo__corpo">
+          <p class="passo__pergunta" id="pergunta-servico">Qual serviço você quer?</p>
+          <div class="cartoes">
+            <button class="cartao" type="button" id="agenda-cat-gel" aria-expanded="false" aria-controls="agenda-lista-gel">
+              <svg class="cartao__icone" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9.7 20.6c-.5-3.6-.8-7.2-.3-10.8.3-2.3 1.2-3.6 2.6-3.6s2.3 1.3 2.6 3.6c.5 3.6.2 7.2-.3 10.8-1.5.4-3.1.4-4.6 0Z"/><path d="M18.6 4.2l.6 1.6 1.6.6-1.6.6-.6 1.6-.6-1.6-1.6-.6 1.6-.6.6-1.6Z"/></svg>
+              <span class="cartao__nome">Unhas em Gel</span>
+              <span class="cartao__acao"><span class="cartao__acao-texto">Escolher</span><svg class="cartao__seta" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m7 10 5 5 5-5"/></svg></span>
+            </button>
+            <button class="cartao" type="button" id="agenda-cat-tradicional" aria-expanded="false" aria-controls="agenda-lista-tradicional">
+              <svg class="cartao__icone" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8.6 11.4h6.8v7.1a2 2 0 0 1-2 2h-2.8a2 2 0 0 1-2-2v-7.1Z"/><path d="M10.6 8.8h2.8v2.6h-2.8V8.8Z"/><path d="M12 8.8V6.2"/><path d="M10.9 3.4h2.2l-.6 2.8h-1l-.6-2.8Z"/></svg>
+              <span class="cartao__nome">Unhas Tradicionais</span>
+              <span class="cartao__acao"><span class="cartao__acao-texto">Escolher</span><svg class="cartao__seta" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m7 10 5 5 5-5"/></svg></span>
+            </button>
+            <button class="cartao" type="button" id="agenda-cat-cilios" aria-expanded="false" aria-controls="agenda-lista-cilios">
+              <svg class="cartao__icone" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3.4 13.6c3-3.9 5.9-5.8 8.6-5.8s5.6 1.9 8.6 5.8"/><path d="M3.4 13.6c3 2.6 5.9 3.9 8.6 3.9s5.6-1.3 8.6-3.9"/><path d="M6.2 8.6 4.7 6.2"/><path d="M9.4 6.9 8.6 4.3"/><path d="M12 6.4V3.7"/><path d="M14.6 6.9l.8-2.6"/><path d="M17.8 8.6l1.5-2.4"/></svg>
+              <span class="cartao__nome">Cílios</span>
+              <span class="cartao__acao"><span class="cartao__acao-texto">Escolher</span><svg class="cartao__seta" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m7 10 5 5 5-5"/></svg></span>
+            </button>
+            <button class="cartao" type="button" id="agenda-cat-sobrancelha" aria-expanded="false" aria-controls="agenda-lista-sobrancelha">
+              <svg class="cartao__icone" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3.6 15.2c4.3-4.6 9.1-7 14.4-7.2 1.5 0 2.4.6 2.4 1.5 0 1-1 1.7-2.9 2.1-4.8 1-9.5 2.2-13.9 3.6Z"/></svg>
+              <span class="cartao__nome">Sobrancelha</span>
+              <span class="cartao__acao"><span class="cartao__acao-texto">Escolher</span><svg class="cartao__seta" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m7 10 5 5 5-5"/></svg></span>
+            </button>
+            <button class="cartao" type="button" id="agenda-cat-cabelo" aria-expanded="false" aria-controls="agenda-lista-cabelo">
+              <svg class="cartao__icone" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8.4 3.2c-2.6 3.4 2.4 5.2 0 8.8-2.4 3.6 2 5.2.6 8.8"/><path d="M14.6 3.2c-2.6 3.4 2.4 5.2 0 8.8-2.4 3.6 2 5.2.6 8.8"/></svg>
+              <span class="cartao__nome">Cabelo</span>
+              <span class="cartao__acao"><span class="cartao__acao-texto">Escolher</span><svg class="cartao__seta" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m7 10 5 5 5-5"/></svg></span>
+            </button>
+            <button class="cartao" type="button" id="agenda-cat-tesoura" aria-expanded="false" aria-controls="agenda-lista-tesoura">
+              <svg class="cartao__icone" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="7.3" cy="18.2" r="2.3"/><circle cx="16.7" cy="18.2" r="2.3"/><path d="M8.9 16.5 17.4 4.2"/><path d="M15.1 16.5 6.6 4.2"/></svg>
+              <span class="cartao__nome">Coloração e Tratamento</span>
+              <span class="cartao__acao"><span class="cartao__acao-texto">Escolher</span><svg class="cartao__seta" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m7 10 5 5 5-5"/></svg></span>
+            </button>
+          </div>
+          <div class="listas">
+            <div class="lista" id="agenda-lista-gel" role="region" aria-labelledby="agenda-cat-gel" hidden>
+              <div class="pilulas">
+                <button class="pilula" type="button" aria-pressed="false" data-servico="Alongamento molde F1">Alongamento molde F1</button>
+                <button class="pilula" type="button" aria-pressed="false" data-servico="Blindagem + esmaltação em gel (mão)">Blindagem + esmaltação em gel (mão)</button>
+                <button class="pilula" type="button" aria-pressed="false" data-servico="Blindagem + esmaltação em gel (pé)">Blindagem + esmaltação em gel (pé)</button>
+                <button class="pilula" type="button" aria-pressed="false" data-servico="Pé + mão em gel">Pé + mão em gel</button>
+                <button class="pilula" type="button" aria-pressed="false" data-servico="Manutenção até 30 dias">Manutenção até 30 dias</button>
+                <button class="pilula" type="button" aria-pressed="false" data-servico="Manutenção após 30 dias">Manutenção após 30 dias</button>
+                <button class="pilula" type="button" aria-pressed="false" data-servico="Remoção">Remoção</button>
+              </div>
+            </div>
+            <div class="lista" id="agenda-lista-tradicional" role="region" aria-labelledby="agenda-cat-tradicional" hidden>
+              <div class="pilulas">
+                <button class="pilula" type="button" aria-pressed="false" data-servico="Mão">Mão</button>
+                <button class="pilula" type="button" aria-pressed="false" data-servico="Pé">Pé</button>
+                <button class="pilula" type="button" aria-pressed="false" data-servico="Mão + pé">Mão + pé</button>
+                <button class="pilula" type="button" aria-pressed="false" data-servico="Remoção + tratamento">Remoção + tratamento</button>
+                <button class="pilula" type="button" aria-pressed="false" data-servico="Tratamento">Tratamento</button>
+              </div>
+            </div>
+            <div class="lista" id="agenda-lista-cilios" role="region" aria-labelledby="agenda-cat-cilios" hidden>
+              <div class="pilulas">
+                <button class="pilula" type="button" aria-pressed="false" data-servico="Volume brasileiro">Volume brasileiro</button>
+                <button class="pilula" type="button" aria-pressed="false" data-servico="Volume egípcio">Volume egípcio</button>
+                <button class="pilula" type="button" aria-pressed="false" data-servico="Volume híbrido">Volume híbrido</button>
+                <button class="pilula" type="button" aria-pressed="false" data-servico="Fox eyes">Fox eyes</button>
+                <button class="pilula" type="button" aria-pressed="false" data-servico="Boneca">Boneca</button>
+                <button class="pilula" type="button" aria-pressed="false" data-servico="Manutenção">Manutenção</button>
+              </div>
+            </div>
+            <div class="lista" id="agenda-lista-sobrancelha" role="region" aria-labelledby="agenda-cat-sobrancelha" hidden>
+              <div class="pilulas">
+                <button class="pilula" type="button" aria-pressed="false" data-servico="Design simples">Design simples</button>
+                <button class="pilula" type="button" aria-pressed="false" data-servico="Design com henna">Design com henna</button>
+              </div>
+            </div>
+            <div class="lista" id="agenda-lista-cabelo" role="region" aria-labelledby="agenda-cat-cabelo" hidden>
+              <div class="pilulas">
+                <button class="pilula" type="button" aria-pressed="false" data-servico="Escova">Escova</button>
+                <button class="pilula" type="button" aria-pressed="false" data-servico="Escova + hidratação">Escova + hidratação</button>
+                <button class="pilula" type="button" aria-pressed="false" data-servico="Escova + hidratação + acidificação">Escova + hidratação + acidificação</button>
+                <button class="pilula" type="button" aria-pressed="false" data-servico="Escova + hidratação + prancha">Escova + hidratação + prancha</button>
+                <button class="pilula" type="button" aria-pressed="false" data-servico="Definição de cachos">Definição de cachos</button>
+              </div>
+            </div>
+            <div class="lista" id="agenda-lista-tesoura" role="region" aria-labelledby="agenda-cat-tesoura" hidden>
+              <div class="pilulas">
+                <button class="pilula" type="button" aria-pressed="false" data-servico="Retoque de raiz">Retoque de raiz</button>
+                <button class="pilula" type="button" aria-pressed="false" data-servico="Coloração profissional">Coloração profissional</button>
+                <button class="pilula" type="button" aria-pressed="false" data-servico="Botox">Botox</button>
+                <button class="pilula" type="button" aria-pressed="false" data-servico="Corte">Corte</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="passo" data-passo="2" hidden>
+        <button class="passo__resumo" type="button" hidden>
+          <span class="passo__filete" aria-hidden="true"></span>
+          <span class="passo__resumo-texto"></span>
+          <span class="passo__trocar">Trocar</span>
+        </button>
+        <div class="passo__corpo">
+          <p class="passo__pergunta">Que dia fica melhor?</p>
+          <div class="pilulas pilulas--dias">
+            <button class="pilula" type="button" aria-pressed="false" data-dia="Segunda" data-longo="segunda-feira">Segunda</button>
+            <button class="pilula" type="button" aria-pressed="false" data-dia="Terça" data-longo="terça-feira">Terça</button>
+            <button class="pilula" type="button" aria-pressed="false" data-dia="Quarta" data-longo="quarta-feira">Quarta</button>
+            <button class="pilula" type="button" aria-pressed="false" data-dia="Quinta" data-longo="quinta-feira">Quinta</button>
+            <button class="pilula" type="button" aria-pressed="false" data-dia="Sexta" data-longo="sexta-feira">Sexta</button>
+            <button class="pilula" type="button" aria-pressed="false" data-dia="Sábado" data-longo="sábado">Sábado</button>
+          </div>
+          <p class="passo__pergunta passo__pergunta--segunda">Em que período?</p>
+          <div class="pilulas pilulas--periodos">
+            <button class="pilula pilula--periodo" type="button" aria-pressed="false" data-periodo="Manhã" data-longo="manhã">
+              <span class="pilula__nome">Manhã</span>
+              <span class="pilula__hora">das 8h às 12h</span>
+            </button>
+            <button class="pilula pilula--periodo" type="button" aria-pressed="false" data-periodo="Tarde" data-longo="tarde">
+              <span class="pilula__nome">Tarde</span>
+              <span class="pilula__hora">das 12h às 17h</span>
+            </button>
+            <button class="pilula pilula--periodo" type="button" aria-pressed="false" data-periodo="Noite" data-longo="noite">
+              <span class="pilula__nome">Noite</span>
+              <span class="pilula__hora">das 17h às 20h</span>
+            </button>
+          </div>
+          <p class="agendamento__expediente">Atendemos das 8h às 20h.</p>
+        </div>
+      </div>
+      <div class="passo" data-passo="3" hidden>
+        <div class="passo__corpo">
+          <p class="confirma__resumo">
+            <span class="confirma__item" data-campo="servico"></span>
+            <span class="confirma__losango" aria-hidden="true"></span>
+            <span class="confirma__item" data-campo="dia"></span>
+            <span class="confirma__losango" aria-hidden="true"></span>
+            <span class="confirma__item" data-campo="periodo"></span>
+          </p>
+          <a class="botao whats" href="#">
+            <svg class="whats__icone" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.6 11.7a8.4 8.4 0 0 1-12.4 7.4l-4.5 1.4 1.4-4.4A8.4 8.4 0 1 1 20.6 11.7Z"/><path d="M9.5 9.1c.3-.6.9-.7 1.3-.4.4.3.7.8.9 1.3.1.4 0 .8-.3 1l-.4.3c.5 1 1.3 1.8 2.3 2.3l.3-.4c.2-.3.6-.4 1-.3.5.2 1 .5 1.3.9.3.4.2 1-.4 1.3-.6.4-1.4.4-2.1.1a7.5 7.5 0 0 1-3.9-3.9c-.3-.7-.3-1.5.1-2.2Z"/></svg>
+            <span>Chamar no WhatsApp</span>
+          </a>
+          <p class="confirma__nota">Você fala direto com a gente. Sem cadastro.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <script src="assets/js/gsap.min.js" defer></script>
   <script src="assets/js/ScrollTrigger.min.js" defer></script>
   <script src="assets/js/abertura.js?v=4" defer></script>
   <script src="assets/js/servicos.js?v=6" defer></script>
   <script src="assets/js/glitter.js?v=4" defer></script>
   <script src="assets/js/galeria.js?v=1" defer></script>
+  <script src="assets/js/agendamento.js?v=1" defer></script>
 </body>
 </html>

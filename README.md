@@ -1,26 +1,30 @@
 # Lili Esmalteria — Itupeva/SP
 
-Landing page do salão. **Etapa atual: fundo animado, abertura e serviços.**
-Ainda não há menu nem agendamento.
+Landing page do salão. **Etapa atual: fundo animado, abertura, serviços,
+galeria e agendamento.** Falta o número do WhatsApp e as fotos.
 
 ## Arquivos
 
 ```
-index.html                     abertura + serviços
-assets/css/style.css           variáveis, fundo, abertura, serviços
+index.html                     abertura + serviços + galeria + agendamento
+assets/css/style.css           variáveis, fundo e todas as seções
 assets/js/abertura.js          timeline de entrada (mask reveal)
-assets/js/servicos.js          abas, troca de painel, entrada no scroll
+assets/js/servicos.js          cartões, troca de painel, entrada no scroll
 assets/js/glitter.js           textura de glitter e paralaxe
 assets/js/galeria.js           painel ativo da galeria e entrada no scroll
+assets/js/agendamento.js       os três passos e a mensagem do WhatsApp
 assets/js/gsap.min.js          GSAP 3.13.0, hospedado aqui
 assets/js/ScrollTrigger.min.js plugin do GSAP, hospedado aqui
 assets/img/logo-lili.svg       logo da marca
 ```
 
 A marcação das seções geradas sai de `ferramentas/`: `gera_servicos.py` guarda
-a tabela de preços e desenha os seis ícones das abas; `gera_galeria.py` monta
-os seis painéis da galeria. Mudar preço, serviço ou painel é mudar o script e
-gerar de novo — assim as linhas não divergem no formato.
+a tabela de preços e desenha os seis ícones das categorias; `gera_galeria.py`
+monta os seis painéis da galeria; `gera_agendamento.py` monta os três passos —
+e importa a tabela do `gera_servicos.py` em vez de repeti-la, para não existir
+uma segunda cópia dos 29 serviços envelhecendo sozinha. Mudar preço, serviço
+ou painel é mudar o script e gerar de novo — assim as linhas não divergem no
+formato.
 
 Abrir `index.html` direto no navegador. Não há build, framework ou dependência
 além das duas fontes do Google Fonts.
@@ -121,8 +125,8 @@ navegador móvel se recolhendo, por exemplo — apareceria branca sem isso.
 
 Ocupa a altura da tela, com o conteúdo centralizado nos dois eixos: a logo, a
 frase principal em duas linhas — a primeira em display grande, a segunda de
-apoio, menor — e o botão **Agendar horário**, ainda com `href="#"` até o
-destino ser definido.
+apoio, menor — e o botão **Agendar horário**, que leva à seção de agendamento
+(`href="#agendar"`).
 
 **Não há véu por trás da abertura.** Qualquer camada escura ali apaga a cor
 do fundo animado, que é o ponto da página. A legibilidade fica por conta de um
@@ -272,7 +276,59 @@ navegáveis por Tab e pelas setas — chegar pelo teclado já abre o painel, par
 quem navega assim ver o mesmo que quem passa o mouse. Com
 `prefers-reduced-motion`, os painéis ficam do mesmo tamanho e nada se move.
 
+## Agendamento
+
+Nenhum campo, nenhuma borda cinza, nenhum `select`: a visitante toca em
+opções, no mesmo vocabulário do resto da página — cartão, pílula, filete
+dourado, Bodoni e Jost. Três passos, um aberto de cada vez.
+
+**O progresso** são três traços finos com o rótulo em Jost caixa alta bem
+pequena. Concluída em ouro fosco, atual em pêssego, futura só com o filete.
+Sem número e sem círculo: o preenchimento do filete já diz onde ela está, e
+`aria-current="step"` diz o mesmo ao leitor de tela.
+
+**Passo 1 — o serviço.** Os mesmos seis cartões da seção de preços, com os
+mesmos ícones, e a lista de serviços da categoria abrindo em pílulas por
+baixo. Escolhido o serviço, o passo recolhe numa linha com filete dourado ao
+lado do nome; tocar nela reabre a escolha.
+
+**Passo 2 — quando.** Os seis dias em pílulas que quebram em duas linhas no
+celular — nunca rolagem lateral, porque a opção que fica fora da tela é a
+opção que não existe. Depois os três períodos, cada um com a faixa de horário
+por baixo. O salão atende das 8h às 20h, e as três faixas cobrem exatamente
+esse intervalo. O passo só recolhe quando as duas perguntas têm resposta.
+
+**Passo 3 — confirmar.** O resumo em Bodoni, com losango pequeno em ferrugem
+entre os três itens, e o botão do WhatsApp com o ícone em traço fino — mesma
+viewBox 24×24 e mesmo traço 1.5 dos outros seis.
+
+**As transições.** O que entra começa antes de o anterior terminar de sair
+(`SOBREPOE`, 24% da duração), então em nenhum quadro existe área vazia entre
+os dois. Resumo e corpo dividem a mesma célula do grid: um nasce exatamente
+onde o outro estava. A altura só é escrita durante a troca e volta a `auto`
+logo depois — assim a lista que abre dentro do passo 1 faz o passo crescer
+sozinho, sem ninguém remedir nada. Voltando, o mesmo movimento roda ao
+contrário.
+
+**O foco acompanha.** Recolher um passo esconde o elemento focado, e o foco
+voltaria ao `<body>` — quem responde pelo teclado perderia o lugar. Então,
+quando o foco estava dentro da seção, ele vai para o primeiro controle do
+passo que abriu, com `preventScroll` para não brigar com a rolagem suave.
+
+**Ainda falta o número.** O botão é âncora vazia de propósito. O número entra
+na constante `NUMERO` no topo de `assets/js/agendamento.js`, em formato
+internacional e só dígitos (`55` + DDD + número). A frase já sai pronta de
+`montarMensagem()`:
+
+> Oi! Gostaria de agendar Volume brasileiro para quinta-feira, no período da
+> tarde.
+
+Enquanto `NUMERO` estiver vazia o link não navega, mas a mensagem já é escrita
+em `data-mensagem` do botão — dá para conferir pelo inspetor. Preenchido o
+número, o `href` passa a sair como `https://wa.me/<numero>?text=<mensagem>`.
+Os três períodos pedem "da", então a regência não muda com a escolha.
+
 ## Próximo passo
 
-Seção de agendamento: a cliente escolhe serviço, dia e período, e a mensagem
-chega pronta no WhatsApp da dona. É o destino do botão da abertura.
+Preencher `NUMERO` em `assets/js/agendamento.js` com o WhatsApp da dona e
+colocar as fotos da galeria.

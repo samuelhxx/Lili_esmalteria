@@ -921,3 +921,394 @@ body::after { z-index: 2; }
     transform: translateX(-50%);
   }
 }
+
+/* =========================================================
+   AGENDAMENTO
+
+   Nada de formulário: não há campo, borda cinza nem select. A visitante
+   toca em opções — cartão, pílula, resumo — no mesmo vocabulário do
+   resto da página. Todo estado é anunciado por aria-pressed ou
+   aria-expanded, então o leitor de tela lê a mesma coisa que a tela
+   mostra.
+   ========================================================= */
+.agendamento {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  justify-items: center;
+  text-align: center;
+  padding: clamp(3.5rem, 12vw, 6.5rem) var(--margem-lateral)
+           clamp(4.5rem, 15vw, 8rem);
+}
+
+/* Mesmo véu da seção de preços: aqui também há texto pequeno em massa
+   (dias, períodos, nomes de serviço) sobre a fase clara do degradê. */
+.agendamento::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: radial-gradient(
+    130% 100% at 50% 50%,
+    rgba(22, 17, 14, 0.68) 0%,
+    rgba(22, 17, 14, 0.52) 45%,
+    rgba(22, 17, 14, 0.3) 80%,
+    rgba(22, 17, 14, 0.12) 100%
+  );
+}
+
+.agendamento > * { position: relative; width: 100%; }
+
+.agendamento__titulo {
+  margin: 0 0 clamp(0.75rem, 3vw, 1.1rem);
+  font-family: var(--fonte-display);
+  font-weight: var(--peso-display);
+  font-optical-sizing: auto;
+  font-size: clamp(2rem, 9vw, 3.5rem);
+  line-height: 1.1;
+  color: var(--texto);
+  text-shadow: var(--halo-forte);
+}
+
+.agendamento__apoio {
+  margin: 0 0 clamp(2rem, 8vw, 3rem);
+  font-family: var(--fonte-corpo);
+  font-weight: 400;
+  font-size: clamp(0.9rem, 3.8vw, 1.05rem);
+  letter-spacing: var(--tracking-curto);
+  color: var(--texto);
+  text-shadow: var(--halo-leve);
+  text-wrap: balance;
+}
+
+/* --- Indicador de progresso -----------------------------------------
+   Três traços finos e o rótulo. Sem número e sem círculo: a etapa se
+   anuncia pelo preenchimento do filete, que é o mesmo recurso gráfico
+   usado no resto da página. */
+.progresso {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(0.5rem, 2.5vw, 0.9rem);
+  max-width: 30rem;
+  margin: 0 auto clamp(2.25rem, 9vw, 3.25rem);
+  padding: 0;
+  list-style: none;
+  counter-reset: none;
+}
+
+.progresso__marca {
+  display: grid;
+  gap: 0.55rem;
+  justify-items: center;
+}
+
+.progresso__traco {
+  display: block;
+  width: 100%;
+  height: 2px;
+  border-radius: 2px;
+  background-color: rgba(200, 155, 90, 0.28);
+  transition: background-color 0.45s ease;
+}
+
+.progresso__rotulo {
+  font-family: var(--fonte-corpo);
+  font-weight: 400;
+  font-size: clamp(0.6rem, 2.6vw, 0.68rem);
+  letter-spacing: var(--tracking-medio);
+  text-indent: calc(var(--tracking-medio) / 2);
+  text-transform: uppercase;
+  color: var(--texto-suave);
+  opacity: 0.55;
+  text-shadow: var(--halo-leve);
+  transition: color 0.45s ease, opacity 0.45s ease;
+}
+
+.progresso__marca[data-estado="concluida"] .progresso__traco {
+  background-color: var(--cor-ouro);
+}
+
+.progresso__marca[data-estado="concluida"] .progresso__rotulo { opacity: 0.82; }
+
+.progresso__marca[data-estado="atual"] .progresso__traco {
+  background-color: var(--destaque);
+}
+
+.progresso__marca[data-estado="atual"] .progresso__rotulo {
+  color: var(--destaque);
+  opacity: 1;
+}
+
+/* --- A pilha de passos --- */
+.passos {
+  display: grid;
+  gap: clamp(0.9rem, 4vw, 1.4rem);
+  max-width: 42rem;
+  margin-inline: auto;
+}
+
+/* O resumo recolhido e o corpo aberto dividem a mesma célula: um entra
+   exatamente onde o outro estava. A altura só é escrita pelo JS durante
+   a troca; fora dela é auto, e o passo cresce sozinho quando uma lista
+   abre por dentro. */
+.passo {
+  display: grid;
+  align-items: start;
+  overflow: hidden;
+  /* respiro para o anel de foco: o overflow acima corta o que passar da
+     caixa, e o anel de uma pílula na borda seria decepado. A margem
+     negativa devolve o espaço ao layout. */
+  padding-inline: 6px;
+  margin-inline: -6px;
+}
+
+.passo > * { grid-area: 1 / 1; }
+
+.passo[hidden] { display: none; }
+
+.passo__corpo[hidden], .passo__resumo[hidden] { display: none; }
+
+.passo__pergunta {
+  margin: 0 0 clamp(1rem, 4vw, 1.4rem);
+  font-family: var(--fonte-corpo);
+  font-weight: 400;
+  font-size: clamp(0.85rem, 3.6vw, 0.95rem);
+  letter-spacing: var(--tracking-curto);
+  color: var(--texto);
+  text-shadow: var(--halo-leve);
+}
+
+.passo__pergunta--segunda { margin-top: clamp(1.75rem, 7vw, 2.5rem); }
+
+/* --- Resumo recolhido: continua sendo um botão --- */
+.passo__resumo {
+  display: flex;
+  align-items: center;
+  gap: clamp(0.7rem, 3vw, 1rem);
+  width: 100%;
+  min-height: var(--toque-min);
+  padding: clamp(0.75rem, 3.2vw, 1rem) clamp(0.9rem, 4vw, 1.25rem);
+  border: 1px solid rgba(200, 155, 90, 0.32);
+  border-radius: 14px;
+  background-color: rgba(22, 17, 14, 0.5);
+  -webkit-backdrop-filter: blur(8px);
+          backdrop-filter: blur(8px);
+  cursor: pointer;
+  text-align: left;
+  transition: border-color 0.3s ease, background-color 0.3s ease;
+}
+
+/* o filete dourado ao lado do que foi escolhido */
+.passo__filete {
+  flex: 0 0 auto;
+  width: 2px;
+  align-self: stretch;
+  min-height: 1.4em;
+  border-radius: 2px;
+  background-color: var(--cor-ouro);
+}
+
+.passo__resumo-texto {
+  flex: 1 1 auto;
+  font-family: var(--fonte-display);
+  font-weight: var(--peso-display);
+  font-optical-sizing: auto;
+  font-size: clamp(1.05rem, 4.6vw, 1.3rem);
+  line-height: 1.25;
+  color: var(--texto);
+  text-shadow: var(--halo-leve);
+}
+
+.passo__trocar {
+  flex: 0 0 auto;
+  font-family: var(--fonte-corpo);
+  font-weight: 400;
+  font-size: clamp(0.66rem, 2.9vw, 0.72rem);
+  letter-spacing: var(--tracking-medio);
+  text-indent: calc(var(--tracking-medio) / 2);
+  text-transform: uppercase;
+  color: var(--destaque);
+}
+
+@media (hover: hover) {
+  .passo__resumo:hover {
+    border-color: rgba(200, 155, 90, 0.7);
+    background-color: rgba(22, 17, 14, 0.62);
+  }
+}
+
+.passo__resumo:focus { outline: none; }
+
+.passo__resumo:focus-visible {
+  outline: 2px solid var(--cor-pessego);
+  outline-offset: 3px;
+}
+
+/* --- Listas de serviço dentro do passo 1 ---------------------------
+   Empilhadas na mesma célula, como os painéis de preço: a que entra
+   nasce onde a anterior estava, e a altura de fora é animada. */
+.listas {
+  position: relative;
+  height: 0;
+  display: grid;
+  align-items: start;
+  overflow: hidden;
+}
+
+.lista {
+  grid-area: 1 / 1;
+  width: 100%;
+  padding-top: clamp(1.25rem, 5vw, 1.75rem);
+  /* mesmo motivo do respiro no passo, agora para a última fileira de
+     pílulas: .listas também corta o que passa da altura medida */
+  padding-bottom: 6px;
+}
+
+.lista[hidden] { display: none; }
+
+/* --- Pílulas: o controle de toque desta seção ----------------------
+   Alvo grande o bastante para o dedo, quebrando em quantas linhas
+   precisar. Nunca rolagem lateral: a opção que fica fora da tela é a
+   opção que não existe. */
+.pilulas {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: clamp(0.5rem, 2.4vw, 0.7rem);
+}
+
+.pilula {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.2rem;
+  min-height: var(--toque-min);
+  padding: 0.7rem clamp(0.95rem, 4.2vw, 1.35rem);
+  border: 1px solid rgba(200, 155, 90, 0.34);
+  border-radius: 999px;
+  background-color: rgba(22, 17, 14, 0.5);
+  -webkit-backdrop-filter: blur(8px);
+          backdrop-filter: blur(8px);
+  cursor: pointer;
+  font-family: var(--fonte-corpo);
+  font-weight: 400;
+  font-size: clamp(0.82rem, 3.5vw, 0.92rem);
+  letter-spacing: var(--tracking-curto);
+  line-height: 1.3;
+  text-align: center;
+  color: var(--texto);
+  text-shadow: var(--halo-leve);
+  transition: border-color 0.3s ease, background-color 0.3s ease,
+              color 0.3s ease;
+}
+
+/* a faixa de horário do período: presente, mas sem disputar com o nome */
+.pilula__hora {
+  font-size: 0.76em;
+  letter-spacing: var(--tracking-curto);
+  color: var(--texto-suave);
+  opacity: 0.7;
+}
+
+.pilula--periodo { padding-block: 0.55rem; }
+
+@media (hover: hover) {
+  .pilula:hover {
+    border-color: rgba(200, 155, 90, 0.75);
+    background-color: rgba(22, 17, 14, 0.66);
+  }
+}
+
+/* Escolhida: pêssego cheio e texto no preto quente. É o único lugar da
+   página onde um controle inverte — e é de propósito, porque aqui a
+   escolha precisa saltar de longe. */
+.pilula[aria-pressed="true"] {
+  border-color: var(--cor-pessego);
+  background-color: var(--cor-pessego);
+  color: var(--cor-preto);
+  text-shadow: none;
+}
+
+.pilula[aria-pressed="true"] .pilula__hora {
+  color: var(--cor-preto);
+  opacity: 0.66;
+}
+
+.pilula:focus { outline: none; }
+
+.pilula:focus-visible {
+  outline: 2px solid var(--cor-pessego);
+  outline-offset: 3px;
+}
+
+.agendamento__expediente {
+  margin: clamp(1.25rem, 5vw, 1.75rem) 0 0;
+  font-family: var(--fonte-corpo);
+  font-weight: 400;
+  font-size: clamp(0.72rem, 3vw, 0.8rem);
+  letter-spacing: var(--tracking-curto);
+  color: var(--texto-suave);
+  opacity: 0.7;
+  text-shadow: var(--halo-leve);
+}
+
+/* --- Passo 3: a confirmação --------------------------------------- */
+.confirma__resumo {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(0.5rem, 2.4vw, 0.8rem);
+  margin: 0 0 clamp(1.75rem, 7vw, 2.5rem);
+  font-family: var(--fonte-display);
+  font-weight: var(--peso-display);
+  font-optical-sizing: auto;
+  font-size: clamp(1.15rem, 5.2vw, 1.75rem);
+  line-height: 1.3;
+  color: var(--texto);
+  text-shadow: var(--halo-forte);
+}
+
+/* quadrado virado 45°: o mesmo losango pequeno em ferrugem que separa
+   as informações na abertura */
+.confirma__losango {
+  flex: 0 0 auto;
+  width: 0.4em;
+  height: 0.4em;
+  transform: rotate(45deg);
+  background-color: var(--acento);
+}
+
+.whats {
+  display: inline-flex;
+  gap: 0.65em;
+  width: 100%;
+  max-width: 24rem;
+  margin-inline: auto;
+  margin-top: 0;
+}
+
+.whats__icone {
+  width: 1.35em;
+  height: 1.35em;
+  flex: 0 0 auto;
+}
+
+.confirma__nota {
+  margin: clamp(0.9rem, 4vw, 1.25rem) 0 0;
+  font-family: var(--fonte-corpo);
+  font-weight: 400;
+  font-size: clamp(0.72rem, 3vw, 0.8rem);
+  letter-spacing: var(--tracking-curto);
+  color: var(--texto-suave);
+  opacity: 0.72;
+  text-shadow: var(--halo-leve);
+}
+
+.js .agendamento--revelada .revela-adiada { transform: none; will-change: auto; }
+
+@media (prefers-reduced-motion: reduce) {
+  .progresso__traco, .progresso__rotulo,
+  .passo__resumo, .pilula { transition: none; }
+}

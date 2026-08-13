@@ -135,12 +135,36 @@
      O porte não desce de 1: abaixo disso o caco cai sob um pixel em
      tela 1x, o antialiasing arredonda e ele volta a parecer bolinha. A
      distância se lê pela opacidade e pela densidade, não encolhendo o
-     que já está no piso. */
-  var CAMADAS = [
-    { lado: 263, quantidade: 255, semente: 11, opacidade: 0.5,  porte: 1 },
-    { lado: 341, quantidade: 355, semente: 29, opacidade: 0.68, porte: 1.12 },
-    { lado: 421, quantidade: 440, semente: 47, opacidade: 0.9,  porte: 1.35 }
-  ];
+     que já está no piso.
+
+     QUANTAS CAMADAS. Cada uma destas é uma camada composta do tamanho da
+     tela mais a sobra do curso — num iPad a 2x, 21 MB de textura cada.
+     Eram três, mais a das centelhas: 91 MB parados na memória do
+     compositor o tempo todo, e o Safari começa a descartar ladrilho e
+     engasgar muito antes disso. No toque fica uma só; no computador,
+     duas. A regra é a de sempre: cortar quantidade antes de intensidade.
+
+     Cada camada carrega o próprio fator de profundidade, amplitude de
+     onda, período e fase. Antes eram quatro arrays paralelos indexados
+     por posição, e mudar o número de camadas exigia acertar o índice nos
+     quatro sem errar. */
+  var TOQUE = !!(window.matchMedia &&
+                 window.matchMedia("(pointer: coarse)").matches);
+
+  var FUNDO  = { lado: 263, quantidade: 300, semente: 11,
+                 opacidade: 0.52, porte: 1,
+                 fator: 0.45, lateral: 16, periodo: 80, fase: 0 };
+  var FRENTE = { lado: 421, quantidade: 520, semente: 47,
+                 opacidade: 0.9, porte: 1.3,
+                 fator: 1, lateral: 32, periodo: 125, fase: 3.4 };
+
+  /* No toque sobra a da frente, que é a que se vê: mais brilhante, com
+     os cacos maiores. A do fundo entrava como profundidade, e
+     profundidade é a primeira coisa que se pode perder. */
+  var CAMADAS = TOQUE ? [FRENTE] : [FUNDO, FRENTE];
+
+  /* As centelhas viajam na frente de todas. */
+  var DEF_CENTELHAS = { fator: 1.3, lateral: 40, periodo: 150, fase: 5.1 };
 
   var camadas = [];
 
@@ -236,39 +260,37 @@
 
   if (querMenosMovimento) return;
 
-  /* Profundidade: a camada do fundo anda um terço do que a da frente
-     anda. É a diferença entre os fatores que o olho lê como distância. */
-  var FATORES  = [0.45, 0.72, 1, 1.3];
-  /* amplitude da onda lateral, em px, no deslocamento máximo */
-  var LATERAL  = [14, 22, 32, 40];
-  /* px de rolagem por radiano da onda: períodos diferentes para as
-     quatro camadas nunca ondularem juntas */
-  var PERIODO  = [70, 95, 125, 150];
-  var FASE     = [0, 1.9, 3.4, 5.1];
+  /* Cada camada carrega o próprio fator, amplitude, período e fase —
+     antes eram quatro arrays paralelos indexados por posição, e mudar o
+     número de camadas exigia mexer nos quatro sem errar o índice. */
+  var DEFS = CAMADAS.concat([DEF_CENTELHAS]);
 
   /* segundos: converte px/s de rolagem em px de deslocamento */
   var GANHO = 0.12;
   /* o quanto as centelhas se abrem no assentamento, em px */
   var ESPALHA = 40;
 
-  /* Teto do deslocamento, preso à altura da tela porque a camada
-     transborda 34vh de cada lado: passar disso descobriria a borda.
-     Com o fator 1.3 da camada da frente, o pico é 24,7% da tela. */
-  var teto = 185;
+  /* Teto do deslocamento. A sobra da camada agora é fixa em px, e não em
+     vh: presa à altura da tela, uma tela grande pedia uma camada grande,
+     e o tamanho da camada é justamente o que custa memória no
+     compositor. Com o fator 1.3 da camada da frente, o pico fica em
+     195px em qualquer aparelho. */
+  var teto = 150;
   function medirTeto() {
-    teto = Math.min(185, window.innerHeight * 0.21);
+    teto = Math.min(150, window.innerHeight * 0.19);
   }
   medirTeto();
   window.addEventListener("resize", medirTeto);
 
   var estados = camadas.map(function (el, i) {
-    var fator = FATORES[i] || 1;
+    var def = DEFS[i] || DEF_CENTELHAS;
+    var fator = def.fator;
     return {
       el: el,
       fator: fator,
-      lateral: LATERAL[i] || 20,
-      periodo: PERIODO[i] || 100,
-      fase: FASE[i] || 0,
+      lateral: def.lateral,
+      periodo: def.periodo,
+      fase: def.fase,
       atual: 0,
       lado: 0,
       escrito: "",

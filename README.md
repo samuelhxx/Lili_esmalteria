@@ -636,6 +636,69 @@ Os quatro links do rodapé foram verificados contra os destinos: `#servicos`,
 | **Contraste da linha de apoio** | `.frase__apoio` na abertura | 2,31:1 contra o mínimo de 4,5:1 |
 | **Cores internas da logo** | `assets/img/logo-lili.svg` | "Esmalteria" é preto; some na fase clara do degradê |
 
+## O peso no iPad
+
+Relatada travada num iPad — Safari, que é bem menos tolerante que o Chrome
+com memória de compositor. Medida a textura de camada que a página reservava,
+num formato de iPad a 2x:
+
+| | antes | depois |
+| --- | --- | --- |
+| textura de camada (toque) | **132 MB** | **36 MB** |
+| camadas de glitter | 4 | 1 ladrilho + centelhas |
+| superfícies com `backdrop-filter` | 58 | 0 |
+| grão de verniz no toque | ativo | desligado |
+
+**O glitter era 91 MB dos 132.** Cada camada é uma camada composta do tamanho
+da tela mais a sobra do curso, e a sobra estava em `vh` — numa tela grande a
+camada crescia junto. Duas mudanças: a sobra passou a ser fixa em px (215
+verticais, 80 horizontais, dimensionados para o pico de 195px), e o número de
+ladrilhos caiu — dois no computador, **um no toque**. É a regra que já estava
+combinada: cortar quantidade antes de cortar intensidade.
+
+Medido o que se perdeu: o glitter toca 5,1% dos pixels no computador e 4,6% no
+toque. Um décimo da presença, por três quartos da memória. O pico do
+deslocamento desceu de 223px para 190px, porque o teto acompanhou a sobra.
+
+**A camada das centelhas não precisava ser promovida.** Cada centelha já é uma
+camada própria, minúscula; promover o contêiner reservava a textura da tela
+inteira para segurar 24 pontinhos.
+
+**O `will-change` das entradas ficava ligado desde o carregamento.** As classes
+`.revela-adiada` e `.entra-adiada` valem em todas as seções ao mesmo tempo, e o
+`will-change` promovia cada bloco antes de qualquer coisa animar — cerca de
+40 MB reservados para conteúdo parado. O ganho seria de uma animação só, de
+1,1s, que o navegador promove sozinho enquanto dura. Saiu.
+
+**O grão de verniz sai no toque.** Medido, ele muda 5,87% dos pixels com
+diferença máxima de **10 níveis em 255** — quase invisível. Em troca é uma
+camada fixa cobrindo a tela inteira por cima de todo o conteúdo, e o degradê
+por baixo dela muda a cada quadro, então o grão é reaplicado junto. No
+computador sobra fôlego; no iPad, não.
+
+**As seis últimas superfícies com `backdrop-filter`** eram as pílulas da
+galeria, do porte fiel do componente. Saíram: no Safari cada uma custa uma
+fotografia do fundo por quadro, e numa pílula daquele tamanho não paga.
+
+**Os painéis da galeria ganharam `contain: layout paint`.** A transição de
+`flex` continua sendo layout — é o único lugar do site que anima layout, e
+ficou assim de propósito porque o porte é fiel. O `contain` prende o recálculo
+dentro do painel.
+
+### O que continua custando, e não foi tocado
+
+O degradê do fundo anima `background-position`, o que repinta a viewport
+inteira a cada quadro e obriga a redesenhar o texto que estiver por cima. É a
+única despesa contínua que sobrou, e é grande. Foi mantida porque a técnica é
+uma decisão explícita do dono do projeto.
+
+Trocar por uma camada composta deslocada com `transform` resolveria — mas
+mudaria a aparência, e não pouco: o degradê hoje é dimensionado pela altura do
+documento inteiro (400% de ~4600px) e rola junto com a página. Numa camada
+presa à viewport, as faixas ficariam cerca de seis vezes mais apertadas na
+vertical e parariam de acompanhar a rolagem. Não é uma troca invisível, então
+não foi feita sem combinar.
+
 ## Próximo passo
 
 A tabela acima. O site está completo em estrutura e movimento — o que falta

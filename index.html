@@ -16,7 +16,7 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..600;1,6..96,400..500&family=Jost:wght@300;400;500&display=swap">
   <!-- ?v= é cache-busting manual: incrementar a cada mudança no CSS, senão o
        navegador serve a folha antiga por horas depois do deploy -->
-  <link rel="stylesheet" href="assets/css/style.css?v=30">
+  <link rel="stylesheet" href="assets/css/style.css?v=31">
 
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%2316110E'/><text x='16' y='24' font-family='Georgia,serif' font-style='italic' font-size='21' fill='%23FFC06A' text-anchor='middle'>L</text></svg>">
 </head>
@@ -297,40 +297,45 @@
         </button>
         <div class="passo__corpo">
           <p class="passo__pergunta" id="pergunta-servico">Qual serviço você quer?</p>
-          <div class="cartoes">
-            <button class="cartao" type="button" id="agenda-cat-gel" aria-expanded="false" aria-controls="agenda-lista-gel">
-              <svg class="cartao__icone" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9.7 20.6c-.5-3.6-.8-7.2-.3-10.8.3-2.3 1.2-3.6 2.6-3.6s2.3 1.3 2.6 3.6c.5 3.6.2 7.2-.3 10.8-1.5.4-3.1.4-4.6 0Z"/><path d="M18.6 4.2l.6 1.6 1.6.6-1.6.6-.6 1.6-.6-1.6-1.6-.6 1.6-.6.6-1.6Z"/></svg>
-              <span class="cartao__nome">Unhas em Gel</span>
-              <span class="cartao__acao"><span class="cartao__acao-texto">Escolher</span><svg class="cartao__seta" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m7 10 5 5 5-5"/></svg></span>
-            </button>
-            <button class="cartao" type="button" id="agenda-cat-tradicional" aria-expanded="false" aria-controls="agenda-lista-tradicional">
-              <svg class="cartao__icone" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8.6 11.4h6.8v7.1a2 2 0 0 1-2 2h-2.8a2 2 0 0 1-2-2v-7.1Z"/><path d="M10.6 8.8h2.8v2.6h-2.8V8.8Z"/><path d="M12 8.8V6.2"/><path d="M10.9 3.4h2.2l-.6 2.8h-1l-.6-2.8Z"/></svg>
-              <span class="cartao__nome">Unhas Tradicionais</span>
-              <span class="cartao__acao"><span class="cartao__acao-texto">Escolher</span><svg class="cartao__seta" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m7 10 5 5 5-5"/></svg></span>
-            </button>
-            <button class="cartao" type="button" id="agenda-cat-cilios" aria-expanded="false" aria-controls="agenda-lista-cilios">
-              <svg class="cartao__icone" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3.4 13.6c3-3.9 5.9-5.8 8.6-5.8s5.6 1.9 8.6 5.8"/><path d="M3.4 13.6c3 2.6 5.9 3.9 8.6 3.9s5.6-1.3 8.6-3.9"/><path d="M6.2 8.6 4.7 6.2"/><path d="M9.4 6.9 8.6 4.3"/><path d="M12 6.4V3.7"/><path d="M14.6 6.9l.8-2.6"/><path d="M17.8 8.6l1.5-2.4"/></svg>
-              <span class="cartao__nome">Cílios</span>
-              <span class="cartao__acao"><span class="cartao__acao-texto">Escolher</span><svg class="cartao__seta" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m7 10 5 5 5-5"/></svg></span>
-            </button>
-            <button class="cartao" type="button" id="agenda-cat-sobrancelha" aria-expanded="false" aria-controls="agenda-lista-sobrancelha">
-              <svg class="cartao__icone" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3.6 15.2c4.3-4.6 9.1-7 14.4-7.2 1.5 0 2.4.6 2.4 1.5 0 1-1 1.7-2.9 2.1-4.8 1-9.5 2.2-13.9 3.6Z"/></svg>
-              <span class="cartao__nome">Sobrancelha</span>
-              <span class="cartao__acao"><span class="cartao__acao-texto">Escolher</span><svg class="cartao__seta" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m7 10 5 5 5-5"/></svg></span>
-            </button>
-            <button class="cartao" type="button" id="agenda-cat-cabelo" aria-expanded="false" aria-controls="agenda-lista-cabelo">
-              <svg class="cartao__icone" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8.4 3.2c-2.6 3.4 2.4 5.2 0 8.8-2.4 3.6 2 5.2.6 8.8"/><path d="M14.6 3.2c-2.6 3.4 2.4 5.2 0 8.8-2.4 3.6 2 5.2.6 8.8"/></svg>
-              <span class="cartao__nome">Cabelo</span>
-              <span class="cartao__acao"><span class="cartao__acao-texto">Escolher</span><svg class="cartao__seta" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m7 10 5 5 5-5"/></svg></span>
-            </button>
-            <button class="cartao" type="button" id="agenda-cat-tesoura" aria-expanded="false" aria-controls="agenda-lista-tesoura">
-              <svg class="cartao__icone" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="7.3" cy="18.2" r="2.3"/><circle cx="16.7" cy="18.2" r="2.3"/><path d="M8.9 16.5 17.4 4.2"/><path d="M15.1 16.5 6.6 4.2"/></svg>
-              <span class="cartao__nome">Coloração e Tratamento</span>
-              <span class="cartao__acao"><span class="cartao__acao-texto">Escolher</span><svg class="cartao__seta" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m7 10 5 5 5-5"/></svg></span>
-            </button>
-          </div>
-          <div class="listas">
-            <div class="lista" id="agenda-lista-gel" role="region" aria-labelledby="agenda-cat-gel" hidden>
+          <div class="escolha">
+            <div class="cartoes">
+              <button class="cartao" type="button" id="agenda-cat-gel" data-foco="foco-gel">
+                <svg class="cartao__icone" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9.7 20.6c-.5-3.6-.8-7.2-.3-10.8.3-2.3 1.2-3.6 2.6-3.6s2.3 1.3 2.6 3.6c.5 3.6.2 7.2-.3 10.8-1.5.4-3.1.4-4.6 0Z"/><path d="M18.6 4.2l.6 1.6 1.6.6-1.6.6-.6 1.6-.6-1.6-1.6-.6 1.6-.6.6-1.6Z"/></svg>
+                <span class="cartao__nome">Unhas em Gel</span>
+                <span class="cartao__acao"><span class="cartao__acao-texto">Escolher</span><svg class="cartao__seta" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m7 10 5 5 5-5"/></svg></span>
+              </button>
+              <button class="cartao" type="button" id="agenda-cat-tradicional" data-foco="foco-tradicional">
+                <svg class="cartao__icone" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8.6 11.4h6.8v7.1a2 2 0 0 1-2 2h-2.8a2 2 0 0 1-2-2v-7.1Z"/><path d="M10.6 8.8h2.8v2.6h-2.8V8.8Z"/><path d="M12 8.8V6.2"/><path d="M10.9 3.4h2.2l-.6 2.8h-1l-.6-2.8Z"/></svg>
+                <span class="cartao__nome">Unhas Tradicionais</span>
+                <span class="cartao__acao"><span class="cartao__acao-texto">Escolher</span><svg class="cartao__seta" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m7 10 5 5 5-5"/></svg></span>
+              </button>
+              <button class="cartao" type="button" id="agenda-cat-cilios" data-foco="foco-cilios">
+                <svg class="cartao__icone" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3.4 13.6c3-3.9 5.9-5.8 8.6-5.8s5.6 1.9 8.6 5.8"/><path d="M3.4 13.6c3 2.6 5.9 3.9 8.6 3.9s5.6-1.3 8.6-3.9"/><path d="M6.2 8.6 4.7 6.2"/><path d="M9.4 6.9 8.6 4.3"/><path d="M12 6.4V3.7"/><path d="M14.6 6.9l.8-2.6"/><path d="M17.8 8.6l1.5-2.4"/></svg>
+                <span class="cartao__nome">Cílios</span>
+                <span class="cartao__acao"><span class="cartao__acao-texto">Escolher</span><svg class="cartao__seta" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m7 10 5 5 5-5"/></svg></span>
+              </button>
+              <button class="cartao" type="button" id="agenda-cat-sobrancelha" data-foco="foco-sobrancelha">
+                <svg class="cartao__icone" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3.6 15.2c4.3-4.6 9.1-7 14.4-7.2 1.5 0 2.4.6 2.4 1.5 0 1-1 1.7-2.9 2.1-4.8 1-9.5 2.2-13.9 3.6Z"/></svg>
+                <span class="cartao__nome">Sobrancelha</span>
+                <span class="cartao__acao"><span class="cartao__acao-texto">Escolher</span><svg class="cartao__seta" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m7 10 5 5 5-5"/></svg></span>
+              </button>
+              <button class="cartao" type="button" id="agenda-cat-cabelo" data-foco="foco-cabelo">
+                <svg class="cartao__icone" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8.4 3.2c-2.6 3.4 2.4 5.2 0 8.8-2.4 3.6 2 5.2.6 8.8"/><path d="M14.6 3.2c-2.6 3.4 2.4 5.2 0 8.8-2.4 3.6 2 5.2.6 8.8"/></svg>
+                <span class="cartao__nome">Cabelo</span>
+                <span class="cartao__acao"><span class="cartao__acao-texto">Escolher</span><svg class="cartao__seta" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m7 10 5 5 5-5"/></svg></span>
+              </button>
+              <button class="cartao" type="button" id="agenda-cat-tesoura" data-foco="foco-tesoura">
+                <svg class="cartao__icone" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="7.3" cy="18.2" r="2.3"/><circle cx="16.7" cy="18.2" r="2.3"/><path d="M8.9 16.5 17.4 4.2"/><path d="M15.1 16.5 6.6 4.2"/></svg>
+                <span class="cartao__nome">Coloração e Tratamento</span>
+                <span class="cartao__acao"><span class="cartao__acao-texto">Escolher</span><svg class="cartao__seta" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m7 10 5 5 5-5"/></svg></span>
+              </button>
+            </div>
+            <div class="foco" id="foco-gel" role="region" aria-label="Unhas em Gel" hidden>
+              <button class="categoria" type="button" data-cartao="agenda-cat-gel">
+                <svg class="categoria__icone" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9.7 20.6c-.5-3.6-.8-7.2-.3-10.8.3-2.3 1.2-3.6 2.6-3.6s2.3 1.3 2.6 3.6c.5 3.6.2 7.2-.3 10.8-1.5.4-3.1.4-4.6 0Z"/><path d="M18.6 4.2l.6 1.6 1.6.6-1.6.6-.6 1.6-.6-1.6-1.6-.6 1.6-.6.6-1.6Z"/></svg>
+                <span class="categoria__nome">Unhas em Gel</span>
+                <span class="categoria__trocar">Trocar</span>
+              </button>
               <div class="pilulas">
                 <button class="pilula" type="button" aria-pressed="false" data-servico="Alongamento molde F1">Alongamento molde F1</button>
                 <button class="pilula" type="button" aria-pressed="false" data-servico="Blindagem + esmaltação em gel (mão)">Blindagem + esmaltação em gel (mão)</button>
@@ -341,7 +346,12 @@
                 <button class="pilula" type="button" aria-pressed="false" data-servico="Remoção">Remoção</button>
               </div>
             </div>
-            <div class="lista" id="agenda-lista-tradicional" role="region" aria-labelledby="agenda-cat-tradicional" hidden>
+            <div class="foco" id="foco-tradicional" role="region" aria-label="Unhas Tradicionais" hidden>
+              <button class="categoria" type="button" data-cartao="agenda-cat-tradicional">
+                <svg class="categoria__icone" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8.6 11.4h6.8v7.1a2 2 0 0 1-2 2h-2.8a2 2 0 0 1-2-2v-7.1Z"/><path d="M10.6 8.8h2.8v2.6h-2.8V8.8Z"/><path d="M12 8.8V6.2"/><path d="M10.9 3.4h2.2l-.6 2.8h-1l-.6-2.8Z"/></svg>
+                <span class="categoria__nome">Unhas Tradicionais</span>
+                <span class="categoria__trocar">Trocar</span>
+              </button>
               <div class="pilulas">
                 <button class="pilula" type="button" aria-pressed="false" data-servico="Mão">Mão</button>
                 <button class="pilula" type="button" aria-pressed="false" data-servico="Pé">Pé</button>
@@ -350,7 +360,12 @@
                 <button class="pilula" type="button" aria-pressed="false" data-servico="Tratamento">Tratamento</button>
               </div>
             </div>
-            <div class="lista" id="agenda-lista-cilios" role="region" aria-labelledby="agenda-cat-cilios" hidden>
+            <div class="foco" id="foco-cilios" role="region" aria-label="Cílios" hidden>
+              <button class="categoria" type="button" data-cartao="agenda-cat-cilios">
+                <svg class="categoria__icone" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3.4 13.6c3-3.9 5.9-5.8 8.6-5.8s5.6 1.9 8.6 5.8"/><path d="M3.4 13.6c3 2.6 5.9 3.9 8.6 3.9s5.6-1.3 8.6-3.9"/><path d="M6.2 8.6 4.7 6.2"/><path d="M9.4 6.9 8.6 4.3"/><path d="M12 6.4V3.7"/><path d="M14.6 6.9l.8-2.6"/><path d="M17.8 8.6l1.5-2.4"/></svg>
+                <span class="categoria__nome">Cílios</span>
+                <span class="categoria__trocar">Trocar</span>
+              </button>
               <div class="pilulas">
                 <button class="pilula" type="button" aria-pressed="false" data-servico="Volume brasileiro">Volume brasileiro</button>
                 <button class="pilula" type="button" aria-pressed="false" data-servico="Volume egípcio">Volume egípcio</button>
@@ -360,13 +375,23 @@
                 <button class="pilula" type="button" aria-pressed="false" data-servico="Manutenção">Manutenção</button>
               </div>
             </div>
-            <div class="lista" id="agenda-lista-sobrancelha" role="region" aria-labelledby="agenda-cat-sobrancelha" hidden>
+            <div class="foco" id="foco-sobrancelha" role="region" aria-label="Sobrancelha" hidden>
+              <button class="categoria" type="button" data-cartao="agenda-cat-sobrancelha">
+                <svg class="categoria__icone" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3.6 15.2c4.3-4.6 9.1-7 14.4-7.2 1.5 0 2.4.6 2.4 1.5 0 1-1 1.7-2.9 2.1-4.8 1-9.5 2.2-13.9 3.6Z"/></svg>
+                <span class="categoria__nome">Sobrancelha</span>
+                <span class="categoria__trocar">Trocar</span>
+              </button>
               <div class="pilulas">
                 <button class="pilula" type="button" aria-pressed="false" data-servico="Design simples">Design simples</button>
                 <button class="pilula" type="button" aria-pressed="false" data-servico="Design com henna">Design com henna</button>
               </div>
             </div>
-            <div class="lista" id="agenda-lista-cabelo" role="region" aria-labelledby="agenda-cat-cabelo" hidden>
+            <div class="foco" id="foco-cabelo" role="region" aria-label="Cabelo" hidden>
+              <button class="categoria" type="button" data-cartao="agenda-cat-cabelo">
+                <svg class="categoria__icone" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8.4 3.2c-2.6 3.4 2.4 5.2 0 8.8-2.4 3.6 2 5.2.6 8.8"/><path d="M14.6 3.2c-2.6 3.4 2.4 5.2 0 8.8-2.4 3.6 2 5.2.6 8.8"/></svg>
+                <span class="categoria__nome">Cabelo</span>
+                <span class="categoria__trocar">Trocar</span>
+              </button>
               <div class="pilulas">
                 <button class="pilula" type="button" aria-pressed="false" data-servico="Escova">Escova</button>
                 <button class="pilula" type="button" aria-pressed="false" data-servico="Escova + hidratação">Escova + hidratação</button>
@@ -375,7 +400,12 @@
                 <button class="pilula" type="button" aria-pressed="false" data-servico="Definição de cachos">Definição de cachos</button>
               </div>
             </div>
-            <div class="lista" id="agenda-lista-tesoura" role="region" aria-labelledby="agenda-cat-tesoura" hidden>
+            <div class="foco" id="foco-tesoura" role="region" aria-label="Coloração e Tratamento" hidden>
+              <button class="categoria" type="button" data-cartao="agenda-cat-tesoura">
+                <svg class="categoria__icone" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="7.3" cy="18.2" r="2.3"/><circle cx="16.7" cy="18.2" r="2.3"/><path d="M8.9 16.5 17.4 4.2"/><path d="M15.1 16.5 6.6 4.2"/></svg>
+                <span class="categoria__nome">Coloração e Tratamento</span>
+                <span class="categoria__trocar">Trocar</span>
+              </button>
               <div class="pilulas">
                 <button class="pilula" type="button" aria-pressed="false" data-servico="Retoque de raiz">Retoque de raiz</button>
                 <button class="pilula" type="button" aria-pressed="false" data-servico="Coloração profissional">Coloração profissional</button>
@@ -445,7 +475,7 @@
   <script src="assets/js/servicos.js?v=7" defer></script>
   <script src="assets/js/glitter.js?v=7" defer></script>
   <script src="assets/js/galeria.js?v=2" defer></script>
-  <script src="assets/js/agendamento.js?v=3" defer></script>
+  <script src="assets/js/agendamento.js?v=4" defer></script>
   <script src="assets/js/fluidez.js?v=1" defer></script>
 </body>
 </html>

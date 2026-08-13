@@ -335,10 +335,10 @@ body::after {
   pointer-events: none;
   background-image: radial-gradient(
     130% 100% at 50% 50%,
-    rgba(22, 17, 14, 0.68) 0%,
-    rgba(22, 17, 14, 0.52) 45%,
-    rgba(22, 17, 14, 0.3) 80%,
-    rgba(22, 17, 14, 0.12) 100%
+    rgba(22, 17, 14, 0.5) 0%,
+    rgba(22, 17, 14, 0.37) 45%,
+    rgba(22, 17, 14, 0.2) 80%,
+    rgba(22, 17, 14, 0.07) 100%
   );
 }
 
@@ -1001,10 +1001,10 @@ body::after { z-index: 2; }
   pointer-events: none;
   background-image: radial-gradient(
     130% 100% at 50% 50%,
-    rgba(22, 17, 14, 0.68) 0%,
-    rgba(22, 17, 14, 0.52) 45%,
-    rgba(22, 17, 14, 0.3) 80%,
-    rgba(22, 17, 14, 0.12) 100%
+    rgba(22, 17, 14, 0.5) 0%,
+    rgba(22, 17, 14, 0.37) 45%,
+    rgba(22, 17, 14, 0.2) 80%,
+    rgba(22, 17, 14, 0.07) 100%
   );
 }
 
@@ -1106,6 +1106,10 @@ body::after { z-index: 2; }
   display: grid;
   align-items: start;
   overflow: hidden;
+  /* A altura daqui é animada. Sem contain, cada quadro convida o
+     navegador a reconsiderar o layout e a pintura de fora também;
+     com ele, o estrago fica preso dentro do passo. */
+  contain: layout paint;
   /* respiro para o anel de foco: o overflow acima corta o que passar da
      caixa, e o anel de uma pílula na borda seria decepado. A margem
      negativa devolve o espaço ao layout. */
@@ -1202,27 +1206,96 @@ body::after { z-index: 2; }
   outline-offset: 3px;
 }
 
-/* --- Listas de serviço dentro do passo 1 ---------------------------
-   Empilhadas na mesma célula, como os painéis de preço: a que entra
-   nasce onde a anterior estava, e a altura de fora é animada. */
-.listas {
-  position: relative;
-  height: 0;
+/* --- A escolha da categoria dentro do passo 1 -----------------------
+   Duas faces na mesma célula do grid: a grade dos seis cartões e o foco
+   numa categoria só. Escolhida uma, as outras cinco somem — antes elas
+   ficavam e a lista de serviços nascia embaixo de três fileiras de
+   cartão, caindo fora da tela. É a mesma troca de faces dos passos, um
+   nível abaixo. */
+.escolha {
   display: grid;
   align-items: start;
   overflow: hidden;
+  contain: layout paint;
+  /* respiro para o anel de foco não ser decepado pelo overflow */
+  padding: 6px;
+  margin: -6px;
 }
 
-.lista {
-  grid-area: 1 / 1;
+.escolha > * { grid-area: 1 / 1; }
+
+.cartoes[hidden], .foco[hidden] { display: none; }
+
+.foco {
   width: 100%;
-  padding-top: clamp(1.25rem, 5vw, 1.75rem);
-  /* mesmo motivo do respiro no passo, agora para a última fileira de
-     pílulas: .listas também corta o que passa da altura medida */
-  padding-bottom: 6px;
+  display: grid;
+  gap: clamp(1rem, 4vw, 1.4rem);
 }
 
-.lista[hidden] { display: none; }
+/* A categoria escolhida, compacta: mesmo desenho da linha de resumo dos
+   passos, porque faz a mesma coisa — mostra o que já foi decidido e
+   continua clicável para trocar. */
+.categoria {
+  display: flex;
+  align-items: center;
+  gap: clamp(0.6rem, 2.6vw, 0.85rem);
+  width: 100%;
+  min-height: var(--toque-min);
+  padding: clamp(0.6rem, 2.8vw, 0.85rem) clamp(0.85rem, 3.6vw, 1.15rem);
+  border: 1px solid rgba(200, 155, 90, 0.4);
+  border-radius: 14px;
+  background-color: rgba(22, 17, 14, 0.42);
+  cursor: pointer;
+  text-align: left;
+  transition: border-color 0.3s ease, background-color 0.3s ease,
+              transform 0.12s ease-out;
+}
+
+.categoria:active { transform: scale(0.985); }
+
+.categoria__icone {
+  flex: 0 0 auto;
+  width: 1.6rem;
+  height: 1.6rem;
+  color: var(--destaque);
+}
+
+.categoria__nome {
+  flex: 1 1 auto;
+  font-family: var(--fonte-corpo);
+  font-weight: 400;
+  font-size: clamp(0.78rem, 3.3vw, 0.88rem);
+  letter-spacing: var(--tracking-medio);
+  text-transform: uppercase;
+  line-height: 1.3;
+  color: var(--texto);
+  text-shadow: var(--halo-leve);
+}
+
+.categoria__trocar {
+  flex: 0 0 auto;
+  font-family: var(--fonte-corpo);
+  font-weight: 400;
+  font-size: clamp(0.66rem, 2.9vw, 0.72rem);
+  letter-spacing: var(--tracking-medio);
+  text-indent: calc(var(--tracking-medio) / 2);
+  text-transform: uppercase;
+  color: var(--destaque);
+}
+
+@media (hover: hover) {
+  .categoria:hover {
+    border-color: rgba(200, 155, 90, 0.75);
+    background-color: rgba(22, 17, 14, 0.55);
+  }
+}
+
+.categoria:focus { outline: none; }
+
+.categoria:focus-visible {
+  outline: 2px solid var(--cor-pessego);
+  outline-offset: 3px;
+}
 
 /* --- Pílulas: o controle de toque desta seção ----------------------
    Alvo grande o bastante para o dedo, quebrando em quantas linhas
@@ -1373,6 +1446,7 @@ body::after { z-index: 2; }
 
 @media (prefers-reduced-motion: reduce) {
   .progresso__traco, .progresso__rotulo,
-  .passo__resumo, .pilula { transition: none; }
-  .cartao:active, .pilula:active, .passo__resumo:active { transform: none; }
+  .passo__resumo, .pilula, .categoria { transition: none; }
+  .cartao:active, .pilula:active,
+  .passo__resumo:active, .categoria:active { transform: none; }
 }

@@ -375,9 +375,17 @@ Sem número e sem círculo: o preenchimento do filete já diz onde ela está, e
 `aria-current="step"` diz o mesmo ao leitor de tela.
 
 **Passo 1 — o serviço.** Os mesmos seis cartões da seção de preços, com os
-mesmos ícones, e a lista de serviços da categoria abrindo em pílulas por
-baixo. Escolhido o serviço, o passo recolhe numa linha com filete dourado ao
-lado do nome; tocar nela reabre a escolha.
+mesmos ícones. **Escolhida a categoria, as outras cinco somem:** no lugar da
+grade entra uma linha compacta com o ícone e o nome — mesmo desenho da linha
+de resumo dos passos, porque faz a mesma coisa — e os serviços logo abaixo
+dela. Antes os seis cartões ficavam, e a lista nascia embaixo de três fileiras:
+dava para tocar numa categoria e não ver nada acontecer, porque o que abriu
+estava fora da tela. Medido, as pílulas subiram cerca de 370px, e as seis
+categorias passam a caber inteiras na tela de 400×760 — a mais alta, Unhas em
+Gel com sete serviços, vai de 272 a 732px. Tocar em "Trocar" devolve a grade.
+
+Escolhido o serviço, o passo recolhe numa linha com filete dourado ao lado do
+nome; tocar nela reabre a escolha.
 
 **Passo 2 — quando.** Os seis dias em pílulas que quebram em duas linhas no
 celular — nunca rolagem lateral, porque a opção que fica fora da tela é a
@@ -521,6 +529,40 @@ Vale registrar o que **não** era o problema: o custo de layout da altura
 animada mede 241µs por quadro, com ou sem `backdrop-filter` (241 contra 267,
 diferença dentro do ruído). Animar altura é layout, mas neste tamanho de
 subárvore não é o que trava.
+
+### Segunda rodada na travada
+
+Depois de corrigir a rolagem e tirar o `backdrop-filter`, a troca de passo
+ainda foi relatada como travada. O que se mediu nesta rodada:
+
+**O layout não é o gargalo.** Animar a altura do passo custa **90µs por
+quadro** — e trocar o `display: grid` por `block` (113µs) ou pôr as faces em
+`position: absolute` (125µs) só piorou. A teoria de que o grid estava
+relayoutando os 111 nós do passo a cada quadro estava errada, e a reescrita
+que ela pedia teria sido trabalho perdido.
+
+O que mudou de fato:
+
+- **A lista deixou de nascer fora da tela.** Era o efeito mais parecido com
+  "travar": tocar numa categoria e não ver resposta, porque a resposta estava
+  abaixo da borda. Some a grade, entra a linha compacta.
+- **A altura que se anima encolheu.** Com a grade fora, o corpo do passo 1 vai
+  de 428px para 241px — a animação de recolher tem quase metade do curso.
+- **`contain: layout paint`** no passo e na escolha: sem isso, cada quadro da
+  altura convida o navegador a reconsiderar layout e pintura de fora também.
+
+**Não foi possível medir pintura e composição neste ambiente** — o headless
+sem tela não entrega tempo de quadro confiável. As decisões de pintura
+(`backdrop-filter`, véu, `contain`) foram tomadas por argumento e pela medida
+do que cada uma entregava em pixels, não por perfil de quadro.
+
+### Os véus
+
+Clareados a pedido. O radial de fundo das seções de preços e de agendamento
+foi de `0.68 / 0.52 / 0.30 / 0.12` para `0.50 / 0.37 / 0.20 / 0.07` — cerca de
+26% mais claro. Medido depois da mudança, na fase mais clara do ciclo (o pior
+caso), o nome do serviço dá **5,85:1** contra o mínimo de 4,5:1. Há folga para
+clarear mais se ainda estiver escuro demais.
 
 ## Próximo passo
 

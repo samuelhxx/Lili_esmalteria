@@ -94,26 +94,34 @@ def montar():
     p1 = []
     p1.append('          <p class="passo__pergunta" id="pergunta-servico">Qual '
               'serviço você quer?</p>')
-    p1.append('          <div class="cartoes">')
+    p1.append('          <div class="escolha">')
+    p1.append('            <div class="cartoes">')
     for chave, rotulo, _ in ABAS:
-        p1.append(f'            <button class="cartao" type="button" '
-                  f'id="agenda-cat-{chave}" aria-expanded="false" '
-                  f'aria-controls="agenda-lista-{chave}">')
-        p1.append(f'              <svg class="cartao__icone" viewBox="0 0 24 24" '
+        p1.append(f'              <button class="cartao" type="button" '
+                  f'id="agenda-cat-{chave}" data-foco="foco-{chave}">')
+        p1.append(f'                <svg class="cartao__icone" viewBox="0 0 24 24" '
                   f'aria-hidden="true" focusable="false" {TRACO}>{ICONES[chave]}</svg>')
-        p1.append(f'              <span class="cartao__nome">{rotulo}</span>')
-        p1.append('              <span class="cartao__acao">'
+        p1.append(f'                <span class="cartao__nome">{rotulo}</span>')
+        p1.append('                <span class="cartao__acao">'
                   '<span class="cartao__acao-texto">Escolher</span>'
                   + SETA + '</span>')
-        p1.append('            </button>')
-    p1.append('          </div>')
+        p1.append('              </button>')
+    p1.append('            </div>')
 
-    # As seis listas empilhadas na mesma célula, como os painéis de
-    # preço: a que entra nasce onde a anterior estava.
-    p1.append('          <div class="listas">')
+    # Escolhida a categoria, as outras cinco somem: no lugar da grade
+    # entra uma linha compacta com o ícone e o nome, e os serviços logo
+    # abaixo dela. Com os seis cartões na tela, a lista nascia embaixo de
+    # três fileiras e caía fora da tela.
     for chave, rotulo, itens in ABAS:
-        p1.append(f'            <div class="lista" id="agenda-lista-{chave}" '
-                  f'role="region" aria-labelledby="agenda-cat-{chave}" hidden>')
+        p1.append(f'            <div class="foco" id="foco-{chave}" '
+                  f'role="region" aria-label="{rotulo}" hidden>')
+        p1.append('              <button class="categoria" type="button" '
+                  f'data-cartao="agenda-cat-{chave}">')
+        p1.append(f'                <svg class="categoria__icone" viewBox="0 0 24 24" '
+                  f'aria-hidden="true" focusable="false" {TRACO}>{ICONES[chave]}</svg>')
+        p1.append(f'                <span class="categoria__nome">{rotulo}</span>')
+        p1.append('                <span class="categoria__trocar">Trocar</span>')
+        p1.append('              </button>')
         p1.append('              <div class="pilulas">')
         for nome, _valor in itens:
             p1.append('                <button class="pilula" type="button" '
@@ -121,6 +129,7 @@ def montar():
         p1.append('              </div>')
         p1.append('            </div>')
     p1.append('          </div>')
+
     L.extend(_passo(1, p1))
 
     # -------------------------------------------------- passo 2: quando

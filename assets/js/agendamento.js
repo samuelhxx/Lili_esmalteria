@@ -31,10 +31,11 @@
   var passos = Array.prototype.slice.call(secao.querySelectorAll(".passo"));
   var marcas = Array.prototype.slice.call(secao.querySelectorAll(".progresso__marca"));
   var cartoes = Array.prototype.slice.call(secao.querySelectorAll(".cartao"));
-  var listas = Array.prototype.slice.call(secao.querySelectorAll(".lista"));
-  var caixaListas = secao.querySelector(".listas");
+  var focos = Array.prototype.slice.call(secao.querySelectorAll(".foco"));
+  var grade = secao.querySelector(".cartoes");
+  var escolha = secao.querySelector(".escolha");
   var botao = secao.querySelector(".whats");
-  if (passos.length !== 3 || !caixaListas || !botao) return;
+  if (passos.length !== 3 || !escolha || !grade || !botao) return;
 
   var querMenosMovimento =
     window.matchMedia &&
@@ -55,7 +56,6 @@
   };
 
   var aberto = 1;             /* passo expandido */
-  var categoria = -1;         /* categoria aberta dentro do passo 1 */
 
   /* ---------- a mensagem ---------- */
 
@@ -416,66 +416,81 @@
     if (seguirFoco) levarFoco(passos[destino - 1]);
   }
 
-  /* ---------- passo 1: categoria e serviço ---------- */
+  /* ---------- passo 1: a categoria e o serviço ----------
 
-  function alturaLista(lista, animar) {
-    var alvo = lista ? lista.offsetHeight : 0;
-    if (!animar || !anima) {
-      caixaListas.style.height = alvo + "px";
+     Escolhida a categoria, as outras cinco somem. Antes elas ficavam, e
+     a lista de serviços nascia embaixo de três fileiras de cartão — dava
+     para tocar numa categoria e não ver nada acontecer, porque o que
+     abriu estava fora da tela. Agora a grade sai inteira e no lugar dela
+     entra uma linha compacta com o ícone e o nome, com os serviços logo
+     abaixo. É a mesma troca de faces dos passos, um nível abaixo: as
+     duas dividem a célula do grid, e a altura de fora é animada uma vez.
+     ------------------------------------------------------------------ */
+
+  var categoria = -1;         /* categoria em foco, -1 = a grade */
+
+  /* Depois de trocar a grade pelo foco, a lista pode ficar mordida pela
+     borda de baixo — é o "some da tela". Traz o mínimo necessário para
+     ela caber, e nada se a lista já couber inteira. Mesmo tween da
+     troca, mesmo relógio. */
+  function encaixarNaTela(el) {
+    var r = el.getBoundingClientRect();
+    var folga = 20;
+    var sobra = r.bottom - (window.innerHeight - folga);
+    var destino;
+
+    if (r.height > window.innerHeight - folga * 2) {
+      destino = window.pageYOffset + r.top - folga;   /* alta demais: alinha o topo */
+    } else if (sobra > 0) {
+      destino = window.pageYOffset + sobra;
+    } else if (r.top < folga) {
+      destino = window.pageYOffset + r.top - folga;
+    } else {
       return;
     }
-    gsap.to(caixaListas, {
-      height: alvo, duration: DURACAO * 0.9, ease: ENTRADA, overwrite: true
+
+    var limite = document.documentElement.scrollHeight - window.innerHeight;
+    if (destino > limite) destino = limite;
+    if (destino < 0) destino = 0;
+
+    if (!anima) { window.scrollTo(0, destino); return; }
+
+    rolagem.y = window.pageYOffset;
+    gsap.to(rolagem, {
+      y: destino,
+      duration: DURACAO,
+      ease: ENTRADA,
+      overwrite: true,
+      onUpdate: function () { window.scrollTo(0, rolagem.y); }
     });
   }
 
   function abrirCategoria(indice) {
-    var anterior = categoria;
-    if (indice === anterior) {
-      categoria = -1;
-      marcarCategorias();
-      alturaLista(null, true);
-      fecharLista(listas[anterior]);
-      return;
-    }
-
+    if (indice === categoria) return;
     categoria = indice;
-    marcarCategorias();
-    if (anterior >= 0) fecharLista(listas[anterior]);
-
-    var lista = listas[indice];
-    lista.hidden = false;
-    if (!anima) { alturaLista(lista, false); return; }
-
-    alturaLista(lista, true);
-    gsap.fromTo(
-      lista,
-      { opacity: 0, y: 18 },
-      { opacity: 1, y: 0, duration: DURACAO, ease: ENTRADA, clearProps: "transform" }
-    );
-  }
-
-  function fecharLista(lista) {
-    if (!lista) return;
-    if (!anima) { lista.hidden = true; return; }
-    gsap.to(lista, {
-      opacity: 0, y: 10,
-      duration: DURACAO * 0.7,
-      ease: SAIDA,
-      onComplete: function () {
-        lista.hidden = true;
-        gsap.set(lista, { clearProps: "opacity,transform" });
+    trocarFace(escolha, focos[indice], grade, 1, 0);
+    encaixarNaTela(focos[indice]);
+    /* quem chegou pelo teclado continua de onde estava: o foco vai para
+       o primeiro serviço da categoria que acabou de abrir */
+    if (secao.contains(document.activeElement)) {
+      var primeira = focos[indice].querySelector(".pilula");
+      if (primeira) {
+        try { primeira.focus({ preventScroll: true }); }
+        catch (e) { primeira.focus(); }
       }
-    });
+    }
   }
 
-  function marcarCategorias() {
-    cartoes.forEach(function (cartao, i) {
-      var ativo = i === categoria;
-      cartao.setAttribute("aria-expanded", String(ativo));
-      var texto = cartao.querySelector(".cartao__acao-texto");
-      if (texto) texto.textContent = ativo ? "Fechar" : "Escolher";
-    });
+  function voltarAGrade() {
+    if (categoria < 0) return;
+    var saindo = focos[categoria];
+    var cartao = document.getElementById(
+      saindo.querySelector(".categoria").getAttribute("data-cartao"));
+    categoria = -1;
+    trocarFace(escolha, grade, saindo, -1, 0);
+    if (cartao && secao.contains(document.activeElement)) {
+      try { cartao.focus({ preventScroll: true }); } catch (e) { cartao.focus(); }
+    }
   }
 
   cartoes.forEach(function (cartao, i) {
@@ -484,6 +499,13 @@
       andarNaGrade(ev, cartoes, i, window.innerWidth >= 640 ? 3 : 2);
     });
   });
+
+  Array.prototype.forEach.call(
+    secao.querySelectorAll(".categoria"),
+    function (linha) {
+      linha.addEventListener("click", voltarAGrade);
+    }
+  );
 
   /* ---------- as pílulas ---------- */
 
@@ -494,7 +516,7 @@
   }
 
   var pilulasServico = Array.prototype.slice.call(
-    secao.querySelectorAll(".lista .pilula"));
+    secao.querySelectorAll(".foco .pilula"));
   var pilulasDia = Array.prototype.slice.call(
     secao.querySelectorAll(".pilulas--dias .pilula"));
   var pilulasPeriodo = Array.prototype.slice.call(

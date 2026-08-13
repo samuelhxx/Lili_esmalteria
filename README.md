@@ -1,12 +1,14 @@
 # Lili Esmalteria — Itupeva/SP
 
-Landing page do salão. **Etapa atual: fundo animado, abertura, serviços,
-galeria e agendamento.** Falta o número do WhatsApp e as fotos.
+Landing page do salão, completa de ponta a ponta: abertura, serviços,
+galeria, agendamento, onde fica e rodapé. **O que falta é conteúdo real —
+telefone, WhatsApp e as fotos da galeria.** A lista completa está no fim
+deste arquivo.
 
 ## Arquivos
 
 ```
-index.html                     abertura + serviços + galeria + agendamento
+index.html                     todas as seções, numa página só
 assets/css/style.css           variáveis, fundo e todas as seções
 assets/js/abertura.js          timeline de entrada (mask reveal)
 assets/js/servicos.js          cartões, troca de painel, entrada no scroll
@@ -14,6 +16,7 @@ assets/js/glitter.js           textura de glitter e deriva por inércia
 assets/js/galeria.js           painel ativo da galeria e entrada no scroll
 assets/js/agendamento.js       os três passos e a mensagem do WhatsApp
 assets/js/fluidez.js           rolagem das âncoras e travessia entre seções
+assets/js/local.js             mapa adiado, entrada do onde fica e do rodapé
 assets/js/gsap.min.js          GSAP 3.13.0, hospedado aqui
 assets/js/ScrollTrigger.min.js plugin do GSAP, hospedado aqui
 assets/img/logo-lili.svg       logo da marca
@@ -21,7 +24,8 @@ assets/img/logo-lili.svg       logo da marca
 
 A marcação das seções geradas sai de `ferramentas/`: `gera_servicos.py` guarda
 a tabela de preços e desenha os seis ícones das categorias; `gera_galeria.py`
-monta os seis painéis da galeria; `gera_agendamento.py` monta os três passos —
+monta os seis painéis da galeria; `gera_agendamento.py` monta os três passos;
+`gera_local.py` monta o onde fica e o rodapé, com o endereço num lugar só —
 e importa a tabela do `gera_servicos.py` em vez de repeti-la, para não existir
 uma segunda cópia dos 29 serviços envelhecendo sozinha. Mudar preço, serviço
 ou painel é mudar o script e gerar de novo — assim as linhas não divergem no
@@ -564,7 +568,75 @@ foi de `0.68 / 0.52 / 0.30 / 0.12` para `0.50 / 0.37 / 0.20 / 0.07` — cerca de
 caso), o nome do serviço dá **5,85:1** contra o mínimo de 4,5:1. Há folga para
 clarear mais se ainda estiver escuro demais.
 
+## Onde a gente fica
+
+Duas partes: o endereço e o mapa. Empilhadas no celular, lado a lado a partir
+de 900px com o mapa ficando com a fatia maior (0,78fr contra 1,22fr).
+
+**O endereço** em Bodoni tamanho generoso, o bairro em Jost caixa alta
+espaçada, filete dourado separando, e então os dados: o rótulo em caixa alta
+pequena e o dado em destaque — o horário e o telefone em Bodoni pêssego,
+porque são o que a visitante veio buscar na linha. Dois botões fecham o bloco:
+**Como chegar** e **Chamar no WhatsApp**.
+
+O "Como chegar" usa o link universal do Google Maps
+(`maps/dir/?api=1&destination=`), que no celular abre o aplicativo instalado e
+no computador abre no navegador — sem chave de API e sem detectar sistema.
+
+**O mapa carrega adiado.** Um iframe de mapa puxa scripts, tiles e fontes de
+terceiros; carregado de saída, pesa mais que toda a página somada, e a
+visitante paga por isso antes mesmo de ter rolado até lá. O endereço fica em
+`data-src` e só vira `src` quando um `IntersectionObserver` avisa que a seção
+está a uma tela e meia de distância — tempo de o mapa montar antes de a
+moldura aparecer. Enquanto isso, uma moldura em linha fina ocupa o lugar.
+Verificado: `src` vazio no carregamento, preenchido quando a seção se aproxima.
+
+Sobre o mapa, filete em ouro fosco e cantos arredondados, e
+`filter: saturate(0.62) brightness(0.82) contrast(1.06)` — escurece e tira
+parte do croma para ele conversar com a paleta em vez de brigar com o fundo.
+Passar disso começa a apagar as vias secundárias, que é justamente o que o
+mapa tem de útil.
+
+**O endereço mora num lugar só**, no topo de `gera_local.py`, e alimenta os
+três usos: o texto na tela, o mapa e o link do "Como chegar". Escrever o
+endereço três vezes é escrever três chances de ele divergir.
+
+## Rodapé
+
+Três partes — marca, links, contato —, empilhadas no celular e distribuídas em
+três colunas a partir de 760px. É salão de bairro: sem newsletter, sem menu
+extenso, sem blocos de links.
+
+O filete dos links do rodapé cresce da esquerda com `transform: scaleX()`, e
+não com `width`: o mesmo desenho sem custo de layout. Aparece no hover e
+também no `:focus-visible`, para quem navega por teclado ver o mesmo que quem
+usa o mouse.
+
+**O fim do site precisa parecer fim:** respiro maior antes, filete de topo
+marcando a transição, e um segundo filete bem apagado acima da linha de
+copyright. O respiro de baixo tem piso próprio — 44px medidos numa tela de
+400px — porque a barra de gestos do celular mora nos últimos ~34px da tela, e
+nada aqui pode disputar espaço com o gesto de voltar. Onde o aparelho informa
+`env(safe-area-inset-bottom)`, ela entra por cima do piso.
+
+Os quatro links do rodapé foram verificados contra os destinos: `#servicos`,
+`#galeria`, `#agendar` e `#onde` existem todos. Os links externos levam
+`rel="noopener"`.
+
+## O que ainda falta preencher
+
+| o quê | onde | estado |
+| --- | --- | --- |
+| **Número do WhatsApp** | `NUMERO` em `assets/js/agendamento.js` **e** em `assets/js/local.js` | vazio nos dois — os três botões não navegam |
+| **Telefone** | `gera_local.py`, texto e `href` juntos | `(11) XXXXX-XXXX` / `tel:+5511000000000` |
+| **Fotos da galeria** | 6 `<img>` sem `src` em `index.html`, cada uma com comentário no lugar | espaço reservado 1200×1600 aparece no lugar |
+| **Instagram** | `INSTAGRAM_USUARIO` em `gera_local.py` | `_lili_esmalteria` — confirmar se é o certo |
+| **Endereço** | topo de `gera_local.py` | `Avenida Brasil, 322` — confirmar número e CEP |
+| **Branch padrão** | configurações do GitHub | `main` ainda não é a padrão; o proxy bloqueia a escrita daqui |
+| **Contraste da linha de apoio** | `.frase__apoio` na abertura | 2,31:1 contra o mínimo de 4,5:1 |
+| **Cores internas da logo** | `assets/img/logo-lili.svg` | "Esmalteria" é preto; some na fase clara do degradê |
+
 ## Próximo passo
 
-Preencher `NUMERO` em `assets/js/agendamento.js` com o WhatsApp da dona e
-colocar as fotos da galeria.
+A tabela acima. O site está completo em estrutura e movimento — o que falta
+é conteúdo real.

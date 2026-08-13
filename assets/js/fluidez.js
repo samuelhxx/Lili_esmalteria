@@ -124,7 +124,7 @@
   var AMPLITUDE = 14;
 
   Array.prototype.forEach.call(
-    document.querySelectorAll(".servicos__titulo, .galeria__titulo, .agendamento__titulo"),
+    document.querySelectorAll(".servicos__titulo, .galeria__titulo, .agendamento__titulo, .onde__titulo"),
     function (titulo) {
       var secao = titulo.closest("section");
       if (!secao) return;

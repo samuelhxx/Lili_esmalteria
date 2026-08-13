@@ -16,7 +16,7 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..600;1,6..96,400..500&family=Jost:wght@300;400;500&display=swap">
   <!-- ?v= é cache-busting manual: incrementar a cada mudança no CSS, senão o
        navegador serve a folha antiga por horas depois do deploy -->
-  <link rel="stylesheet" href="assets/css/style.css?v=34">
+  <link rel="stylesheet" href="assets/css/style.css?v=35">
 
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%2316110E'/><text x='16' y='24' font-family='Georgia,serif' font-style='italic' font-size='21' fill='%23FFC06A' text-anchor='middle'>L</text></svg>">
 </head>
@@ -51,496 +51,502 @@
     <a class="botao" href="#agendar">Agendar horário</a>
   </main>
 
-  <section class="servicos" id="servicos" aria-labelledby="servicos-titulo">
-    <h2 class="servicos__titulo" id="servicos-titulo">
-      <span class="mascara"><span class="revela-adiada">Nossos serviços</span></span>
-    </h2>
-    <p class="servicos__instrucao">Toque numa categoria para ver os valores.</p>
-    <div class="mascara">
-      <div class="cartoes revela-adiada">
-        <button class="cartao" type="button" id="cartao-gel" aria-expanded="false" aria-controls="painel-gel">
-          <svg class="cartao__icone" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9.7 20.6c-.5-3.6-.8-7.2-.3-10.8.3-2.3 1.2-3.6 2.6-3.6s2.3 1.3 2.6 3.6c.5 3.6.2 7.2-.3 10.8-1.5.4-3.1.4-4.6 0Z"/><path d="M18.6 4.2l.6 1.6 1.6.6-1.6.6-.6 1.6-.6-1.6-1.6-.6 1.6-.6.6-1.6Z"/></svg>
-          <span class="cartao__nome">Unhas em Gel</span>
-          <span class="cartao__acao"><span class="cartao__acao-texto">Ver valores</span><svg class="cartao__seta" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m7 10 5 5 5-5"/></svg></span>
-        </button>
-        <button class="cartao" type="button" id="cartao-tradicional" aria-expanded="false" aria-controls="painel-tradicional">
-          <svg class="cartao__icone" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8.6 11.4h6.8v7.1a2 2 0 0 1-2 2h-2.8a2 2 0 0 1-2-2v-7.1Z"/><path d="M10.6 8.8h2.8v2.6h-2.8V8.8Z"/><path d="M12 8.8V6.2"/><path d="M10.9 3.4h2.2l-.6 2.8h-1l-.6-2.8Z"/></svg>
-          <span class="cartao__nome">Unhas Tradicionais</span>
-          <span class="cartao__acao"><span class="cartao__acao-texto">Ver valores</span><svg class="cartao__seta" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m7 10 5 5 5-5"/></svg></span>
-        </button>
-        <button class="cartao" type="button" id="cartao-cilios" aria-expanded="false" aria-controls="painel-cilios">
-          <svg class="cartao__icone" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3.4 13.6c3-3.9 5.9-5.8 8.6-5.8s5.6 1.9 8.6 5.8"/><path d="M3.4 13.6c3 2.6 5.9 3.9 8.6 3.9s5.6-1.3 8.6-3.9"/><path d="M6.2 8.6 4.7 6.2"/><path d="M9.4 6.9 8.6 4.3"/><path d="M12 6.4V3.7"/><path d="M14.6 6.9l.8-2.6"/><path d="M17.8 8.6l1.5-2.4"/></svg>
-          <span class="cartao__nome">Cílios</span>
-          <span class="cartao__acao"><span class="cartao__acao-texto">Ver valores</span><svg class="cartao__seta" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m7 10 5 5 5-5"/></svg></span>
-        </button>
-        <button class="cartao" type="button" id="cartao-sobrancelha" aria-expanded="false" aria-controls="painel-sobrancelha">
-          <svg class="cartao__icone" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3.6 15.2c4.3-4.6 9.1-7 14.4-7.2 1.5 0 2.4.6 2.4 1.5 0 1-1 1.7-2.9 2.1-4.8 1-9.5 2.2-13.9 3.6Z"/></svg>
-          <span class="cartao__nome">Sobrancelha</span>
-          <span class="cartao__acao"><span class="cartao__acao-texto">Ver valores</span><svg class="cartao__seta" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m7 10 5 5 5-5"/></svg></span>
-        </button>
-        <button class="cartao" type="button" id="cartao-cabelo" aria-expanded="false" aria-controls="painel-cabelo">
-          <svg class="cartao__icone" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8.4 3.2c-2.6 3.4 2.4 5.2 0 8.8-2.4 3.6 2 5.2.6 8.8"/><path d="M14.6 3.2c-2.6 3.4 2.4 5.2 0 8.8-2.4 3.6 2 5.2.6 8.8"/></svg>
-          <span class="cartao__nome">Cabelo</span>
-          <span class="cartao__acao"><span class="cartao__acao-texto">Ver valores</span><svg class="cartao__seta" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m7 10 5 5 5-5"/></svg></span>
-        </button>
-        <button class="cartao" type="button" id="cartao-tesoura" aria-expanded="false" aria-controls="painel-tesoura">
-          <svg class="cartao__icone" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="7.3" cy="18.2" r="2.3"/><circle cx="16.7" cy="18.2" r="2.3"/><path d="M8.9 16.5 17.4 4.2"/><path d="M15.1 16.5 6.6 4.2"/></svg>
-          <span class="cartao__nome">Coloração e Tratamento</span>
-          <span class="cartao__acao"><span class="cartao__acao-texto">Ver valores</span><svg class="cartao__seta" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m7 10 5 5 5-5"/></svg></span>
-        </button>
+  <!-- Um invólucro só para tudo abaixo do hero: o véu de leitura é
+       dele, contínuo de ponta a ponta. Quando cada seção tinha o seu,
+       a emenda entre elas virava um degrau de escuridão — uma linha
+       atravessando a página. -->
+  <div class="continuo">
+    <section class="servicos" id="servicos" aria-labelledby="servicos-titulo">
+      <h2 class="servicos__titulo" id="servicos-titulo">
+        <span class="mascara"><span class="revela-adiada">Nossos serviços</span></span>
+      </h2>
+      <p class="servicos__instrucao">Toque numa categoria para ver os valores.</p>
+      <div class="mascara">
+        <div class="cartoes revela-adiada">
+          <button class="cartao" type="button" id="cartao-gel" aria-expanded="false" aria-controls="painel-gel">
+            <svg class="cartao__icone" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9.7 20.6c-.5-3.6-.8-7.2-.3-10.8.3-2.3 1.2-3.6 2.6-3.6s2.3 1.3 2.6 3.6c.5 3.6.2 7.2-.3 10.8-1.5.4-3.1.4-4.6 0Z"/><path d="M18.6 4.2l.6 1.6 1.6.6-1.6.6-.6 1.6-.6-1.6-1.6-.6 1.6-.6.6-1.6Z"/></svg>
+            <span class="cartao__nome">Unhas em Gel</span>
+            <span class="cartao__acao"><span class="cartao__acao-texto">Ver valores</span><svg class="cartao__seta" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m7 10 5 5 5-5"/></svg></span>
+          </button>
+          <button class="cartao" type="button" id="cartao-tradicional" aria-expanded="false" aria-controls="painel-tradicional">
+            <svg class="cartao__icone" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8.6 11.4h6.8v7.1a2 2 0 0 1-2 2h-2.8a2 2 0 0 1-2-2v-7.1Z"/><path d="M10.6 8.8h2.8v2.6h-2.8V8.8Z"/><path d="M12 8.8V6.2"/><path d="M10.9 3.4h2.2l-.6 2.8h-1l-.6-2.8Z"/></svg>
+            <span class="cartao__nome">Unhas Tradicionais</span>
+            <span class="cartao__acao"><span class="cartao__acao-texto">Ver valores</span><svg class="cartao__seta" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m7 10 5 5 5-5"/></svg></span>
+          </button>
+          <button class="cartao" type="button" id="cartao-cilios" aria-expanded="false" aria-controls="painel-cilios">
+            <svg class="cartao__icone" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3.4 13.6c3-3.9 5.9-5.8 8.6-5.8s5.6 1.9 8.6 5.8"/><path d="M3.4 13.6c3 2.6 5.9 3.9 8.6 3.9s5.6-1.3 8.6-3.9"/><path d="M6.2 8.6 4.7 6.2"/><path d="M9.4 6.9 8.6 4.3"/><path d="M12 6.4V3.7"/><path d="M14.6 6.9l.8-2.6"/><path d="M17.8 8.6l1.5-2.4"/></svg>
+            <span class="cartao__nome">Cílios</span>
+            <span class="cartao__acao"><span class="cartao__acao-texto">Ver valores</span><svg class="cartao__seta" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m7 10 5 5 5-5"/></svg></span>
+          </button>
+          <button class="cartao" type="button" id="cartao-sobrancelha" aria-expanded="false" aria-controls="painel-sobrancelha">
+            <svg class="cartao__icone" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3.6 15.2c4.3-4.6 9.1-7 14.4-7.2 1.5 0 2.4.6 2.4 1.5 0 1-1 1.7-2.9 2.1-4.8 1-9.5 2.2-13.9 3.6Z"/></svg>
+            <span class="cartao__nome">Sobrancelha</span>
+            <span class="cartao__acao"><span class="cartao__acao-texto">Ver valores</span><svg class="cartao__seta" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m7 10 5 5 5-5"/></svg></span>
+          </button>
+          <button class="cartao" type="button" id="cartao-cabelo" aria-expanded="false" aria-controls="painel-cabelo">
+            <svg class="cartao__icone" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8.4 3.2c-2.6 3.4 2.4 5.2 0 8.8-2.4 3.6 2 5.2.6 8.8"/><path d="M14.6 3.2c-2.6 3.4 2.4 5.2 0 8.8-2.4 3.6 2 5.2.6 8.8"/></svg>
+            <span class="cartao__nome">Cabelo</span>
+            <span class="cartao__acao"><span class="cartao__acao-texto">Ver valores</span><svg class="cartao__seta" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m7 10 5 5 5-5"/></svg></span>
+          </button>
+          <button class="cartao" type="button" id="cartao-tesoura" aria-expanded="false" aria-controls="painel-tesoura">
+            <svg class="cartao__icone" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="7.3" cy="18.2" r="2.3"/><circle cx="16.7" cy="18.2" r="2.3"/><path d="M8.9 16.5 17.4 4.2"/><path d="M15.1 16.5 6.6 4.2"/></svg>
+            <span class="cartao__nome">Coloração e Tratamento</span>
+            <span class="cartao__acao"><span class="cartao__acao-texto">Ver valores</span><svg class="cartao__seta" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m7 10 5 5 5-5"/></svg></span>
+          </button>
+        </div>
       </div>
-    </div>
-    <div class="servicos__paineis">
-      <div class="painel" id="painel-gel" role="region" aria-labelledby="cartao-gel" hidden>
-        <ul class="preco">
-          <li class="preco__linha"><span class="preco__nome">Alongamento molde F1</span><span class="preco__filete" aria-hidden="true"></span><span class="preco__valor"><span class="preco__moeda">R$</span><span class="preco__numero">130</span></span></li>
-          <li class="preco__linha"><span class="preco__nome">Blindagem + esmaltação em gel <span class="preco__nota">(mão)</span></span><span class="preco__filete" aria-hidden="true"></span><span class="preco__valor"><span class="preco__moeda">R$</span><span class="preco__numero">85</span></span></li>
-          <li class="preco__linha"><span class="preco__nome">Blindagem + esmaltação em gel <span class="preco__nota">(pé)</span></span><span class="preco__filete" aria-hidden="true"></span><span class="preco__valor"><span class="preco__moeda">R$</span><span class="preco__numero">85</span></span></li>
-          <li class="preco__linha"><span class="preco__nome">Pé + mão em gel</span><span class="preco__filete" aria-hidden="true"></span><span class="preco__valor"><span class="preco__moeda">R$</span><span class="preco__numero">155</span></span></li>
-          <li class="preco__linha"><span class="preco__nome">Manutenção até 30 dias</span><span class="preco__filete" aria-hidden="true"></span><span class="preco__valor"><span class="preco__moeda">R$</span><span class="preco__numero">90</span></span></li>
-          <li class="preco__linha"><span class="preco__nome">Manutenção após 30 dias</span><span class="preco__filete" aria-hidden="true"></span><span class="preco__valor"><span class="preco__moeda">R$</span><span class="preco__numero">100</span></span></li>
-          <li class="preco__linha"><span class="preco__nome">Remoção</span><span class="preco__filete" aria-hidden="true"></span><span class="preco__valor"><span class="preco__moeda">R$</span><span class="preco__numero">50</span></span></li>
-        </ul>
+      <div class="servicos__paineis">
+        <div class="painel" id="painel-gel" role="region" aria-labelledby="cartao-gel" hidden>
+          <ul class="preco">
+            <li class="preco__linha"><span class="preco__nome">Alongamento molde F1</span><span class="preco__filete" aria-hidden="true"></span><span class="preco__valor"><span class="preco__moeda">R$</span><span class="preco__numero">130</span></span></li>
+            <li class="preco__linha"><span class="preco__nome">Blindagem + esmaltação em gel <span class="preco__nota">(mão)</span></span><span class="preco__filete" aria-hidden="true"></span><span class="preco__valor"><span class="preco__moeda">R$</span><span class="preco__numero">85</span></span></li>
+            <li class="preco__linha"><span class="preco__nome">Blindagem + esmaltação em gel <span class="preco__nota">(pé)</span></span><span class="preco__filete" aria-hidden="true"></span><span class="preco__valor"><span class="preco__moeda">R$</span><span class="preco__numero">85</span></span></li>
+            <li class="preco__linha"><span class="preco__nome">Pé + mão em gel</span><span class="preco__filete" aria-hidden="true"></span><span class="preco__valor"><span class="preco__moeda">R$</span><span class="preco__numero">155</span></span></li>
+            <li class="preco__linha"><span class="preco__nome">Manutenção até 30 dias</span><span class="preco__filete" aria-hidden="true"></span><span class="preco__valor"><span class="preco__moeda">R$</span><span class="preco__numero">90</span></span></li>
+            <li class="preco__linha"><span class="preco__nome">Manutenção após 30 dias</span><span class="preco__filete" aria-hidden="true"></span><span class="preco__valor"><span class="preco__moeda">R$</span><span class="preco__numero">100</span></span></li>
+            <li class="preco__linha"><span class="preco__nome">Remoção</span><span class="preco__filete" aria-hidden="true"></span><span class="preco__valor"><span class="preco__moeda">R$</span><span class="preco__numero">50</span></span></li>
+          </ul>
+        </div>
+        <div class="painel" id="painel-tradicional" role="region" aria-labelledby="cartao-tradicional" hidden>
+          <ul class="preco">
+            <li class="preco__linha"><span class="preco__nome">Mão</span><span class="preco__filete" aria-hidden="true"></span><span class="preco__valor"><span class="preco__moeda">R$</span><span class="preco__numero">45</span></span></li>
+            <li class="preco__linha"><span class="preco__nome">Pé</span><span class="preco__filete" aria-hidden="true"></span><span class="preco__valor"><span class="preco__moeda">R$</span><span class="preco__numero">45</span></span></li>
+            <li class="preco__linha"><span class="preco__nome">Mão + pé</span><span class="preco__filete" aria-hidden="true"></span><span class="preco__valor"><span class="preco__moeda">R$</span><span class="preco__numero">80</span></span></li>
+            <li class="preco__linha"><span class="preco__nome">Remoção + tratamento</span><span class="preco__filete" aria-hidden="true"></span><span class="preco__valor"><span class="preco__moeda">R$</span><span class="preco__numero">80</span></span></li>
+            <li class="preco__linha"><span class="preco__nome">Tratamento</span><span class="preco__filete" aria-hidden="true"></span><span class="preco__valor"><span class="preco__moeda">R$</span><span class="preco__numero">65</span></span></li>
+          </ul>
+        </div>
+        <div class="painel" id="painel-cilios" role="region" aria-labelledby="cartao-cilios" hidden>
+          <ul class="preco">
+            <li class="preco__linha"><span class="preco__nome">Volume brasileiro</span><span class="preco__filete" aria-hidden="true"></span><span class="preco__valor"><span class="preco__moeda">R$</span><span class="preco__numero">150</span></span></li>
+            <li class="preco__linha"><span class="preco__nome">Volume egípcio</span><span class="preco__filete" aria-hidden="true"></span><span class="preco__valor"><span class="preco__moeda">R$</span><span class="preco__numero">140</span></span></li>
+            <li class="preco__linha"><span class="preco__nome">Volume híbrido</span><span class="preco__filete" aria-hidden="true"></span><span class="preco__valor"><span class="preco__moeda">R$</span><span class="preco__numero">150</span></span></li>
+            <li class="preco__linha"><span class="preco__nome">Fox eyes</span><span class="preco__filete" aria-hidden="true"></span><span class="preco__valor"><span class="preco__moeda">R$</span><span class="preco__numero">150</span></span></li>
+            <li class="preco__linha"><span class="preco__nome">Boneca</span><span class="preco__filete" aria-hidden="true"></span><span class="preco__valor"><span class="preco__moeda">R$</span><span class="preco__numero">140</span></span></li>
+            <li class="preco__linha"><span class="preco__nome">Manutenção</span><span class="preco__filete" aria-hidden="true"></span><span class="preco__valor"><span class="preco__moeda">R$</span><span class="preco__numero">100</span></span></li>
+          </ul>
+        </div>
+        <div class="painel" id="painel-sobrancelha" role="region" aria-labelledby="cartao-sobrancelha" hidden>
+          <ul class="preco">
+            <li class="preco__linha"><span class="preco__nome">Design simples</span><span class="preco__filete" aria-hidden="true"></span><span class="preco__valor"><span class="preco__moeda">R$</span><span class="preco__numero">45</span></span></li>
+            <li class="preco__linha"><span class="preco__nome">Design com henna</span><span class="preco__filete" aria-hidden="true"></span><span class="preco__valor"><span class="preco__moeda">R$</span><span class="preco__numero">55</span></span></li>
+          </ul>
+        </div>
+        <div class="painel" id="painel-cabelo" role="region" aria-labelledby="cartao-cabelo" hidden>
+          <ul class="preco">
+            <li class="preco__linha"><span class="preco__nome">Escova</span><span class="preco__filete" aria-hidden="true"></span><span class="preco__valor"><span class="preco__moeda">R$</span><span class="preco__numero">60</span></span></li>
+            <li class="preco__linha"><span class="preco__nome">Escova + hidratação</span><span class="preco__filete" aria-hidden="true"></span><span class="preco__valor"><span class="preco__moeda">R$</span><span class="preco__numero">65</span></span></li>
+            <li class="preco__linha"><span class="preco__nome">Escova + hidratação + acidificação</span><span class="preco__filete" aria-hidden="true"></span><span class="preco__valor"><span class="preco__moeda">R$</span><span class="preco__numero">80</span></span></li>
+            <li class="preco__linha"><span class="preco__nome">Escova + hidratação + prancha</span><span class="preco__filete" aria-hidden="true"></span><span class="preco__valor"><span class="preco__moeda">R$</span><span class="preco__numero">80</span></span></li>
+            <li class="preco__linha"><span class="preco__nome">Definição de cachos</span><span class="preco__filete" aria-hidden="true"></span><span class="preco__valor"><span class="preco__moeda">R$</span><span class="preco__numero">60</span></span></li>
+          </ul>
+        </div>
+        <div class="painel" id="painel-tesoura" role="region" aria-labelledby="cartao-tesoura" hidden>
+          <ul class="preco">
+            <li class="preco__linha"><span class="preco__nome">Retoque de raiz</span><span class="preco__filete" aria-hidden="true"></span><span class="preco__valor"><span class="preco__moeda">R$</span><span class="preco__numero">60</span></span></li>
+            <li class="preco__linha"><span class="preco__nome">Coloração profissional</span><span class="preco__filete" aria-hidden="true"></span><span class="preco__valor"><span class="preco__moeda">R$</span><span class="preco__numero">80</span></span></li>
+            <li class="preco__linha"><span class="preco__nome">Botox</span><span class="preco__filete" aria-hidden="true"></span><span class="preco__valor"><span class="preco__moeda">R$</span><span class="preco__numero">130</span></span></li>
+            <li class="preco__linha"><span class="preco__nome">Corte</span><span class="preco__filete" aria-hidden="true"></span><span class="preco__valor"><span class="preco__moeda">R$</span><span class="preco__numero">60</span></span></li>
+          </ul>
+        </div>
       </div>
-      <div class="painel" id="painel-tradicional" role="region" aria-labelledby="cartao-tradicional" hidden>
-        <ul class="preco">
-          <li class="preco__linha"><span class="preco__nome">Mão</span><span class="preco__filete" aria-hidden="true"></span><span class="preco__valor"><span class="preco__moeda">R$</span><span class="preco__numero">45</span></span></li>
-          <li class="preco__linha"><span class="preco__nome">Pé</span><span class="preco__filete" aria-hidden="true"></span><span class="preco__valor"><span class="preco__moeda">R$</span><span class="preco__numero">45</span></span></li>
-          <li class="preco__linha"><span class="preco__nome">Mão + pé</span><span class="preco__filete" aria-hidden="true"></span><span class="preco__valor"><span class="preco__moeda">R$</span><span class="preco__numero">80</span></span></li>
-          <li class="preco__linha"><span class="preco__nome">Remoção + tratamento</span><span class="preco__filete" aria-hidden="true"></span><span class="preco__valor"><span class="preco__moeda">R$</span><span class="preco__numero">80</span></span></li>
-          <li class="preco__linha"><span class="preco__nome">Tratamento</span><span class="preco__filete" aria-hidden="true"></span><span class="preco__valor"><span class="preco__moeda">R$</span><span class="preco__numero">65</span></span></li>
-        </ul>
-      </div>
-      <div class="painel" id="painel-cilios" role="region" aria-labelledby="cartao-cilios" hidden>
-        <ul class="preco">
-          <li class="preco__linha"><span class="preco__nome">Volume brasileiro</span><span class="preco__filete" aria-hidden="true"></span><span class="preco__valor"><span class="preco__moeda">R$</span><span class="preco__numero">150</span></span></li>
-          <li class="preco__linha"><span class="preco__nome">Volume egípcio</span><span class="preco__filete" aria-hidden="true"></span><span class="preco__valor"><span class="preco__moeda">R$</span><span class="preco__numero">140</span></span></li>
-          <li class="preco__linha"><span class="preco__nome">Volume híbrido</span><span class="preco__filete" aria-hidden="true"></span><span class="preco__valor"><span class="preco__moeda">R$</span><span class="preco__numero">150</span></span></li>
-          <li class="preco__linha"><span class="preco__nome">Fox eyes</span><span class="preco__filete" aria-hidden="true"></span><span class="preco__valor"><span class="preco__moeda">R$</span><span class="preco__numero">150</span></span></li>
-          <li class="preco__linha"><span class="preco__nome">Boneca</span><span class="preco__filete" aria-hidden="true"></span><span class="preco__valor"><span class="preco__moeda">R$</span><span class="preco__numero">140</span></span></li>
-          <li class="preco__linha"><span class="preco__nome">Manutenção</span><span class="preco__filete" aria-hidden="true"></span><span class="preco__valor"><span class="preco__moeda">R$</span><span class="preco__numero">100</span></span></li>
-        </ul>
-      </div>
-      <div class="painel" id="painel-sobrancelha" role="region" aria-labelledby="cartao-sobrancelha" hidden>
-        <ul class="preco">
-          <li class="preco__linha"><span class="preco__nome">Design simples</span><span class="preco__filete" aria-hidden="true"></span><span class="preco__valor"><span class="preco__moeda">R$</span><span class="preco__numero">45</span></span></li>
-          <li class="preco__linha"><span class="preco__nome">Design com henna</span><span class="preco__filete" aria-hidden="true"></span><span class="preco__valor"><span class="preco__moeda">R$</span><span class="preco__numero">55</span></span></li>
-        </ul>
-      </div>
-      <div class="painel" id="painel-cabelo" role="region" aria-labelledby="cartao-cabelo" hidden>
-        <ul class="preco">
-          <li class="preco__linha"><span class="preco__nome">Escova</span><span class="preco__filete" aria-hidden="true"></span><span class="preco__valor"><span class="preco__moeda">R$</span><span class="preco__numero">60</span></span></li>
-          <li class="preco__linha"><span class="preco__nome">Escova + hidratação</span><span class="preco__filete" aria-hidden="true"></span><span class="preco__valor"><span class="preco__moeda">R$</span><span class="preco__numero">65</span></span></li>
-          <li class="preco__linha"><span class="preco__nome">Escova + hidratação + acidificação</span><span class="preco__filete" aria-hidden="true"></span><span class="preco__valor"><span class="preco__moeda">R$</span><span class="preco__numero">80</span></span></li>
-          <li class="preco__linha"><span class="preco__nome">Escova + hidratação + prancha</span><span class="preco__filete" aria-hidden="true"></span><span class="preco__valor"><span class="preco__moeda">R$</span><span class="preco__numero">80</span></span></li>
-          <li class="preco__linha"><span class="preco__nome">Definição de cachos</span><span class="preco__filete" aria-hidden="true"></span><span class="preco__valor"><span class="preco__moeda">R$</span><span class="preco__numero">60</span></span></li>
-        </ul>
-      </div>
-      <div class="painel" id="painel-tesoura" role="region" aria-labelledby="cartao-tesoura" hidden>
-        <ul class="preco">
-          <li class="preco__linha"><span class="preco__nome">Retoque de raiz</span><span class="preco__filete" aria-hidden="true"></span><span class="preco__valor"><span class="preco__moeda">R$</span><span class="preco__numero">60</span></span></li>
-          <li class="preco__linha"><span class="preco__nome">Coloração profissional</span><span class="preco__filete" aria-hidden="true"></span><span class="preco__valor"><span class="preco__moeda">R$</span><span class="preco__numero">80</span></span></li>
-          <li class="preco__linha"><span class="preco__nome">Botox</span><span class="preco__filete" aria-hidden="true"></span><span class="preco__valor"><span class="preco__moeda">R$</span><span class="preco__numero">130</span></span></li>
-          <li class="preco__linha"><span class="preco__nome">Corte</span><span class="preco__filete" aria-hidden="true"></span><span class="preco__valor"><span class="preco__moeda">R$</span><span class="preco__numero">60</span></span></li>
-        </ul>
-      </div>
-    </div>
-  </section>
+    </section>
 
-  <section class="galeria" id="galeria" aria-labelledby="galeria-titulo">
-    <h2 class="galeria__titulo" id="galeria-titulo">
-      <span class="mascara"><span class="revela-adiada">Nossos trabalhos</span></span>
-    </h2>
-    <div class="galeria__trilho">
-      <article class="painel-foto entra-adiada" data-painel="01" tabindex="0" role="button" aria-pressed="false" aria-label="Unhas em Gel">
-        <div class="painel-foto__midia">
-          <!-- FOTO: inserir o src aqui, ex.: src="assets/img/galeria-01.jpg". Enquanto não houver, o espaço reservado abaixo aparece. -->
-          <img class="painel-foto__img" alt="Alongamento em gel feito na Lili Esmalteria" loading="lazy" decoding="async" width="1200" height="1600">
-          <div class="painel-foto__vazio" aria-hidden="true"><svg class="galeria__moldura" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="10" r="1.6"/><path d="m4.5 17.5 4.7-4.2a1.6 1.6 0 0 1 2.2.05L15 17"/><path d="m13.8 14.6 1.9-1.7a1.6 1.6 0 0 1 2.2.05l1.6 1.6"/></svg></div>
-          <div class="painel-foto__veu" aria-hidden="true"></div>
-        </div>
-        <div class="painel-foto__corpo">
-          <div class="painel-foto__texto">
-            <span class="painel-foto__pilula">Alongamento e blindagem</span>
-            <h3 class="painel-foto__nome">Unhas em Gel</h3>
-            <span class="painel-foto__chamada">Ver trabalhos <svg class="galeria__seta" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M8.5 7H17v8.5"/></svg></span>
+    <section class="galeria" id="galeria" aria-labelledby="galeria-titulo">
+      <h2 class="galeria__titulo" id="galeria-titulo">
+        <span class="mascara"><span class="revela-adiada">Nossos trabalhos</span></span>
+      </h2>
+      <div class="galeria__trilho">
+        <article class="painel-foto entra-adiada" data-painel="01" tabindex="0" role="button" aria-pressed="false" aria-label="Unhas em Gel">
+          <div class="painel-foto__midia">
+            <!-- FOTO: inserir o src aqui, ex.: src="assets/img/galeria-01.jpg". Enquanto não houver, o espaço reservado abaixo aparece. -->
+            <img class="painel-foto__img" alt="Alongamento em gel feito na Lili Esmalteria" loading="lazy" decoding="async" width="1200" height="1600">
+            <div class="painel-foto__vazio" aria-hidden="true"><svg class="galeria__moldura" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="10" r="1.6"/><path d="m4.5 17.5 4.7-4.2a1.6 1.6 0 0 1 2.2.05L15 17"/><path d="m13.8 14.6 1.9-1.7a1.6 1.6 0 0 1 2.2.05l1.6 1.6"/></svg></div>
+            <div class="painel-foto__veu" aria-hidden="true"></div>
           </div>
-          <div class="painel-foto__rotulo" aria-hidden="true">
-            <span class="painel-foto__vertical">Unhas em Gel</span>
-            <span class="painel-foto__numero">01</span>
+          <div class="painel-foto__corpo">
+            <div class="painel-foto__texto">
+              <span class="painel-foto__pilula">Alongamento e blindagem</span>
+              <h3 class="painel-foto__nome">Unhas em Gel</h3>
+              <span class="painel-foto__chamada">Ver trabalhos <svg class="galeria__seta" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M8.5 7H17v8.5"/></svg></span>
+            </div>
+            <div class="painel-foto__rotulo" aria-hidden="true">
+              <span class="painel-foto__vertical">Unhas em Gel</span>
+              <span class="painel-foto__numero">01</span>
+            </div>
           </div>
-        </div>
-      </article>
-      <article class="painel-foto entra-adiada" data-painel="02" tabindex="0" role="button" aria-pressed="false" aria-label="Unhas Tradicionais">
-        <div class="painel-foto__midia">
-          <!-- FOTO: inserir o src aqui, ex.: src="assets/img/galeria-02.jpg". Enquanto não houver, o espaço reservado abaixo aparece. -->
-          <img class="painel-foto__img" alt="Esmaltação tradicional feita na Lili Esmalteria" loading="lazy" decoding="async" width="1200" height="1600">
-          <div class="painel-foto__vazio" aria-hidden="true"><svg class="galeria__moldura" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="10" r="1.6"/><path d="m4.5 17.5 4.7-4.2a1.6 1.6 0 0 1 2.2.05L15 17"/><path d="m13.8 14.6 1.9-1.7a1.6 1.6 0 0 1 2.2.05l1.6 1.6"/></svg></div>
-          <div class="painel-foto__veu" aria-hidden="true"></div>
-        </div>
-        <div class="painel-foto__corpo">
-          <div class="painel-foto__texto">
-            <span class="painel-foto__pilula">Mão e pé</span>
-            <h3 class="painel-foto__nome">Unhas Tradicionais</h3>
-            <span class="painel-foto__chamada">Ver trabalhos <svg class="galeria__seta" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M8.5 7H17v8.5"/></svg></span>
+        </article>
+        <article class="painel-foto entra-adiada" data-painel="02" tabindex="0" role="button" aria-pressed="false" aria-label="Unhas Tradicionais">
+          <div class="painel-foto__midia">
+            <!-- FOTO: inserir o src aqui, ex.: src="assets/img/galeria-02.jpg". Enquanto não houver, o espaço reservado abaixo aparece. -->
+            <img class="painel-foto__img" alt="Esmaltação tradicional feita na Lili Esmalteria" loading="lazy" decoding="async" width="1200" height="1600">
+            <div class="painel-foto__vazio" aria-hidden="true"><svg class="galeria__moldura" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="10" r="1.6"/><path d="m4.5 17.5 4.7-4.2a1.6 1.6 0 0 1 2.2.05L15 17"/><path d="m13.8 14.6 1.9-1.7a1.6 1.6 0 0 1 2.2.05l1.6 1.6"/></svg></div>
+            <div class="painel-foto__veu" aria-hidden="true"></div>
           </div>
-          <div class="painel-foto__rotulo" aria-hidden="true">
-            <span class="painel-foto__vertical">Unhas Tradicionais</span>
-            <span class="painel-foto__numero">02</span>
+          <div class="painel-foto__corpo">
+            <div class="painel-foto__texto">
+              <span class="painel-foto__pilula">Mão e pé</span>
+              <h3 class="painel-foto__nome">Unhas Tradicionais</h3>
+              <span class="painel-foto__chamada">Ver trabalhos <svg class="galeria__seta" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M8.5 7H17v8.5"/></svg></span>
+            </div>
+            <div class="painel-foto__rotulo" aria-hidden="true">
+              <span class="painel-foto__vertical">Unhas Tradicionais</span>
+              <span class="painel-foto__numero">02</span>
+            </div>
           </div>
-        </div>
-      </article>
-      <article class="painel-foto entra-adiada" data-painel="03" tabindex="0" role="button" aria-pressed="true" aria-label="Cílios">
-        <div class="painel-foto__midia">
-          <!-- FOTO: inserir o src aqui, ex.: src="assets/img/galeria-03.jpg". Enquanto não houver, o espaço reservado abaixo aparece. -->
-          <img class="painel-foto__img" alt="Extensão de cílios feita na Lili Esmalteria" loading="lazy" decoding="async" width="1200" height="1600">
-          <div class="painel-foto__vazio" aria-hidden="true"><svg class="galeria__moldura" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="10" r="1.6"/><path d="m4.5 17.5 4.7-4.2a1.6 1.6 0 0 1 2.2.05L15 17"/><path d="m13.8 14.6 1.9-1.7a1.6 1.6 0 0 1 2.2.05l1.6 1.6"/></svg></div>
-          <div class="painel-foto__veu" aria-hidden="true"></div>
-        </div>
-        <div class="painel-foto__corpo">
-          <div class="painel-foto__texto">
-            <span class="painel-foto__pilula">Volume e fox eyes</span>
-            <h3 class="painel-foto__nome">Cílios</h3>
-            <span class="painel-foto__chamada">Ver trabalhos <svg class="galeria__seta" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M8.5 7H17v8.5"/></svg></span>
+        </article>
+        <article class="painel-foto entra-adiada" data-painel="03" tabindex="0" role="button" aria-pressed="true" aria-label="Cílios">
+          <div class="painel-foto__midia">
+            <!-- FOTO: inserir o src aqui, ex.: src="assets/img/galeria-03.jpg". Enquanto não houver, o espaço reservado abaixo aparece. -->
+            <img class="painel-foto__img" alt="Extensão de cílios feita na Lili Esmalteria" loading="lazy" decoding="async" width="1200" height="1600">
+            <div class="painel-foto__vazio" aria-hidden="true"><svg class="galeria__moldura" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="10" r="1.6"/><path d="m4.5 17.5 4.7-4.2a1.6 1.6 0 0 1 2.2.05L15 17"/><path d="m13.8 14.6 1.9-1.7a1.6 1.6 0 0 1 2.2.05l1.6 1.6"/></svg></div>
+            <div class="painel-foto__veu" aria-hidden="true"></div>
           </div>
-          <div class="painel-foto__rotulo" aria-hidden="true">
-            <span class="painel-foto__vertical">Cílios</span>
-            <span class="painel-foto__numero">03</span>
+          <div class="painel-foto__corpo">
+            <div class="painel-foto__texto">
+              <span class="painel-foto__pilula">Volume e fox eyes</span>
+              <h3 class="painel-foto__nome">Cílios</h3>
+              <span class="painel-foto__chamada">Ver trabalhos <svg class="galeria__seta" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M8.5 7H17v8.5"/></svg></span>
+            </div>
+            <div class="painel-foto__rotulo" aria-hidden="true">
+              <span class="painel-foto__vertical">Cílios</span>
+              <span class="painel-foto__numero">03</span>
+            </div>
           </div>
-        </div>
-      </article>
-      <article class="painel-foto entra-adiada" data-painel="04" tabindex="0" role="button" aria-pressed="false" aria-label="Sobrancelha">
-        <div class="painel-foto__midia">
-          <!-- FOTO: inserir o src aqui, ex.: src="assets/img/galeria-04.jpg". Enquanto não houver, o espaço reservado abaixo aparece. -->
-          <img class="painel-foto__img" alt="Design de sobrancelha feito na Lili Esmalteria" loading="lazy" decoding="async" width="1200" height="1600">
-          <div class="painel-foto__vazio" aria-hidden="true"><svg class="galeria__moldura" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="10" r="1.6"/><path d="m4.5 17.5 4.7-4.2a1.6 1.6 0 0 1 2.2.05L15 17"/><path d="m13.8 14.6 1.9-1.7a1.6 1.6 0 0 1 2.2.05l1.6 1.6"/></svg></div>
-          <div class="painel-foto__veu" aria-hidden="true"></div>
-        </div>
-        <div class="painel-foto__corpo">
-          <div class="painel-foto__texto">
-            <span class="painel-foto__pilula">Design e henna</span>
-            <h3 class="painel-foto__nome">Sobrancelha</h3>
-            <span class="painel-foto__chamada">Ver trabalhos <svg class="galeria__seta" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M8.5 7H17v8.5"/></svg></span>
+        </article>
+        <article class="painel-foto entra-adiada" data-painel="04" tabindex="0" role="button" aria-pressed="false" aria-label="Sobrancelha">
+          <div class="painel-foto__midia">
+            <!-- FOTO: inserir o src aqui, ex.: src="assets/img/galeria-04.jpg". Enquanto não houver, o espaço reservado abaixo aparece. -->
+            <img class="painel-foto__img" alt="Design de sobrancelha feito na Lili Esmalteria" loading="lazy" decoding="async" width="1200" height="1600">
+            <div class="painel-foto__vazio" aria-hidden="true"><svg class="galeria__moldura" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="10" r="1.6"/><path d="m4.5 17.5 4.7-4.2a1.6 1.6 0 0 1 2.2.05L15 17"/><path d="m13.8 14.6 1.9-1.7a1.6 1.6 0 0 1 2.2.05l1.6 1.6"/></svg></div>
+            <div class="painel-foto__veu" aria-hidden="true"></div>
           </div>
-          <div class="painel-foto__rotulo" aria-hidden="true">
-            <span class="painel-foto__vertical">Sobrancelha</span>
-            <span class="painel-foto__numero">04</span>
+          <div class="painel-foto__corpo">
+            <div class="painel-foto__texto">
+              <span class="painel-foto__pilula">Design e henna</span>
+              <h3 class="painel-foto__nome">Sobrancelha</h3>
+              <span class="painel-foto__chamada">Ver trabalhos <svg class="galeria__seta" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M8.5 7H17v8.5"/></svg></span>
+            </div>
+            <div class="painel-foto__rotulo" aria-hidden="true">
+              <span class="painel-foto__vertical">Sobrancelha</span>
+              <span class="painel-foto__numero">04</span>
+            </div>
           </div>
-        </div>
-      </article>
-      <article class="painel-foto entra-adiada" data-painel="05" tabindex="0" role="button" aria-pressed="false" aria-label="Cabelo">
-        <div class="painel-foto__midia">
-          <!-- FOTO: inserir o src aqui, ex.: src="assets/img/galeria-05.jpg". Enquanto não houver, o espaço reservado abaixo aparece. -->
-          <img class="painel-foto__img" alt="Escova e definição de cachos feitas na Lili Esmalteria" loading="lazy" decoding="async" width="1200" height="1600">
-          <div class="painel-foto__vazio" aria-hidden="true"><svg class="galeria__moldura" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="10" r="1.6"/><path d="m4.5 17.5 4.7-4.2a1.6 1.6 0 0 1 2.2.05L15 17"/><path d="m13.8 14.6 1.9-1.7a1.6 1.6 0 0 1 2.2.05l1.6 1.6"/></svg></div>
-          <div class="painel-foto__veu" aria-hidden="true"></div>
-        </div>
-        <div class="painel-foto__corpo">
-          <div class="painel-foto__texto">
-            <span class="painel-foto__pilula">Escova e cachos</span>
-            <h3 class="painel-foto__nome">Cabelo</h3>
-            <span class="painel-foto__chamada">Ver trabalhos <svg class="galeria__seta" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M8.5 7H17v8.5"/></svg></span>
+        </article>
+        <article class="painel-foto entra-adiada" data-painel="05" tabindex="0" role="button" aria-pressed="false" aria-label="Cabelo">
+          <div class="painel-foto__midia">
+            <!-- FOTO: inserir o src aqui, ex.: src="assets/img/galeria-05.jpg". Enquanto não houver, o espaço reservado abaixo aparece. -->
+            <img class="painel-foto__img" alt="Escova e definição de cachos feitas na Lili Esmalteria" loading="lazy" decoding="async" width="1200" height="1600">
+            <div class="painel-foto__vazio" aria-hidden="true"><svg class="galeria__moldura" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="10" r="1.6"/><path d="m4.5 17.5 4.7-4.2a1.6 1.6 0 0 1 2.2.05L15 17"/><path d="m13.8 14.6 1.9-1.7a1.6 1.6 0 0 1 2.2.05l1.6 1.6"/></svg></div>
+            <div class="painel-foto__veu" aria-hidden="true"></div>
           </div>
-          <div class="painel-foto__rotulo" aria-hidden="true">
-            <span class="painel-foto__vertical">Cabelo</span>
-            <span class="painel-foto__numero">05</span>
+          <div class="painel-foto__corpo">
+            <div class="painel-foto__texto">
+              <span class="painel-foto__pilula">Escova e cachos</span>
+              <h3 class="painel-foto__nome">Cabelo</h3>
+              <span class="painel-foto__chamada">Ver trabalhos <svg class="galeria__seta" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M8.5 7H17v8.5"/></svg></span>
+            </div>
+            <div class="painel-foto__rotulo" aria-hidden="true">
+              <span class="painel-foto__vertical">Cabelo</span>
+              <span class="painel-foto__numero">05</span>
+            </div>
           </div>
-        </div>
-      </article>
-      <article class="painel-foto entra-adiada" data-painel="06" tabindex="0" role="button" aria-pressed="false" aria-label="Coloração">
-        <div class="painel-foto__midia">
-          <!-- FOTO: inserir o src aqui, ex.: src="assets/img/galeria-06.jpg". Enquanto não houver, o espaço reservado abaixo aparece. -->
-          <img class="painel-foto__img" alt="Coloração e tratamento capilar feitos na Lili Esmalteria" loading="lazy" decoding="async" width="1200" height="1600">
-          <div class="painel-foto__vazio" aria-hidden="true"><svg class="galeria__moldura" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="10" r="1.6"/><path d="m4.5 17.5 4.7-4.2a1.6 1.6 0 0 1 2.2.05L15 17"/><path d="m13.8 14.6 1.9-1.7a1.6 1.6 0 0 1 2.2.05l1.6 1.6"/></svg></div>
-          <div class="painel-foto__veu" aria-hidden="true"></div>
-        </div>
-        <div class="painel-foto__corpo">
-          <div class="painel-foto__texto">
-            <span class="painel-foto__pilula">Cor e tratamento</span>
-            <h3 class="painel-foto__nome">Coloração</h3>
-            <span class="painel-foto__chamada">Ver trabalhos <svg class="galeria__seta" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M8.5 7H17v8.5"/></svg></span>
+        </article>
+        <article class="painel-foto entra-adiada" data-painel="06" tabindex="0" role="button" aria-pressed="false" aria-label="Coloração">
+          <div class="painel-foto__midia">
+            <!-- FOTO: inserir o src aqui, ex.: src="assets/img/galeria-06.jpg". Enquanto não houver, o espaço reservado abaixo aparece. -->
+            <img class="painel-foto__img" alt="Coloração e tratamento capilar feitos na Lili Esmalteria" loading="lazy" decoding="async" width="1200" height="1600">
+            <div class="painel-foto__vazio" aria-hidden="true"><svg class="galeria__moldura" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="10" r="1.6"/><path d="m4.5 17.5 4.7-4.2a1.6 1.6 0 0 1 2.2.05L15 17"/><path d="m13.8 14.6 1.9-1.7a1.6 1.6 0 0 1 2.2.05l1.6 1.6"/></svg></div>
+            <div class="painel-foto__veu" aria-hidden="true"></div>
           </div>
-          <div class="painel-foto__rotulo" aria-hidden="true">
-            <span class="painel-foto__vertical">Coloração</span>
-            <span class="painel-foto__numero">06</span>
+          <div class="painel-foto__corpo">
+            <div class="painel-foto__texto">
+              <span class="painel-foto__pilula">Cor e tratamento</span>
+              <h3 class="painel-foto__nome">Coloração</h3>
+              <span class="painel-foto__chamada">Ver trabalhos <svg class="galeria__seta" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M8.5 7H17v8.5"/></svg></span>
+            </div>
+            <div class="painel-foto__rotulo" aria-hidden="true">
+              <span class="painel-foto__vertical">Coloração</span>
+              <span class="painel-foto__numero">06</span>
+            </div>
           </div>
-        </div>
-      </article>
-    </div>
-  </section>
+        </article>
+      </div>
+    </section>
 
-  <section class="agendamento" id="agendar" aria-labelledby="agendamento-titulo">
-    <h2 class="agendamento__titulo" id="agendamento-titulo">
-      <span class="mascara"><span class="revela-adiada">Agende seu horário</span></span>
-    </h2>
-    <p class="agendamento__apoio">Três toques e a gente já sabe o que você precisa.</p>
-    <ol class="progresso entra-adiada">
-      <li class="progresso__marca" data-estado="atual" aria-current="step">
-        <span class="progresso__traco" aria-hidden="true"></span>
-        <span class="progresso__rotulo">Serviço</span>
-      </li>
-      <li class="progresso__marca" data-estado="futura">
-        <span class="progresso__traco" aria-hidden="true"></span>
-        <span class="progresso__rotulo">Quando</span>
-      </li>
-      <li class="progresso__marca" data-estado="futura">
-        <span class="progresso__traco" aria-hidden="true"></span>
-        <span class="progresso__rotulo">Confirmar</span>
-      </li>
-    </ol>
-    <div class="passos entra-adiada">
-      <div class="passo" data-passo="1">
-        <button class="passo__resumo" type="button" hidden>
-          <span class="passo__filete" aria-hidden="true"></span>
-          <span class="passo__resumo-texto"></span>
-          <span class="passo__trocar">Trocar</span>
-        </button>
-        <div class="passo__corpo">
-          <p class="passo__pergunta" id="pergunta-servico">Qual serviço você quer?</p>
-          <div class="escolha">
-            <div class="cartoes">
-              <button class="cartao" type="button" id="agenda-cat-gel" data-foco="foco-gel">
-                <svg class="cartao__icone" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9.7 20.6c-.5-3.6-.8-7.2-.3-10.8.3-2.3 1.2-3.6 2.6-3.6s2.3 1.3 2.6 3.6c.5 3.6.2 7.2-.3 10.8-1.5.4-3.1.4-4.6 0Z"/><path d="M18.6 4.2l.6 1.6 1.6.6-1.6.6-.6 1.6-.6-1.6-1.6-.6 1.6-.6.6-1.6Z"/></svg>
-                <span class="cartao__nome">Unhas em Gel</span>
-                <span class="cartao__acao"><span class="cartao__acao-texto">Escolher</span><svg class="cartao__seta" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m7 10 5 5 5-5"/></svg></span>
-              </button>
-              <button class="cartao" type="button" id="agenda-cat-tradicional" data-foco="foco-tradicional">
-                <svg class="cartao__icone" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8.6 11.4h6.8v7.1a2 2 0 0 1-2 2h-2.8a2 2 0 0 1-2-2v-7.1Z"/><path d="M10.6 8.8h2.8v2.6h-2.8V8.8Z"/><path d="M12 8.8V6.2"/><path d="M10.9 3.4h2.2l-.6 2.8h-1l-.6-2.8Z"/></svg>
-                <span class="cartao__nome">Unhas Tradicionais</span>
-                <span class="cartao__acao"><span class="cartao__acao-texto">Escolher</span><svg class="cartao__seta" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m7 10 5 5 5-5"/></svg></span>
-              </button>
-              <button class="cartao" type="button" id="agenda-cat-cilios" data-foco="foco-cilios">
-                <svg class="cartao__icone" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3.4 13.6c3-3.9 5.9-5.8 8.6-5.8s5.6 1.9 8.6 5.8"/><path d="M3.4 13.6c3 2.6 5.9 3.9 8.6 3.9s5.6-1.3 8.6-3.9"/><path d="M6.2 8.6 4.7 6.2"/><path d="M9.4 6.9 8.6 4.3"/><path d="M12 6.4V3.7"/><path d="M14.6 6.9l.8-2.6"/><path d="M17.8 8.6l1.5-2.4"/></svg>
-                <span class="cartao__nome">Cílios</span>
-                <span class="cartao__acao"><span class="cartao__acao-texto">Escolher</span><svg class="cartao__seta" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m7 10 5 5 5-5"/></svg></span>
-              </button>
-              <button class="cartao" type="button" id="agenda-cat-sobrancelha" data-foco="foco-sobrancelha">
-                <svg class="cartao__icone" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3.6 15.2c4.3-4.6 9.1-7 14.4-7.2 1.5 0 2.4.6 2.4 1.5 0 1-1 1.7-2.9 2.1-4.8 1-9.5 2.2-13.9 3.6Z"/></svg>
-                <span class="cartao__nome">Sobrancelha</span>
-                <span class="cartao__acao"><span class="cartao__acao-texto">Escolher</span><svg class="cartao__seta" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m7 10 5 5 5-5"/></svg></span>
-              </button>
-              <button class="cartao" type="button" id="agenda-cat-cabelo" data-foco="foco-cabelo">
-                <svg class="cartao__icone" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8.4 3.2c-2.6 3.4 2.4 5.2 0 8.8-2.4 3.6 2 5.2.6 8.8"/><path d="M14.6 3.2c-2.6 3.4 2.4 5.2 0 8.8-2.4 3.6 2 5.2.6 8.8"/></svg>
-                <span class="cartao__nome">Cabelo</span>
-                <span class="cartao__acao"><span class="cartao__acao-texto">Escolher</span><svg class="cartao__seta" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m7 10 5 5 5-5"/></svg></span>
-              </button>
-              <button class="cartao" type="button" id="agenda-cat-tesoura" data-foco="foco-tesoura">
-                <svg class="cartao__icone" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="7.3" cy="18.2" r="2.3"/><circle cx="16.7" cy="18.2" r="2.3"/><path d="M8.9 16.5 17.4 4.2"/><path d="M15.1 16.5 6.6 4.2"/></svg>
-                <span class="cartao__nome">Coloração e Tratamento</span>
-                <span class="cartao__acao"><span class="cartao__acao-texto">Escolher</span><svg class="cartao__seta" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m7 10 5 5 5-5"/></svg></span>
-              </button>
-            </div>
-            <div class="foco" id="foco-gel" role="region" aria-label="Unhas em Gel" hidden>
-              <button class="categoria" type="button" data-cartao="agenda-cat-gel">
-                <svg class="categoria__icone" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9.7 20.6c-.5-3.6-.8-7.2-.3-10.8.3-2.3 1.2-3.6 2.6-3.6s2.3 1.3 2.6 3.6c.5 3.6.2 7.2-.3 10.8-1.5.4-3.1.4-4.6 0Z"/><path d="M18.6 4.2l.6 1.6 1.6.6-1.6.6-.6 1.6-.6-1.6-1.6-.6 1.6-.6.6-1.6Z"/></svg>
-                <span class="categoria__nome">Unhas em Gel</span>
-                <span class="categoria__trocar">Trocar</span>
-              </button>
-              <div class="pilulas">
-                <button class="pilula" type="button" aria-pressed="false" data-servico="Alongamento molde F1">Alongamento molde F1</button>
-                <button class="pilula" type="button" aria-pressed="false" data-servico="Blindagem + esmaltação em gel (mão)">Blindagem + esmaltação em gel (mão)</button>
-                <button class="pilula" type="button" aria-pressed="false" data-servico="Blindagem + esmaltação em gel (pé)">Blindagem + esmaltação em gel (pé)</button>
-                <button class="pilula" type="button" aria-pressed="false" data-servico="Pé + mão em gel">Pé + mão em gel</button>
-                <button class="pilula" type="button" aria-pressed="false" data-servico="Manutenção até 30 dias">Manutenção até 30 dias</button>
-                <button class="pilula" type="button" aria-pressed="false" data-servico="Manutenção após 30 dias">Manutenção após 30 dias</button>
-                <button class="pilula" type="button" aria-pressed="false" data-servico="Remoção">Remoção</button>
+    <section class="agendamento" id="agendar" aria-labelledby="agendamento-titulo">
+      <h2 class="agendamento__titulo" id="agendamento-titulo">
+        <span class="mascara"><span class="revela-adiada">Agende seu horário</span></span>
+      </h2>
+      <p class="agendamento__apoio">Três toques e a gente já sabe o que você precisa.</p>
+      <ol class="progresso entra-adiada">
+        <li class="progresso__marca" data-estado="atual" aria-current="step">
+          <span class="progresso__traco" aria-hidden="true"></span>
+          <span class="progresso__rotulo">Serviço</span>
+        </li>
+        <li class="progresso__marca" data-estado="futura">
+          <span class="progresso__traco" aria-hidden="true"></span>
+          <span class="progresso__rotulo">Quando</span>
+        </li>
+        <li class="progresso__marca" data-estado="futura">
+          <span class="progresso__traco" aria-hidden="true"></span>
+          <span class="progresso__rotulo">Confirmar</span>
+        </li>
+      </ol>
+      <div class="passos entra-adiada">
+        <div class="passo" data-passo="1">
+          <button class="passo__resumo" type="button" hidden>
+            <span class="passo__filete" aria-hidden="true"></span>
+            <span class="passo__resumo-texto"></span>
+            <span class="passo__trocar">Trocar</span>
+          </button>
+          <div class="passo__corpo">
+            <p class="passo__pergunta" id="pergunta-servico">Qual serviço você quer?</p>
+            <div class="escolha">
+              <div class="cartoes">
+                <button class="cartao" type="button" id="agenda-cat-gel" data-foco="foco-gel">
+                  <svg class="cartao__icone" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9.7 20.6c-.5-3.6-.8-7.2-.3-10.8.3-2.3 1.2-3.6 2.6-3.6s2.3 1.3 2.6 3.6c.5 3.6.2 7.2-.3 10.8-1.5.4-3.1.4-4.6 0Z"/><path d="M18.6 4.2l.6 1.6 1.6.6-1.6.6-.6 1.6-.6-1.6-1.6-.6 1.6-.6.6-1.6Z"/></svg>
+                  <span class="cartao__nome">Unhas em Gel</span>
+                  <span class="cartao__acao"><span class="cartao__acao-texto">Escolher</span><svg class="cartao__seta" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m7 10 5 5 5-5"/></svg></span>
+                </button>
+                <button class="cartao" type="button" id="agenda-cat-tradicional" data-foco="foco-tradicional">
+                  <svg class="cartao__icone" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8.6 11.4h6.8v7.1a2 2 0 0 1-2 2h-2.8a2 2 0 0 1-2-2v-7.1Z"/><path d="M10.6 8.8h2.8v2.6h-2.8V8.8Z"/><path d="M12 8.8V6.2"/><path d="M10.9 3.4h2.2l-.6 2.8h-1l-.6-2.8Z"/></svg>
+                  <span class="cartao__nome">Unhas Tradicionais</span>
+                  <span class="cartao__acao"><span class="cartao__acao-texto">Escolher</span><svg class="cartao__seta" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m7 10 5 5 5-5"/></svg></span>
+                </button>
+                <button class="cartao" type="button" id="agenda-cat-cilios" data-foco="foco-cilios">
+                  <svg class="cartao__icone" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3.4 13.6c3-3.9 5.9-5.8 8.6-5.8s5.6 1.9 8.6 5.8"/><path d="M3.4 13.6c3 2.6 5.9 3.9 8.6 3.9s5.6-1.3 8.6-3.9"/><path d="M6.2 8.6 4.7 6.2"/><path d="M9.4 6.9 8.6 4.3"/><path d="M12 6.4V3.7"/><path d="M14.6 6.9l.8-2.6"/><path d="M17.8 8.6l1.5-2.4"/></svg>
+                  <span class="cartao__nome">Cílios</span>
+                  <span class="cartao__acao"><span class="cartao__acao-texto">Escolher</span><svg class="cartao__seta" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m7 10 5 5 5-5"/></svg></span>
+                </button>
+                <button class="cartao" type="button" id="agenda-cat-sobrancelha" data-foco="foco-sobrancelha">
+                  <svg class="cartao__icone" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3.6 15.2c4.3-4.6 9.1-7 14.4-7.2 1.5 0 2.4.6 2.4 1.5 0 1-1 1.7-2.9 2.1-4.8 1-9.5 2.2-13.9 3.6Z"/></svg>
+                  <span class="cartao__nome">Sobrancelha</span>
+                  <span class="cartao__acao"><span class="cartao__acao-texto">Escolher</span><svg class="cartao__seta" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m7 10 5 5 5-5"/></svg></span>
+                </button>
+                <button class="cartao" type="button" id="agenda-cat-cabelo" data-foco="foco-cabelo">
+                  <svg class="cartao__icone" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8.4 3.2c-2.6 3.4 2.4 5.2 0 8.8-2.4 3.6 2 5.2.6 8.8"/><path d="M14.6 3.2c-2.6 3.4 2.4 5.2 0 8.8-2.4 3.6 2 5.2.6 8.8"/></svg>
+                  <span class="cartao__nome">Cabelo</span>
+                  <span class="cartao__acao"><span class="cartao__acao-texto">Escolher</span><svg class="cartao__seta" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m7 10 5 5 5-5"/></svg></span>
+                </button>
+                <button class="cartao" type="button" id="agenda-cat-tesoura" data-foco="foco-tesoura">
+                  <svg class="cartao__icone" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="7.3" cy="18.2" r="2.3"/><circle cx="16.7" cy="18.2" r="2.3"/><path d="M8.9 16.5 17.4 4.2"/><path d="M15.1 16.5 6.6 4.2"/></svg>
+                  <span class="cartao__nome">Coloração e Tratamento</span>
+                  <span class="cartao__acao"><span class="cartao__acao-texto">Escolher</span><svg class="cartao__seta" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m7 10 5 5 5-5"/></svg></span>
+                </button>
               </div>
-            </div>
-            <div class="foco" id="foco-tradicional" role="region" aria-label="Unhas Tradicionais" hidden>
-              <button class="categoria" type="button" data-cartao="agenda-cat-tradicional">
-                <svg class="categoria__icone" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8.6 11.4h6.8v7.1a2 2 0 0 1-2 2h-2.8a2 2 0 0 1-2-2v-7.1Z"/><path d="M10.6 8.8h2.8v2.6h-2.8V8.8Z"/><path d="M12 8.8V6.2"/><path d="M10.9 3.4h2.2l-.6 2.8h-1l-.6-2.8Z"/></svg>
-                <span class="categoria__nome">Unhas Tradicionais</span>
-                <span class="categoria__trocar">Trocar</span>
-              </button>
-              <div class="pilulas">
-                <button class="pilula" type="button" aria-pressed="false" data-servico="Mão">Mão</button>
-                <button class="pilula" type="button" aria-pressed="false" data-servico="Pé">Pé</button>
-                <button class="pilula" type="button" aria-pressed="false" data-servico="Mão + pé">Mão + pé</button>
-                <button class="pilula" type="button" aria-pressed="false" data-servico="Remoção + tratamento">Remoção + tratamento</button>
-                <button class="pilula" type="button" aria-pressed="false" data-servico="Tratamento">Tratamento</button>
+              <div class="foco" id="foco-gel" role="region" aria-label="Unhas em Gel" hidden>
+                <button class="categoria" type="button" data-cartao="agenda-cat-gel">
+                  <svg class="categoria__icone" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9.7 20.6c-.5-3.6-.8-7.2-.3-10.8.3-2.3 1.2-3.6 2.6-3.6s2.3 1.3 2.6 3.6c.5 3.6.2 7.2-.3 10.8-1.5.4-3.1.4-4.6 0Z"/><path d="M18.6 4.2l.6 1.6 1.6.6-1.6.6-.6 1.6-.6-1.6-1.6-.6 1.6-.6.6-1.6Z"/></svg>
+                  <span class="categoria__nome">Unhas em Gel</span>
+                  <span class="categoria__trocar">Trocar</span>
+                </button>
+                <div class="pilulas">
+                  <button class="pilula" type="button" aria-pressed="false" data-servico="Alongamento molde F1">Alongamento molde F1</button>
+                  <button class="pilula" type="button" aria-pressed="false" data-servico="Blindagem + esmaltação em gel (mão)">Blindagem + esmaltação em gel (mão)</button>
+                  <button class="pilula" type="button" aria-pressed="false" data-servico="Blindagem + esmaltação em gel (pé)">Blindagem + esmaltação em gel (pé)</button>
+                  <button class="pilula" type="button" aria-pressed="false" data-servico="Pé + mão em gel">Pé + mão em gel</button>
+                  <button class="pilula" type="button" aria-pressed="false" data-servico="Manutenção até 30 dias">Manutenção até 30 dias</button>
+                  <button class="pilula" type="button" aria-pressed="false" data-servico="Manutenção após 30 dias">Manutenção após 30 dias</button>
+                  <button class="pilula" type="button" aria-pressed="false" data-servico="Remoção">Remoção</button>
+                </div>
               </div>
-            </div>
-            <div class="foco" id="foco-cilios" role="region" aria-label="Cílios" hidden>
-              <button class="categoria" type="button" data-cartao="agenda-cat-cilios">
-                <svg class="categoria__icone" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3.4 13.6c3-3.9 5.9-5.8 8.6-5.8s5.6 1.9 8.6 5.8"/><path d="M3.4 13.6c3 2.6 5.9 3.9 8.6 3.9s5.6-1.3 8.6-3.9"/><path d="M6.2 8.6 4.7 6.2"/><path d="M9.4 6.9 8.6 4.3"/><path d="M12 6.4V3.7"/><path d="M14.6 6.9l.8-2.6"/><path d="M17.8 8.6l1.5-2.4"/></svg>
-                <span class="categoria__nome">Cílios</span>
-                <span class="categoria__trocar">Trocar</span>
-              </button>
-              <div class="pilulas">
-                <button class="pilula" type="button" aria-pressed="false" data-servico="Volume brasileiro">Volume brasileiro</button>
-                <button class="pilula" type="button" aria-pressed="false" data-servico="Volume egípcio">Volume egípcio</button>
-                <button class="pilula" type="button" aria-pressed="false" data-servico="Volume híbrido">Volume híbrido</button>
-                <button class="pilula" type="button" aria-pressed="false" data-servico="Fox eyes">Fox eyes</button>
-                <button class="pilula" type="button" aria-pressed="false" data-servico="Boneca">Boneca</button>
-                <button class="pilula" type="button" aria-pressed="false" data-servico="Manutenção">Manutenção</button>
+              <div class="foco" id="foco-tradicional" role="region" aria-label="Unhas Tradicionais" hidden>
+                <button class="categoria" type="button" data-cartao="agenda-cat-tradicional">
+                  <svg class="categoria__icone" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8.6 11.4h6.8v7.1a2 2 0 0 1-2 2h-2.8a2 2 0 0 1-2-2v-7.1Z"/><path d="M10.6 8.8h2.8v2.6h-2.8V8.8Z"/><path d="M12 8.8V6.2"/><path d="M10.9 3.4h2.2l-.6 2.8h-1l-.6-2.8Z"/></svg>
+                  <span class="categoria__nome">Unhas Tradicionais</span>
+                  <span class="categoria__trocar">Trocar</span>
+                </button>
+                <div class="pilulas">
+                  <button class="pilula" type="button" aria-pressed="false" data-servico="Mão">Mão</button>
+                  <button class="pilula" type="button" aria-pressed="false" data-servico="Pé">Pé</button>
+                  <button class="pilula" type="button" aria-pressed="false" data-servico="Mão + pé">Mão + pé</button>
+                  <button class="pilula" type="button" aria-pressed="false" data-servico="Remoção + tratamento">Remoção + tratamento</button>
+                  <button class="pilula" type="button" aria-pressed="false" data-servico="Tratamento">Tratamento</button>
+                </div>
               </div>
-            </div>
-            <div class="foco" id="foco-sobrancelha" role="region" aria-label="Sobrancelha" hidden>
-              <button class="categoria" type="button" data-cartao="agenda-cat-sobrancelha">
-                <svg class="categoria__icone" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3.6 15.2c4.3-4.6 9.1-7 14.4-7.2 1.5 0 2.4.6 2.4 1.5 0 1-1 1.7-2.9 2.1-4.8 1-9.5 2.2-13.9 3.6Z"/></svg>
-                <span class="categoria__nome">Sobrancelha</span>
-                <span class="categoria__trocar">Trocar</span>
-              </button>
-              <div class="pilulas">
-                <button class="pilula" type="button" aria-pressed="false" data-servico="Design simples">Design simples</button>
-                <button class="pilula" type="button" aria-pressed="false" data-servico="Design com henna">Design com henna</button>
+              <div class="foco" id="foco-cilios" role="region" aria-label="Cílios" hidden>
+                <button class="categoria" type="button" data-cartao="agenda-cat-cilios">
+                  <svg class="categoria__icone" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3.4 13.6c3-3.9 5.9-5.8 8.6-5.8s5.6 1.9 8.6 5.8"/><path d="M3.4 13.6c3 2.6 5.9 3.9 8.6 3.9s5.6-1.3 8.6-3.9"/><path d="M6.2 8.6 4.7 6.2"/><path d="M9.4 6.9 8.6 4.3"/><path d="M12 6.4V3.7"/><path d="M14.6 6.9l.8-2.6"/><path d="M17.8 8.6l1.5-2.4"/></svg>
+                  <span class="categoria__nome">Cílios</span>
+                  <span class="categoria__trocar">Trocar</span>
+                </button>
+                <div class="pilulas">
+                  <button class="pilula" type="button" aria-pressed="false" data-servico="Volume brasileiro">Volume brasileiro</button>
+                  <button class="pilula" type="button" aria-pressed="false" data-servico="Volume egípcio">Volume egípcio</button>
+                  <button class="pilula" type="button" aria-pressed="false" data-servico="Volume híbrido">Volume híbrido</button>
+                  <button class="pilula" type="button" aria-pressed="false" data-servico="Fox eyes">Fox eyes</button>
+                  <button class="pilula" type="button" aria-pressed="false" data-servico="Boneca">Boneca</button>
+                  <button class="pilula" type="button" aria-pressed="false" data-servico="Manutenção">Manutenção</button>
+                </div>
               </div>
-            </div>
-            <div class="foco" id="foco-cabelo" role="region" aria-label="Cabelo" hidden>
-              <button class="categoria" type="button" data-cartao="agenda-cat-cabelo">
-                <svg class="categoria__icone" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8.4 3.2c-2.6 3.4 2.4 5.2 0 8.8-2.4 3.6 2 5.2.6 8.8"/><path d="M14.6 3.2c-2.6 3.4 2.4 5.2 0 8.8-2.4 3.6 2 5.2.6 8.8"/></svg>
-                <span class="categoria__nome">Cabelo</span>
-                <span class="categoria__trocar">Trocar</span>
-              </button>
-              <div class="pilulas">
-                <button class="pilula" type="button" aria-pressed="false" data-servico="Escova">Escova</button>
-                <button class="pilula" type="button" aria-pressed="false" data-servico="Escova + hidratação">Escova + hidratação</button>
-                <button class="pilula" type="button" aria-pressed="false" data-servico="Escova + hidratação + acidificação">Escova + hidratação + acidificação</button>
-                <button class="pilula" type="button" aria-pressed="false" data-servico="Escova + hidratação + prancha">Escova + hidratação + prancha</button>
-                <button class="pilula" type="button" aria-pressed="false" data-servico="Definição de cachos">Definição de cachos</button>
+              <div class="foco" id="foco-sobrancelha" role="region" aria-label="Sobrancelha" hidden>
+                <button class="categoria" type="button" data-cartao="agenda-cat-sobrancelha">
+                  <svg class="categoria__icone" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3.6 15.2c4.3-4.6 9.1-7 14.4-7.2 1.5 0 2.4.6 2.4 1.5 0 1-1 1.7-2.9 2.1-4.8 1-9.5 2.2-13.9 3.6Z"/></svg>
+                  <span class="categoria__nome">Sobrancelha</span>
+                  <span class="categoria__trocar">Trocar</span>
+                </button>
+                <div class="pilulas">
+                  <button class="pilula" type="button" aria-pressed="false" data-servico="Design simples">Design simples</button>
+                  <button class="pilula" type="button" aria-pressed="false" data-servico="Design com henna">Design com henna</button>
+                </div>
               </div>
-            </div>
-            <div class="foco" id="foco-tesoura" role="region" aria-label="Coloração e Tratamento" hidden>
-              <button class="categoria" type="button" data-cartao="agenda-cat-tesoura">
-                <svg class="categoria__icone" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="7.3" cy="18.2" r="2.3"/><circle cx="16.7" cy="18.2" r="2.3"/><path d="M8.9 16.5 17.4 4.2"/><path d="M15.1 16.5 6.6 4.2"/></svg>
-                <span class="categoria__nome">Coloração e Tratamento</span>
-                <span class="categoria__trocar">Trocar</span>
-              </button>
-              <div class="pilulas">
-                <button class="pilula" type="button" aria-pressed="false" data-servico="Retoque de raiz">Retoque de raiz</button>
-                <button class="pilula" type="button" aria-pressed="false" data-servico="Coloração profissional">Coloração profissional</button>
-                <button class="pilula" type="button" aria-pressed="false" data-servico="Botox">Botox</button>
-                <button class="pilula" type="button" aria-pressed="false" data-servico="Corte">Corte</button>
+              <div class="foco" id="foco-cabelo" role="region" aria-label="Cabelo" hidden>
+                <button class="categoria" type="button" data-cartao="agenda-cat-cabelo">
+                  <svg class="categoria__icone" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8.4 3.2c-2.6 3.4 2.4 5.2 0 8.8-2.4 3.6 2 5.2.6 8.8"/><path d="M14.6 3.2c-2.6 3.4 2.4 5.2 0 8.8-2.4 3.6 2 5.2.6 8.8"/></svg>
+                  <span class="categoria__nome">Cabelo</span>
+                  <span class="categoria__trocar">Trocar</span>
+                </button>
+                <div class="pilulas">
+                  <button class="pilula" type="button" aria-pressed="false" data-servico="Escova">Escova</button>
+                  <button class="pilula" type="button" aria-pressed="false" data-servico="Escova + hidratação">Escova + hidratação</button>
+                  <button class="pilula" type="button" aria-pressed="false" data-servico="Escova + hidratação + acidificação">Escova + hidratação + acidificação</button>
+                  <button class="pilula" type="button" aria-pressed="false" data-servico="Escova + hidratação + prancha">Escova + hidratação + prancha</button>
+                  <button class="pilula" type="button" aria-pressed="false" data-servico="Definição de cachos">Definição de cachos</button>
+                </div>
+              </div>
+              <div class="foco" id="foco-tesoura" role="region" aria-label="Coloração e Tratamento" hidden>
+                <button class="categoria" type="button" data-cartao="agenda-cat-tesoura">
+                  <svg class="categoria__icone" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="7.3" cy="18.2" r="2.3"/><circle cx="16.7" cy="18.2" r="2.3"/><path d="M8.9 16.5 17.4 4.2"/><path d="M15.1 16.5 6.6 4.2"/></svg>
+                  <span class="categoria__nome">Coloração e Tratamento</span>
+                  <span class="categoria__trocar">Trocar</span>
+                </button>
+                <div class="pilulas">
+                  <button class="pilula" type="button" aria-pressed="false" data-servico="Retoque de raiz">Retoque de raiz</button>
+                  <button class="pilula" type="button" aria-pressed="false" data-servico="Coloração profissional">Coloração profissional</button>
+                  <button class="pilula" type="button" aria-pressed="false" data-servico="Botox">Botox</button>
+                  <button class="pilula" type="button" aria-pressed="false" data-servico="Corte">Corte</button>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-      <div class="passo" data-passo="2" hidden>
-        <button class="passo__resumo" type="button" hidden>
-          <span class="passo__filete" aria-hidden="true"></span>
-          <span class="passo__resumo-texto"></span>
-          <span class="passo__trocar">Trocar</span>
-        </button>
-        <div class="passo__corpo">
-          <p class="passo__pergunta">Que dia fica melhor?</p>
-          <div class="pilulas pilulas--dias">
-            <button class="pilula" type="button" aria-pressed="false" data-dia="Segunda" data-longo="segunda-feira">Segunda</button>
-            <button class="pilula" type="button" aria-pressed="false" data-dia="Terça" data-longo="terça-feira">Terça</button>
-            <button class="pilula" type="button" aria-pressed="false" data-dia="Quarta" data-longo="quarta-feira">Quarta</button>
-            <button class="pilula" type="button" aria-pressed="false" data-dia="Quinta" data-longo="quinta-feira">Quinta</button>
-            <button class="pilula" type="button" aria-pressed="false" data-dia="Sexta" data-longo="sexta-feira">Sexta</button>
-            <button class="pilula" type="button" aria-pressed="false" data-dia="Sábado" data-longo="sábado">Sábado</button>
+        <div class="passo" data-passo="2" hidden>
+          <button class="passo__resumo" type="button" hidden>
+            <span class="passo__filete" aria-hidden="true"></span>
+            <span class="passo__resumo-texto"></span>
+            <span class="passo__trocar">Trocar</span>
+          </button>
+          <div class="passo__corpo">
+            <p class="passo__pergunta">Que dia fica melhor?</p>
+            <div class="pilulas pilulas--dias">
+              <button class="pilula" type="button" aria-pressed="false" data-dia="Segunda" data-longo="segunda-feira">Segunda</button>
+              <button class="pilula" type="button" aria-pressed="false" data-dia="Terça" data-longo="terça-feira">Terça</button>
+              <button class="pilula" type="button" aria-pressed="false" data-dia="Quarta" data-longo="quarta-feira">Quarta</button>
+              <button class="pilula" type="button" aria-pressed="false" data-dia="Quinta" data-longo="quinta-feira">Quinta</button>
+              <button class="pilula" type="button" aria-pressed="false" data-dia="Sexta" data-longo="sexta-feira">Sexta</button>
+              <button class="pilula" type="button" aria-pressed="false" data-dia="Sábado" data-longo="sábado">Sábado</button>
+            </div>
+            <p class="passo__pergunta passo__pergunta--segunda">Em que período?</p>
+            <div class="pilulas pilulas--periodos">
+              <button class="pilula pilula--periodo" type="button" aria-pressed="false" data-periodo="Manhã" data-longo="manhã">
+                <span class="pilula__nome">Manhã</span>
+                <span class="pilula__hora">das 8h às 12h</span>
+              </button>
+              <button class="pilula pilula--periodo" type="button" aria-pressed="false" data-periodo="Tarde" data-longo="tarde">
+                <span class="pilula__nome">Tarde</span>
+                <span class="pilula__hora">das 12h às 17h</span>
+              </button>
+              <button class="pilula pilula--periodo" type="button" aria-pressed="false" data-periodo="Noite" data-longo="noite">
+                <span class="pilula__nome">Noite</span>
+                <span class="pilula__hora">das 17h às 20h</span>
+              </button>
+            </div>
+            <p class="agendamento__expediente">Atendemos das 8h às 20h.</p>
           </div>
-          <p class="passo__pergunta passo__pergunta--segunda">Em que período?</p>
-          <div class="pilulas pilulas--periodos">
-            <button class="pilula pilula--periodo" type="button" aria-pressed="false" data-periodo="Manhã" data-longo="manhã">
-              <span class="pilula__nome">Manhã</span>
-              <span class="pilula__hora">das 8h às 12h</span>
-            </button>
-            <button class="pilula pilula--periodo" type="button" aria-pressed="false" data-periodo="Tarde" data-longo="tarde">
-              <span class="pilula__nome">Tarde</span>
-              <span class="pilula__hora">das 12h às 17h</span>
-            </button>
-            <button class="pilula pilula--periodo" type="button" aria-pressed="false" data-periodo="Noite" data-longo="noite">
-              <span class="pilula__nome">Noite</span>
-              <span class="pilula__hora">das 17h às 20h</span>
-            </button>
+        </div>
+        <div class="passo" data-passo="3" hidden>
+          <div class="passo__corpo">
+            <p class="confirma__resumo">
+              <span class="confirma__item" data-campo="servico"></span>
+              <span class="confirma__losango" aria-hidden="true"></span>
+              <span class="confirma__item" data-campo="dia"></span>
+              <span class="confirma__losango" aria-hidden="true"></span>
+              <span class="confirma__item" data-campo="periodo"></span>
+            </p>
+            <a class="botao whats" href="#">
+              <svg class="whats__icone" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.6 11.7a8.4 8.4 0 0 1-12.4 7.4l-4.5 1.4 1.4-4.4A8.4 8.4 0 1 1 20.6 11.7Z"/><path d="M9.5 9.1c.3-.6.9-.7 1.3-.4.4.3.7.8.9 1.3.1.4 0 .8-.3 1l-.4.3c.5 1 1.3 1.8 2.3 2.3l.3-.4c.2-.3.6-.4 1-.3.5.2 1 .5 1.3.9.3.4.2 1-.4 1.3-.6.4-1.4.4-2.1.1a7.5 7.5 0 0 1-3.9-3.9c-.3-.7-.3-1.5.1-2.2Z"/></svg>
+              <span>Chamar no WhatsApp</span>
+            </a>
+            <p class="confirma__nota">Você fala direto com a gente. Sem cadastro.</p>
           </div>
-          <p class="agendamento__expediente">Atendemos das 8h às 20h.</p>
         </div>
       </div>
-      <div class="passo" data-passo="3" hidden>
-        <div class="passo__corpo">
-          <p class="confirma__resumo">
-            <span class="confirma__item" data-campo="servico"></span>
-            <span class="confirma__losango" aria-hidden="true"></span>
-            <span class="confirma__item" data-campo="dia"></span>
-            <span class="confirma__losango" aria-hidden="true"></span>
-            <span class="confirma__item" data-campo="periodo"></span>
+    </section>
+
+    <section class="onde" id="onde" aria-labelledby="onde-titulo">
+      <h2 class="onde__titulo" id="onde-titulo">
+        <span class="mascara"><span class="revela-adiada">Onde a gente fica</span></span>
+      </h2>
+      <p class="onde__apoio">No centro, fácil de chegar.</p>
+      <div class="onde__corpo">
+        <div class="endereco entra-adiada">
+          <p class="endereco__rua">Avenida Brasil, 322</p>
+          <p class="endereco__bairro">Centro · Itupeva/SP</p>
+          <hr class="endereco__filete">
+          <dl class="endereco__dados">
+            <dt class="endereco__rotulo">Horário</dt>
+            <dd class="endereco__valor">
+              <span class="endereco__dias">Segunda a sábado</span>
+              <span class="endereco__horas">8h às 20h</span>
+            </dd>
+            <dt class="endereco__rotulo">Telefone</dt>
+            <dd class="endereco__valor">
+              <a class="endereco__telefone" href="tel:+5511000000000">(11) XXXXX-XXXX</a>
+            </dd>
+          </dl>
+          <div class="endereco__botoes">
+            <a class="botao botao--linha" href="https://www.google.com/maps/dir/?api=1&destination=Avenida+Brasil%2C+322+-+Centro%2C+Itupeva+-+SP" target="_blank" rel="noopener">
+              <svg class="botao__icone" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.5 3.5 3.5 10.4l7.2 2.9 2.9 7.2 6.9-17Z"/><path d="m10.7 13.3 4.2-4.2"/></svg>
+              <span>Como chegar</span>
+            </a>
+            <a class="botao whats whats--local" href="#">
+              <svg class="whats__icone" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.6 11.7a8.4 8.4 0 0 1-12.4 7.4l-4.5 1.4 1.4-4.4A8.4 8.4 0 1 1 20.6 11.7Z"/><path d="M9.5 9.1c.3-.6.9-.7 1.3-.4.4.3.7.8.9 1.3.1.4 0 .8-.3 1l-.4.3c.5 1 1.3 1.8 2.3 2.3l.3-.4c.2-.3.6-.4 1-.3.5.2 1 .5 1.3.9.3.4.2 1-.4 1.3-.6.4-1.4.4-2.1.1a7.5 7.5 0 0 1-3.9-3.9c-.3-.7-.3-1.5.1-2.2Z"/></svg>
+              <span>Chamar no WhatsApp</span>
+            </a>
+          </div>
+        </div>
+        <div class="mapa entra-adiada">
+          <iframe class="mapa__quadro" data-src="https://www.google.com/maps?q=Avenida+Brasil%2C+322+-+Centro%2C+Itupeva+-+SP&output=embed" title="Mapa com a localização da Lili Esmalteria em Avenida Brasil, 322 - Centro, Itupeva - SP" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
+          <div class="mapa__espera" aria-hidden="true">
+            <svg class="mapa__moldura" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M9 5v14"/><path d="M15 7v14"/></svg>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="rodape">
+      <div class="rodape__corpo">
+        <div class="rodape__marca entra-adiada">
+          <img class="rodape__logo" src="assets/img/logo-lili.svg?v=1" alt="Lili Esmalteria" width="1111" height="752" loading="lazy" decoding="async">
+          <p class="rodape__lema">Beleza · Estética · Presentes</p>
+        </div>
+        <nav class="rodape__navegacao entra-adiada" aria-label="Seções do site">
+          <ul class="rodape__lista">
+            <li><a class="rodape__link" href="#servicos">Serviços</a></li>
+            <li><a class="rodape__link" href="#galeria">Trabalhos</a></li>
+            <li><a class="rodape__link" href="#agendar">Agendar</a></li>
+            <li><a class="rodape__link" href="#onde">Onde fica</a></li>
+          </ul>
+        </nav>
+        <div class="rodape__contato entra-adiada">
+          <a class="rodape__canal" href="https://www.instagram.com/_lili_esmalteria/" target="_blank" rel="noopener">
+            <svg class="rodape__icone" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3.6" y="3.6" width="16.8" height="16.8" rx="4.8"/><circle cx="12" cy="12" r="3.9"/><path d="M16.9 7.1h.01"/></svg>
+            <span>@_lili_esmalteria</span>
+          </a>
+          <a class="rodape__canal whats-rodape" href="#">
+            <svg class="rodape__icone" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.6 11.7a8.4 8.4 0 0 1-12.4 7.4l-4.5 1.4 1.4-4.4A8.4 8.4 0 1 1 20.6 11.7Z"/><path d="M9.5 9.1c.3-.6.9-.7 1.3-.4.4.3.7.8.9 1.3.1.4 0 .8-.3 1l-.4.3c.5 1 1.3 1.8 2.3 2.3l.3-.4c.2-.3.6-.4 1-.3.5.2 1 .5 1.3.9.3.4.2 1-.4 1.3-.6.4-1.4.4-2.1.1a7.5 7.5 0 0 1-3.9-3.9c-.3-.7-.3-1.5.1-2.2Z"/></svg>
+            <span>WhatsApp</span>
+          </a>
+          <p class="rodape__endereco">
+            <svg class="rodape__alfinete" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21.2c-3.6-4.2-5.5-7.3-5.5-9.7a5.5 5.5 0 0 1 11 0c0 2.4-1.9 5.5-5.5 9.7Z"/><circle cx="12" cy="11.2" r="2.1"/></svg>
+            <span>Avenida Brasil, 322 · Centro, Itupeva/SP</span>
           </p>
-          <a class="botao whats" href="#">
-            <svg class="whats__icone" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.6 11.7a8.4 8.4 0 0 1-12.4 7.4l-4.5 1.4 1.4-4.4A8.4 8.4 0 1 1 20.6 11.7Z"/><path d="M9.5 9.1c.3-.6.9-.7 1.3-.4.4.3.7.8.9 1.3.1.4 0 .8-.3 1l-.4.3c.5 1 1.3 1.8 2.3 2.3l.3-.4c.2-.3.6-.4 1-.3.5.2 1 .5 1.3.9.3.4.2 1-.4 1.3-.6.4-1.4.4-2.1.1a7.5 7.5 0 0 1-3.9-3.9c-.3-.7-.3-1.5.1-2.2Z"/></svg>
-            <span>Chamar no WhatsApp</span>
-          </a>
-          <p class="confirma__nota">Você fala direto com a gente. Sem cadastro.</p>
         </div>
       </div>
-    </div>
-  </section>
-
-  <section class="onde" id="onde" aria-labelledby="onde-titulo">
-    <h2 class="onde__titulo" id="onde-titulo">
-      <span class="mascara"><span class="revela-adiada">Onde a gente fica</span></span>
-    </h2>
-    <p class="onde__apoio">No centro, fácil de chegar.</p>
-    <div class="onde__corpo">
-      <div class="endereco entra-adiada">
-        <p class="endereco__rua">Avenida Brasil, 322</p>
-        <p class="endereco__bairro">Centro · Itupeva/SP</p>
-        <hr class="endereco__filete">
-        <dl class="endereco__dados">
-          <dt class="endereco__rotulo">Horário</dt>
-          <dd class="endereco__valor">
-            <span class="endereco__dias">Segunda a sábado</span>
-            <span class="endereco__horas">8h às 20h</span>
-          </dd>
-          <dt class="endereco__rotulo">Telefone</dt>
-          <dd class="endereco__valor">
-            <a class="endereco__telefone" href="tel:+5511000000000">(11) XXXXX-XXXX</a>
-          </dd>
-        </dl>
-        <div class="endereco__botoes">
-          <a class="botao botao--linha" href="https://www.google.com/maps/dir/?api=1&destination=Avenida+Brasil%2C+322+-+Centro%2C+Itupeva+-+SP" target="_blank" rel="noopener">
-            <svg class="botao__icone" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.5 3.5 3.5 10.4l7.2 2.9 2.9 7.2 6.9-17Z"/><path d="m10.7 13.3 4.2-4.2"/></svg>
-            <span>Como chegar</span>
-          </a>
-          <a class="botao whats whats--local" href="#">
-            <svg class="whats__icone" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.6 11.7a8.4 8.4 0 0 1-12.4 7.4l-4.5 1.4 1.4-4.4A8.4 8.4 0 1 1 20.6 11.7Z"/><path d="M9.5 9.1c.3-.6.9-.7 1.3-.4.4.3.7.8.9 1.3.1.4 0 .8-.3 1l-.4.3c.5 1 1.3 1.8 2.3 2.3l.3-.4c.2-.3.6-.4 1-.3.5.2 1 .5 1.3.9.3.4.2 1-.4 1.3-.6.4-1.4.4-2.1.1a7.5 7.5 0 0 1-3.9-3.9c-.3-.7-.3-1.5.1-2.2Z"/></svg>
-            <span>Chamar no WhatsApp</span>
-          </a>
-        </div>
-      </div>
-      <div class="mapa entra-adiada">
-        <iframe class="mapa__quadro" data-src="https://www.google.com/maps?q=Avenida+Brasil%2C+322+-+Centro%2C+Itupeva+-+SP&output=embed" title="Mapa com a localização da Lili Esmalteria em Avenida Brasil, 322 - Centro, Itupeva - SP" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
-        <div class="mapa__espera" aria-hidden="true">
-          <svg class="mapa__moldura" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M9 5v14"/><path d="M15 7v14"/></svg>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <footer class="rodape">
-    <div class="rodape__corpo">
-      <div class="rodape__marca entra-adiada">
-        <img class="rodape__logo" src="assets/img/logo-lili.svg?v=1" alt="Lili Esmalteria" width="1111" height="752" loading="lazy" decoding="async">
-        <p class="rodape__lema">Beleza · Estética · Presentes</p>
-      </div>
-      <nav class="rodape__navegacao entra-adiada" aria-label="Seções do site">
-        <ul class="rodape__lista">
-          <li><a class="rodape__link" href="#servicos">Serviços</a></li>
-          <li><a class="rodape__link" href="#galeria">Trabalhos</a></li>
-          <li><a class="rodape__link" href="#agendar">Agendar</a></li>
-          <li><a class="rodape__link" href="#onde">Onde fica</a></li>
-        </ul>
-      </nav>
-      <div class="rodape__contato entra-adiada">
-        <a class="rodape__canal" href="https://www.instagram.com/_lili_esmalteria/" target="_blank" rel="noopener">
-          <svg class="rodape__icone" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3.6" y="3.6" width="16.8" height="16.8" rx="4.8"/><circle cx="12" cy="12" r="3.9"/><path d="M16.9 7.1h.01"/></svg>
-          <span>@_lili_esmalteria</span>
-        </a>
-        <a class="rodape__canal whats-rodape" href="#">
-          <svg class="rodape__icone" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.6 11.7a8.4 8.4 0 0 1-12.4 7.4l-4.5 1.4 1.4-4.4A8.4 8.4 0 1 1 20.6 11.7Z"/><path d="M9.5 9.1c.3-.6.9-.7 1.3-.4.4.3.7.8.9 1.3.1.4 0 .8-.3 1l-.4.3c.5 1 1.3 1.8 2.3 2.3l.3-.4c.2-.3.6-.4 1-.3.5.2 1 .5 1.3.9.3.4.2 1-.4 1.3-.6.4-1.4.4-2.1.1a7.5 7.5 0 0 1-3.9-3.9c-.3-.7-.3-1.5.1-2.2Z"/></svg>
-          <span>WhatsApp</span>
-        </a>
-        <p class="rodape__endereco">
-          <svg class="rodape__alfinete" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21.2c-3.6-4.2-5.5-7.3-5.5-9.7a5.5 5.5 0 0 1 11 0c0 2.4-1.9 5.5-5.5 9.7Z"/><circle cx="12" cy="11.2" r="2.1"/></svg>
-          <span>Avenida Brasil, 322 · Centro, Itupeva/SP</span>
-        </p>
-      </div>
-    </div>
-    <p class="rodape__base">Lili Esmalteria · Itupeva/SP · 2026</p>
-  </footer>
+      <p class="rodape__base">Lili Esmalteria · Itupeva/SP · 2026</p>
+    </footer>
+  </div>
 
   <script src="assets/js/gsap.min.js" defer></script>
   <script src="assets/js/ScrollTrigger.min.js" defer></script>

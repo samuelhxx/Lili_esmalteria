@@ -322,6 +322,35 @@ body::after {
 }
 
 /* =========================================================
+   O VÉU CONTÍNUO
+
+   Um só, para tudo o que vem depois do hero. Antes cada seção tinha o
+   seu, e a emenda entre uma seção sem véu e a seguinte com véu virava um
+   degrau de escuridão atravessando a página inteira — medido, 64 níveis
+   na passagem do hero para os serviços. Sobre o laranja do fundo, um
+   degrau escuro assim lê como uma linha azulada.
+
+   Aqui não há emenda nenhuma: a escuridão nasce do zero logo abaixo do
+   hero, atravessa quatro seções sem variar e só se aprofunda no fim, no
+   rodapé. Uma pintura só, sem camada composta nova.
+   ========================================================= */
+.continuo { position: relative; }
+
+.continuo::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: linear-gradient(
+    to bottom,
+    rgba(22, 17, 14, 0) 0,
+    rgba(22, 17, 14, 0.38) 170px,
+    rgba(22, 17, 14, 0.38) calc(100% - 380px),
+    rgba(22, 17, 14, 0.5) 100%
+  );
+}
+
+/* =========================================================
    SERVIÇOS E PREÇOS
    ========================================================= */
 .servicos {
@@ -338,20 +367,6 @@ body::after {
    clara do ciclo, com o véu da abertura o nome do serviço dava 3,79:1,
    abaixo do mínimo de 4,5:1. A queda continua contínua e sem platô,
    então não desenha forma nenhuma. */
-.servicos::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background-image: radial-gradient(
-    130% 100% at 50% 50%,
-    rgba(22, 17, 14, 0.5) 0%,
-    rgba(22, 17, 14, 0.37) 45%,
-    rgba(22, 17, 14, 0.2) 80%,
-    rgba(22, 17, 14, 0.07) 100%
-  );
-}
-
 .servicos > * { position: relative; width: 100%; }
 
 .servicos__titulo {
@@ -1018,20 +1033,6 @@ body::after { z-index: 2; }
 
 /* Mesmo véu da seção de preços: aqui também há texto pequeno em massa
    (dias, períodos, nomes de serviço) sobre a fase clara do degradê. */
-.agendamento::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background-image: radial-gradient(
-    130% 100% at 50% 50%,
-    rgba(22, 17, 14, 0.5) 0%,
-    rgba(22, 17, 14, 0.37) 45%,
-    rgba(22, 17, 14, 0.2) 80%,
-    rgba(22, 17, 14, 0.07) 100%
-  );
-}
-
 .agendamento > * { position: relative; width: 100%; }
 
 .agendamento__titulo {
@@ -1488,20 +1489,6 @@ body::after { z-index: 2; }
            clamp(4rem, 14vw, 7rem);
 }
 
-.onde::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background-image: radial-gradient(
-    130% 100% at 50% 50%,
-    rgba(22, 17, 14, 0.5) 0%,
-    rgba(22, 17, 14, 0.37) 45%,
-    rgba(22, 17, 14, 0.2) 80%,
-    rgba(22, 17, 14, 0.07) 100%
-  );
-}
-
 .onde > * { position: relative; width: 100%; }
 
 .onde__titulo {
@@ -1728,8 +1715,10 @@ body::after { z-index: 2; }
   padding: clamp(3rem, 11vw, 4.5rem) var(--margem-lateral)
            max(clamp(2.75rem, 9vw, 3.75rem),
                env(safe-area-inset-bottom, 0px) + 2.5rem);
-  border-top: 1px solid var(--linha);
-  background-color: rgba(22, 17, 14, 0.55);
+  /* Sem filete no topo e sem fundo próprio. Os dois marcavam a transição
+     de propósito, e os dois viravam degrau: o filete como linha de 1px, o
+     fundo como salto de 32 níveis. O escurecimento do rodapé agora vem do
+     fim do véu contínuo, sem emenda. */
 }
 
 .rodape__corpo {

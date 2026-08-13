@@ -699,6 +699,46 @@ presa à viewport, as faixas ficariam cerca de seis vezes mais apertadas na
 vertical e parariam de acompanhar a rolagem. Não é uma troca invisível, então
 não foi feita sem combinar.
 
+## A linha entre as seções
+
+Relatada como "uma linha meio azulada" separando as páginas no meio do site.
+Não era uma linha desenhada — era um **degrau de escuridão**.
+
+Cada seção tinha o próprio véu de leitura, um radial preso à sua caixa. O hero
+não tem véu nenhum, de propósito. Então na emenda entre um e outro a
+escuridão saltava de zero para o valor do véu de uma linha de pixel para a
+seguinte. Medido, varrendo a página inteira linha a linha:
+
+| emenda | antes | depois |
+| --- | --- | --- |
+| abertura → serviços | **64,6 níveis** | 1,4 |
+| serviços → galeria | 0,7 | 0,8 |
+| galeria → agendamento | 0,4 | 0,4 |
+| agendamento → onde | 0,6 | 1,6 |
+| onde → rodapé | **31,6 níveis** | 0,2 |
+
+Sobre o laranja quente do fundo, um degrau escuro assim é lido pelo olho como
+uma linha fria — daí a impressão de azulado. Não havia azul nenhum na paleta.
+
+**A correção é estrutural:** tudo o que vem depois do hero passou a viver
+dentro de um invólucro só, e o véu é dele — contínuo de ponta a ponta. A
+escuridão nasce do zero logo abaixo do hero, atravessa as quatro seções sem
+variar, e só se aprofunda no fim, dentro do rodapé. Não existe mais emenda
+entre seções porque não existem mais véus de seção.
+
+O rodapé perdeu o filete dourado no topo e o fundo próprio. Os dois marcavam
+a transição de propósito — era o "fim do site precisa parecer fim" —, e os
+dois viravam degrau: o filete como linha de 1px, o fundo como salto de 31
+níveis. O fechamento agora vem do próprio véu, que escurece nos últimos
+380px.
+
+Medido o custo em legibilidade: com o radial, o texto pequeno dava 5,85:1 na
+fase mais clara do ciclo; com o véu contínuo, **5,82:1**. Praticamente o
+mesmo, contra um mínimo de 4,5:1.
+
+Uma vantagem de lado: são três `::before` de gradiente radial a menos para
+pintar, trocados por um gradiente linear só.
+
 ## Próximo passo
 
 A tabela acima. O site está completo em estrutura e movimento — o que falta

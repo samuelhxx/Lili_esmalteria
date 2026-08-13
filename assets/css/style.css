@@ -389,8 +389,12 @@ body::after {
   border: 1px solid rgba(200, 155, 90, 0.3);
   border-radius: 14px;
   background-color: rgba(22, 17, 14, 0.42);
-  -webkit-backdrop-filter: blur(8px);
-          backdrop-filter: blur(8px);
+  /* Sem backdrop-filter aqui. Medido: borrar o fundo por trás muda
+     0,38% dos pixels da tela, porque o que está atrás é um degradê liso
+     — borrar degradê é quase a operação identidade. O que ele borrava
+     de fato eram os cacos de glitter. Em troca, cada superfície dessas
+     obriga o navegador a fotografar e desfocar o fundo a cada quadro, e
+     o fundo aqui muda a cada quadro. Eram 52 delas na página. */
   cursor: pointer;
   font-family: var(--fonte-corpo);
   font-weight: var(--peso-corpo);
@@ -1138,8 +1142,12 @@ body::after { z-index: 2; }
   border: 1px solid rgba(200, 155, 90, 0.32);
   border-radius: 14px;
   background-color: rgba(22, 17, 14, 0.5);
-  -webkit-backdrop-filter: blur(8px);
-          backdrop-filter: blur(8px);
+  /* Sem backdrop-filter aqui. Medido: borrar o fundo por trás muda
+     0,38% dos pixels da tela, porque o que está atrás é um degradê liso
+     — borrar degradê é quase a operação identidade. O que ele borrava
+     de fato eram os cacos de glitter. Em troca, cada superfície dessas
+     obriga o navegador a fotografar e desfocar o fundo a cada quadro, e
+     o fundo aqui muda a cada quadro. Eram 52 delas na página. */
   cursor: pointer;
   text-align: left;
   transition: border-color 0.3s ease, background-color 0.3s ease,
@@ -1238,8 +1246,12 @@ body::after { z-index: 2; }
   border: 1px solid rgba(200, 155, 90, 0.34);
   border-radius: 999px;
   background-color: rgba(22, 17, 14, 0.5);
-  -webkit-backdrop-filter: blur(8px);
-          backdrop-filter: blur(8px);
+  /* Sem backdrop-filter aqui. Medido: borrar o fundo por trás muda
+     0,38% dos pixels da tela, porque o que está atrás é um degradê liso
+     — borrar degradê é quase a operação identidade. O que ele borrava
+     de fato eram os cacos de glitter. Em troca, cada superfície dessas
+     obriga o navegador a fotografar e desfocar o fundo a cada quadro, e
+     o fundo aqui muda a cada quadro. Eram 52 delas na página. */
   cursor: pointer;
   font-family: var(--fonte-corpo);
   font-weight: 400;

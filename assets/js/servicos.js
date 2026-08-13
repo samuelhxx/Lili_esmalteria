@@ -59,6 +59,8 @@
   /* Depois de abrir, o começo da lista precisa estar à vista sem a
      visitante ter que procurar. Só rola se a lista estiver fora da tela,
      e só o necessário — nunca arrasta a página sem motivo. */
+  var rolagem = { y: 0 };
+
   function trazerListaParaVista() {
     var topo = caixa.getBoundingClientRect().top;
     var folga = 24;
@@ -66,11 +68,25 @@
     if (topo > folga && topo < limite) return;
 
     var destino = window.pageYOffset + topo - folga;
-    if (querMenosMovimento || !window.scrollTo) {
+    if (querMenosMovimento || !temGsap) {
       window.scrollTo(0, destino);
       return;
     }
-    window.scrollTo({ top: destino, behavior: "smooth" });
+
+    /* Tween, e não scroll suave nativo: a altura do contêiner está sendo
+       animada pelo GSAP neste mesmo instante, e o nativo tem tempo e
+       curva próprios. Dois movimentos simultâneos governados por
+       relógios diferentes nunca chegam juntos — é o que se sente como
+       travada. Aqui os dois andam no mesmo tique, com a mesma duração e
+       a mesma curva. */
+    rolagem.y = window.pageYOffset;
+    gsap.to(rolagem, {
+      y: destino,
+      duration: DURACAO,
+      ease: ENTRADA,
+      overwrite: true,
+      onUpdate: function () { window.scrollTo(0, rolagem.y); }
+    });
   }
 
   /* ---------- abrir, trocar e fechar ---------- */

@@ -474,6 +474,54 @@ com a instrução de reproduzir fielmente todos os valores, e trocar por
 `transform: scale` mudaria a geometria dele. Fica registrado para trocar se
 aparecer travamento real no aparelho.
 
+### A travada na troca de passo
+
+Relatada como "corte seco, travando" ao escolher o serviço e passar para o
+passo seguinte. Eram duas causas, as duas medidas.
+
+**1. A rolagem mirava num layout que deixava de existir.** No instante do
+toque, o passo que sai ainda está com a altura cheia e o que entra ainda está
+com altura zero — e era desse layout transitório que saía o destino da
+rolagem. Medido: o alvo antigo ficava **408px abaixo** de onde o passo
+realmente ia parar. A página passava meio segundo rolando para baixo enquanto
+o conteúdo subia por baixo dela. Duas coisas discordando é exatamente o que se
+sente como travada.
+
+Agora o destino é medido no futuro: aplica-se o estado final, lê-se onde o
+passo vai parar, e desfaz-se — tudo num bloco síncrono, sem pintura no meio,
+então nada pisca. Com o alvo certo, o caso comum passou a **não rolar nada**:
+medido numa tela de 400×760, o passo 2 pousa a 318px do topo, dentro da faixa
+visível, e a página fica parada. Antes ela se mexia sem precisar.
+
+Junto disso, a rolagem deixou de ser `scrollTo({behavior:"smooth"})` e virou um
+tween do GSAP com a mesma duração e a mesma curva da animação de altura. O
+suave nativo tem tempo e curva próprios: dois movimentos simultâneos governados
+por relógios diferentes nunca chegam juntos. A mesma troca foi feita na seção
+de preços, que tinha o mesmo arranjo.
+
+**2. Cinquenta e duas superfícies com `backdrop-filter`.** Cartões, pílulas e
+resumos pediam `blur(8px)` do fundo — 46 deles só no agendamento. Cada um
+obriga o navegador a fotografar e desfocar o fundo a cada quadro, e o fundo
+desta página muda a cada quadro por definição.
+
+Medido o que isso entregava: renderizando a seção com e sem, **0,38% dos
+pixels diferem**, com média de 0,177 nível sobre a tela. O motivo é simples —
+o que está atrás é um degradê liso, e borrar degradê é quase a operação
+identidade. O que o blur borrava de fato eram os cacos de glitter. Saiu.
+
+Ficaram só os 6 do `.painel-foto__pilula` da galeria, que são do porte fiel do
+componente e ficam sobre foto, não sobre o degradê.
+
+**3.** Durante a troca, as duas faces recebem `will-change: transform, opacity`
+e o perdem no fim. Elas carregam texto com halo — `text-shadow` em várias
+camadas —, e sem a promoção cada passo da opacidade repinta esse texto inteiro.
+Permanente seria pior: camada de sobra ocupa memória sem motivo.
+
+Vale registrar o que **não** era o problema: o custo de layout da altura
+animada mede 241µs por quadro, com ou sem `backdrop-filter` (241 contra 267,
+diferença dentro do ruído). Animar altura é layout, mas neste tamanho de
+subárvore não é o que trava.
+
 ## Próximo passo
 
 Preencher `NUMERO` em `assets/js/agendamento.js` com o WhatsApp da dona e

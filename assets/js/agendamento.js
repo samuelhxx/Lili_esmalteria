@@ -102,19 +102,93 @@
 
   /* ---------- rolagem ---------- */
 
-  /* Só rola se o passo ativo estiver fora de vista, e só o necessário
-     para trazê-lo — nunca arrasta a página sem motivo. */
-  function rolarPara(passo) {
-    var topo = passo.getBoundingClientRect().top;
-    var folga = 28;
-    if (topo > folga && topo < window.innerHeight * 0.7) return;
+  /* MEDIR O FUTURO.
 
-    var destino = window.pageYOffset + topo - folga;
-    if (querMenosMovimento || !window.scrollTo) {
-      window.scrollTo(0, destino);
-      return;
-    }
-    window.scrollTo({ top: destino, behavior: "smooth" });
+     Aqui estava a travada. A rolagem mirava no layout do instante do
+     toque — e nesse instante o passo que sai ainda está com a altura
+     cheia e o que entra ainda está com altura zero. O alvo calculado ali
+     deixa de existir no quadro seguinte, e a página passava meio segundo
+     rolando para um lugar errado enquanto o conteúdo se mexia por baixo.
+     Duas coisas discordando é exatamente o que se sente como corte seco.
+
+     Então: aplica o estado final, lê onde o passo vai realmente parar, e
+     desfaz — tudo num bloco síncrono, sem pintura no meio, então nada
+     pisca. O limite de rolagem também sai daqui, porque a altura do
+     documento muda junto. */
+  function medirFuturo(destino) {
+    var salvos = passos.map(function (passo) {
+      return {
+        passo: passo,
+        corpo: passo.querySelector(".passo__corpo"),
+        resumo: passo.querySelector(".passo__resumo"),
+        oculto: passo.hidden,
+        altura: passo.style.height,
+        corpoOculto: passo.querySelector(".passo__corpo").hidden,
+        resumoOculto: passo.querySelector(".passo__resumo")
+          ? passo.querySelector(".passo__resumo").hidden : false
+      };
+    });
+
+    salvos.forEach(function (s, i) {
+      var numero = i + 1;
+      s.passo.style.height = "";
+      if (numero === destino) {
+        s.passo.hidden = false;
+        s.corpo.hidden = false;
+        if (s.resumo) s.resumo.hidden = true;
+      } else if (respondido(numero)) {
+        s.passo.hidden = false;
+        s.corpo.hidden = true;
+        if (s.resumo) s.resumo.hidden = false;
+      } else {
+        s.passo.hidden = true;
+      }
+    });
+
+    var futuro = {
+      topo: passos[destino - 1].getBoundingClientRect().top + window.pageYOffset,
+      limite: document.documentElement.scrollHeight - window.innerHeight
+    };
+
+    salvos.forEach(function (s) {
+      s.passo.hidden = s.oculto;
+      s.passo.style.height = s.altura;
+      s.corpo.hidden = s.corpoOculto;
+      if (s.resumo) s.resumo.hidden = s.resumoOculto;
+    });
+
+    return futuro;
+  }
+
+  /* Só rola se o passo for ficar fora de vista no fim, e só o necessário
+     para trazê-lo — nunca arrasta a página sem motivo.
+
+     A rolagem anda no mesmo relógio da animação: um tween do GSAP, com a
+     mesma duração e a mesma curva do recolher e do abrir. Antes era
+     scroll suave nativo, que tem tempo e curva próprios — dois
+     movimentos simultâneos governados por relógios diferentes nunca
+     chegam juntos. */
+  var rolagem = { y: 0 };
+
+  function rolarPara(futuro) {
+    var folga = 28;
+    var relativo = futuro.topo - window.pageYOffset;
+    if (relativo > folga && relativo < window.innerHeight * 0.7) return;
+
+    var destino = futuro.topo - folga;
+    if (destino > futuro.limite) destino = futuro.limite;
+    if (destino < 0) destino = 0;
+
+    if (!anima) { window.scrollTo(0, destino); return; }
+
+    rolagem.y = window.pageYOffset;
+    gsap.to(rolagem, {
+      y: destino,
+      duration: DURACAO,
+      ease: ENTRADA,
+      overwrite: true,
+      onUpdate: function () { window.scrollTo(0, rolagem.y); }
+    });
   }
 
   /* ---------- progresso ---------- */
@@ -198,6 +272,14 @@
 
     animarAltura(passo, altura, atraso);
 
+    /* will-change só durante a troca: as duas faces carregam texto com
+       halo (text-shadow em várias camadas), e sem isso cada passo da
+       opacidade repinta esse texto todo. Promovidas, a opacidade vira
+       trabalho de composição. Permanente seria pior — camada de sobra
+       ocupa memória sem motivo —, então sai no fim. */
+    gsap.set([mostrar, esconder].filter(Boolean),
+             { willChange: "transform, opacity" });
+
     gsap.fromTo(
       mostrar,
       { opacity: 0, y: 22 * direcao },
@@ -206,7 +288,9 @@
         duration: DURACAO,
         ease: ENTRADA,
         delay: (atraso || 0) + DURACAO * 0.1,
-        clearProps: "transform"
+        onComplete: function () {
+          gsap.set(mostrar, { clearProps: "transform,willChange" });
+        }
       }
     );
 
@@ -219,7 +303,7 @@
         delay: atraso || 0,
         onComplete: function () {
           esconder.hidden = true;
-          gsap.set(esconder, { clearProps: "opacity,transform" });
+          gsap.set(esconder, { clearProps: "opacity,transform,willChange" });
         }
       });
     }
@@ -243,13 +327,15 @@
       animarAltura(passo, altura, atraso);
       gsap.fromTo(
         passo,
-        { opacity: 0, y: 26 },
+        { opacity: 0, y: 26, willChange: "transform, opacity" },
         {
           opacity: 1, y: 0,
           duration: DURACAO,
           ease: ENTRADA,
           delay: (atraso || 0) + DURACAO * 0.08,
-          clearProps: "transform"
+          onComplete: function () {
+            gsap.set(passo, { clearProps: "transform,willChange" });
+          }
         }
       );
       return;
@@ -312,6 +398,10 @@
 
     if (destino === 3) escreverConfirmacao();
 
+    /* Onde o passo vai parar — medido antes de qualquer animação
+       começar, enquanto o layout ainda está inteiro e estável. */
+    var futuro = medirFuturo(destino);
+
     /* recolhe o que estava aberto e apaga os passos à frente do destino
        que ainda não têm resposta */
     if (anterior !== destino) recolher(anterior, direcao);
@@ -322,7 +412,7 @@
 
     expandir(destino, direcao, anterior === destino ? 0 : DURACAO * SOBREPOE);
     marcarProgresso();
-    rolarPara(passos[destino - 1]);
+    rolarPara(futuro);
     if (seguirFoco) levarFoco(passos[destino - 1]);
   }
 

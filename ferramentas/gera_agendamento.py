@@ -78,7 +78,7 @@ def montar():
     # Traços finos, sem número e sem círculo: a etapa se anuncia pelo
     # preenchimento do filete e pelo rótulo. aria-current diz ao leitor
     # de tela onde a visitante está.
-    add('    <ol class="progresso">')
+    add('    <ol class="progresso entra-adiada">')
     for i, rotulo in enumerate(ETAPAS, start=1):
         estado = "atual" if i == 1 else "futura"
         atual = ' aria-current="step"' if i == 1 else ""
@@ -88,7 +88,7 @@ def montar():
         add('      </li>')
     add('    </ol>')
 
-    add('    <div class="passos">')
+    add('    <div class="passos entra-adiada">')
 
     # ------------------------------------------------ passo 1: o serviço
     p1 = []

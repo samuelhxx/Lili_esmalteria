@@ -64,6 +64,7 @@
   }
 
   var alvos = Array.prototype.slice.call(secao.querySelectorAll(".revela-adiada"));
+  var entram = Array.prototype.slice.call(secao.querySelectorAll(".entra-adiada"));
 
   if (querMenosMovimento || !window.gsap || !alvos.length || !window.ScrollTrigger) {
     revelarDeImediato();
@@ -71,22 +72,33 @@
   }
 
   gsap.registerPlugin(ScrollTrigger);
-  gsap.fromTo(
+
+  /* Antes só o título entrava: os seis painéis já estavam plantados na
+     tela quando a seção chegava. Agora sobem em cascata atrás dele — é o
+     que faz a seção parecer chegar, em vez de estar sempre lá. */
+  var entrada = gsap.timeline({
+    onComplete: revelarDeImediato,
+    scrollTrigger: { trigger: secao, start: "top 78%", once: true }
+  });
+
+  entrada.fromTo(
     alvos,
     { yPercent: 110, y: 0 },
-    {
-      yPercent: 0, y: 0,
-      duration: 1.1,
-      ease: "power2.out",
-      onComplete: revelarDeImediato,
-      scrollTrigger: { trigger: secao, start: "top 78%", once: true }
-    }
+    { yPercent: 0, y: 0, duration: 1.1, ease: "power2.out" }
+  );
+
+  entrada.fromTo(
+    entram,
+    { opacity: 0, y: 26 },
+    { opacity: 1, y: 0, duration: 0.8, ease: "power3.out", stagger: 0.06 },
+    0.22
   );
 
   /* trava: o título não pode ficar escondido se os quadros não chegarem */
   setTimeout(function () {
     if (!secao.classList.contains("galeria--revelada")) {
       gsap.set(alvos, { yPercent: 0, y: 0 });
+      gsap.set(entram, { opacity: 1, y: 0 });
       revelarDeImediato();
     }
   }, 12000);

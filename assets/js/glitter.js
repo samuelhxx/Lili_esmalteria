@@ -70,7 +70,7 @@
      núcleos e os cacos caem em volta deles, com desvio variado. É o que
      produz áreas cheias e áreas ralas — purpurina não se distribui em
      tapete uniforme. */
-  function ladrilho(lado, quantidade, semente) {
+  function ladrilho(lado, quantidade, semente, porte) {
     var rnd = sorteio(semente);
     var grupos = {};          /* cor + opacidade -> lista de caminhos */
     var nucleos = [];
@@ -95,7 +95,7 @@
          cai sob um pixel em tela 1x, o antialiasing arredonda e ele volta
          a parecer bolinha. */
       var grande = rnd() < 0.07;
-      var escala = grande ? 1.9 + rnd() * 1.7 : 0.78 + rnd() * 0.95;
+      var escala = (grande ? 1.9 + rnd() * 1.7 : 0.78 + rnd() * 0.95) * porte;
 
       var cor = CORES[Math.floor(rnd() * CORES.length)];
       var opacidade = grande
@@ -123,11 +123,23 @@
   }
 
   /* Ladrilhos de lados diferentes para as repetições nunca coincidirem —
-     dois do mesmo tamanho desenhariam grade. */
+     dois do mesmo tamanho desenhariam grade.
+
+     A ordem é de profundidade, do fundo para a frente, e as três coisas
+     andam juntas: quem está longe é menor, mais apagado e mais denso;
+     quem está perto é maior, mais brilhante e mais esparso. Antes a
+     opacidade caía nessa ordem enquanto o deslocamento subia — o olho
+     via a camada apagada correr na frente da brilhante, que é o
+     contrário do que a profundidade pede.
+
+     O porte não desce de 1: abaixo disso o caco cai sob um pixel em
+     tela 1x, o antialiasing arredonda e ele volta a parecer bolinha. A
+     distância se lê pela opacidade e pela densidade, não encolhendo o
+     que já está no piso. */
   var CAMADAS = [
-    { lado: 263, quantidade: 300, semente: 11, opacidade: 0.85 },
-    { lado: 341, quantidade: 420, semente: 29, opacidade: 0.7 },
-    { lado: 421, quantidade: 520, semente: 47, opacidade: 0.55 }
+    { lado: 263, quantidade: 300, semente: 11, opacidade: 0.5,  porte: 1 },
+    { lado: 341, quantidade: 420, semente: 29, opacidade: 0.68, porte: 1.12 },
+    { lado: 421, quantidade: 520, semente: 47, opacidade: 0.9,  porte: 1.35 }
   ];
 
   var camadas = [];
@@ -135,7 +147,8 @@
   CAMADAS.forEach(function (def) {
     var camada = document.createElement("div");
     camada.className = "glitter__camada";
-    camada.style.backgroundImage = ladrilho(def.lado, def.quantidade, def.semente);
+    camada.style.backgroundImage =
+      ladrilho(def.lado, def.quantidade, def.semente, def.porte);
     camada.style.backgroundSize = def.lado + "px " + def.lado + "px";
     camada.style.opacity = def.opacidade;
     camadas.push(camada);
@@ -177,25 +190,120 @@
   camadas.forEach(function (c) { fragmento.appendChild(c); });
   caixa.appendChild(fragmento);
 
-  /* ---------- paralaxe ---------- */
+  /* ---------- deriva por inércia ----------
 
-  if (querMenosMovimento || !window.gsap || !window.ScrollTrigger) return;
+     O paralaxe antigo prendia a posição da camada à posição da rolagem:
+     70px de curso ao longo de 2264px de página, ou seja 3%. Medido, dava
+     6 a 28 pixels por tela inteira rolada — numa textura que cobre a tela
+     toda, isso é o efeito não existir.
 
-  gsap.registerPlugin(ScrollTrigger);
+     Agora o que comanda é a VELOCIDADE do gesto, não a posição. O
+     deslocamento é proporcional à velocidade instantânea, contrário ao
+     sentido da rolagem, e volta ao repouso sozinho quando o dedo para —
+     mas não na hora: a camada continua e desacelera, como pó suspenso.
 
-  camadas.forEach(function (camada, indice) {
-    var fatia = indice / (camadas.length - 1);
-    var curso = -(16 + fatia * 54);
+     Duas vantagens sobre o paralaxe: gesto rápido move muito e gesto
+     lento move pouco (a posição não sabe a diferença), e o estado de
+     descanso é sempre zero, então nada acumula deriva ao longo da
+     página.
 
-    gsap.to(camada, {
-      y: curso,
-      ease: "none",
-      scrollTrigger: {
-        trigger: document.body,
-        start: "top top",
-        end: "bottom bottom",
-        scrub: 0.8
-      }
-    });
+     Sem GSAP aqui de propósito: é um laço rAF que escreve translate3d em
+     quatro camadas e DORME quando tudo zera. Enquanto a página está
+     parada — que é a maior parte do tempo — não custa um quadro sequer.
+     ---------------------------------------------------------------- */
+
+  if (querMenosMovimento) return;
+
+  /* Profundidade: a camada do fundo se desloca um terço do que a da
+     frente se desloca. É a diferença entre os fatores que o olho lê como
+     distância. As centelhas vão na frente de todas. */
+  var FATORES = [0.35, 0.6, 1, 1.25];
+
+  /* segundos: converte px/s de rolagem em px de deslocamento. A 2000px/s
+     (um gesto rápido de celular) dá 90px antes do teto. */
+  var GANHO = 0.045;
+
+  /* Teto do deslocamento. Preso à altura da tela porque a camada
+     transborda 16vh de cada lado: passar disso descobriria a borda. */
+  var teto = 72;
+  function medirTeto() {
+    teto = Math.min(72, window.innerHeight * 0.11);
+  }
+  medirTeto();
+  window.addEventListener("resize", medirTeto);
+
+  var estados = camadas.map(function (el, i) {
+    var fator = FATORES[i] || 1;
+    return {
+      el: el,
+      fator: fator,
+      atual: 0,
+      escrito: 0,
+      /* quem está mais longe segue o alvo mais devagar: além de andar
+         menos, chega atrasado. É o que dá peso diferente a cada camada. */
+      segue: 0.06 + fator * 0.045
+    };
   });
+
+  var ultimoY = window.pageYOffset || 0;
+  var ultimoT = 0;
+  var velocidade = 0;        /* px/s, suavizada */
+  var anterior = 0;
+  var laco = 0;
+
+  window.addEventListener("scroll", function () {
+    var y = window.pageYOffset || 0;
+    var agora = (window.performance && performance.now()) || Date.now();
+    var dt = ultimoT ? (agora - ultimoT) / 1000 : 0;
+    ultimoT = agora;
+
+    /* dt fora dessa faixa é aba que voltou do fundo ou primeiro evento:
+       a velocidade calculada ali não significa nada */
+    if (dt > 0 && dt < 0.25) {
+      velocidade += ((y - ultimoY) / dt - velocidade) * 0.35;
+    }
+    ultimoY = y;
+    if (!laco) laco = requestAnimationFrame(quadro);
+  }, { passive: true });
+
+  function quadro(t) {
+    var dt = anterior ? Math.min((t - anterior) / 1000, 0.05) : 1 / 60;
+    anterior = t;
+    var passos = dt * 60;    /* normaliza o amortecimento para 60fps */
+
+    velocidade *= Math.pow(0.82, passos);
+
+    var base = -velocidade * GANHO;
+    if (base > teto) base = teto;
+    else if (base < -teto) base = -teto;
+
+    var vivo = Math.abs(velocidade) > 4;
+
+    for (var i = 0; i < estados.length; i++) {
+      var e = estados[i];
+      e.atual += (base * e.fator - e.atual) * Math.min(1, e.segue * passos);
+      /* só escreve quando muda de verdade: abaixo disso o navegador
+         recompõe à toa */
+      if (Math.abs(e.atual - e.escrito) > 0.05) {
+        e.escrito = e.atual;
+        e.el.style.transform = "translate3d(0," + e.atual.toFixed(2) + "px,0)";
+      }
+      if (Math.abs(e.atual) > 0.08) vivo = true;
+    }
+
+    if (vivo) {
+      laco = requestAnimationFrame(quadro);
+      return;
+    }
+
+    /* tudo em repouso: encosta no zero e devolve o quadro ao navegador */
+    laco = 0;
+    anterior = 0;
+    velocidade = 0;
+    for (var j = 0; j < estados.length; j++) {
+      estados[j].atual = 0;
+      estados[j].escrito = 0;
+      estados[j].el.style.transform = "translate3d(0,0,0)";
+    }
+  }
 })();

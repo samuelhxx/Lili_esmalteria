@@ -494,6 +494,7 @@
   }
 
   var alvos = Array.prototype.slice.call(secao.querySelectorAll(".revela-adiada"));
+  var entram = Array.prototype.slice.call(secao.querySelectorAll(".entra-adiada"));
 
   if (querMenosMovimento || !temGsap || !alvos.length || !window.ScrollTrigger) {
     revelarDeImediato();
@@ -501,22 +502,32 @@
   }
 
   gsap.registerPlugin(ScrollTrigger);
-  gsap.fromTo(
+
+  /* O progresso e a pilha de passos entram atrás do título, em vez de
+     já estarem na tela quando ela chega. */
+  var entrada = gsap.timeline({
+    onComplete: revelarDeImediato,
+    scrollTrigger: { trigger: secao, start: "top 78%", once: true }
+  });
+
+  entrada.fromTo(
     alvos,
     { yPercent: 110, y: 0 },
-    {
-      yPercent: 0, y: 0,
-      duration: 1.1,
-      ease: "power2.out",
-      onComplete: revelarDeImediato,
-      scrollTrigger: { trigger: secao, start: "top 78%", once: true }
-    }
+    { yPercent: 0, y: 0, duration: 1.1, ease: "power2.out" }
+  );
+
+  entrada.fromTo(
+    entram,
+    { opacity: 0, y: 26 },
+    { opacity: 1, y: 0, duration: 0.85, ease: "power3.out", stagger: 0.12 },
+    0.24
   );
 
   /* trava: o título não pode ficar escondido se os quadros não chegarem */
   setTimeout(function () {
     if (!secao.classList.contains("agendamento--revelada")) {
       gsap.set(alvos, { yPercent: 0, y: 0 });
+      gsap.set(entram, { opacity: 1, y: 0 });
       revelarDeImediato();
     }
   }, 12000);

@@ -10,9 +10,10 @@ index.html                     abertura + serviços + galeria + agendamento
 assets/css/style.css           variáveis, fundo e todas as seções
 assets/js/abertura.js          timeline de entrada (mask reveal)
 assets/js/servicos.js          cartões, troca de painel, entrada no scroll
-assets/js/glitter.js           textura de glitter e paralaxe
+assets/js/glitter.js           textura de glitter e deriva por inércia
 assets/js/galeria.js           painel ativo da galeria e entrada no scroll
 assets/js/agendamento.js       os três passos e a mensagem do WhatsApp
+assets/js/fluidez.js           rolagem das âncoras e travessia entre seções
 assets/js/gsap.min.js          GSAP 3.13.0, hospedado aqui
 assets/js/ScrollTrigger.min.js plugin do GSAP, hospedado aqui
 assets/img/logo-lili.svg       logo da marca
@@ -104,18 +105,56 @@ desvio variado. Purpurina não se distribui em tapete uniforme. Os ladrilhos
 têm lados diferentes — 263, 341 e 421px — para as repetições nunca
 coincidirem e desenharem grade.
 
-Medida a diferença entre a página com e sem a camada, o glitter toca **4,7%
-dos pixels**, com diferença máxima de 100 níveis nos cacos maiores e média de
-0,57. Sete por cento deles são grandes e mais opacos: são os que pegam a luz.
+Sete por cento dos cacos são grandes e mais opacos: são os que pegam a luz.
+A presença da textura é medida diferenciando a página com e sem a camada — os
+números estão mais abaixo, junto da rampa de profundidade. Vale notar que essa
+medida depende da fase do degradê no momento da captura: sobre a parte escura
+do ciclo os cacos destacam bem mais que sobre a clara, então só faz sentido
+comparar duas versões capturadas na mesma fase.
 
 **As centelhas** — 18 elementos, os únicos do DOM — são cacos maiores que
 acendem e apagam em ciclos de 4,5s a 11s, fora de fase, apagados na maior
 parte do tempo.
 
-**Sem deriva:** glitter preso no esmalte não flutua. O paralaxe do scroll
-continua por camada, percorrendo −16, −34, −52 e −70 px do topo ao fim da
-página. Com `prefers-reduced-motion`, o glitter fica estático: sem cintilância
-e sem paralaxe.
+**A deriva é comandada pela velocidade do gesto, não pela posição da
+rolagem.** O paralaxe anterior prendia a camada à posição: 70px de curso ao
+longo de 2264px de página, ou seja 3%. Medido, dava de 6 a 28 pixels por tela
+inteira rolada — numa textura que cobre a tela toda, isso é o efeito não
+existir.
+
+Agora o deslocamento é proporcional à velocidade instantânea da rolagem, no
+sentido contrário a ela: rolando para baixo o glitter sobe. Quando o dedo
+para, as partículas não param junto — continuam e desaceleram, como pó
+suspenso. Medido, por camada:
+
+| gesto | pico das quatro camadas | cauda até parar |
+| --- | --- | --- |
+| lento (300 px/s) | 3, 5, 8, 10 px | 0,53s |
+| médio (1080 px/s) | 9, 16, 28, 36 px | 0,77s |
+| rápido (2400 px/s) | 21, 37, 63, 80 px | 0,92s |
+
+Gesto rápido move muito, gesto lento move pouco — distinção que o paralaxe por
+posição não sabe fazer. E o repouso é sempre zero, então nada acumula deriva ao
+longo da página.
+
+**A profundidade estava invertida.** As opacidades eram `0.85`, `0.7`, `0.55`
+enquanto o deslocamento subia na mesma ordem: a camada mais apagada corria na
+frente da mais brilhante, o contrário do que o olho espera. Agora as três
+coisas andam juntas — quem está longe é menor, mais apagado, mais denso e se
+desloca um terço do que a camada da frente se desloca. O porte não desce de 1:
+abaixo disso o caco cai sob um pixel em tela 1x e volta a parecer bolinha, que
+foi o problema original. Medida a diferença contra a página sem a camada, nas
+mesmas condições, a textura nova é **mais** presente que a antiga: 3,4% dos
+pixels contra 2,8%, pico de 44 níveis contra 38.
+
+**Custo:** não usa GSAP. É um laço `rAF` que escreve `translate3d` em quatro
+camadas e **dorme quando tudo zera** — medido, com a página parada ele pede
+zero quadros (os dois pedidos por quadro que sobram são do próprio GSAP, e já
+existiam antes). Substituiu quatro ScrollTriggers com `scrub`, que atualizavam
+a cada quadro o tempo todo.
+
+Com `prefers-reduced-motion`, o glitter fica estático: sem cintilância e sem
+deriva.
 
 O `html` recebe `background-color` como rede de segurança: o degradê é
 dimensionado pela caixa do `body`, então qualquer área além dela — a barra do
@@ -327,6 +366,65 @@ Enquanto `NUMERO` estiver vazia o link não navega, mas a mensagem já é escrit
 em `data-mensagem` do botão — dá para conferir pelo inspetor. Preenchido o
 número, o `href` passa a sair como `https://wa.me/<numero>?text=<mensagem>`.
 Os três períodos pedem "da", então a regência não muda com a escolha.
+
+## Fluidez
+
+Revisão de movimento do site inteiro, medida no navegador. O que foi
+encontrado e o que mudou:
+
+**A âncora saltava.** O botão da abertura pulava 2304px de uma vez. Agora rola
+animada, 1,2s com `expo.out` — quase toda a duração é desaceleração, que é a
+sensação de deslizar até parar. Medido, a curva passa por 1863px em 25% do
+tempo e gasta os últimos 400px freando.
+
+O `scroll-behavior: smooth` do CSS resolveria em uma linha, mas tem duração
+curta e fixa. Ele fica como reserva para quem está sem JS, em
+`html:not(.js)` — com JS ele brigaria com a animação, suavizando cada quadro
+dela.
+
+Duas coisas que sequestrar âncora costuma quebrar, e que ficaram cobertas: o
+gesto da visitante (roda, toque, setas, PageUp/Down, Home/End) cancela a
+animação na hora, e o foco vai para o destino no fim, senão quem chega pelo
+teclado fica com o foco no link de origem e o Tab seguinte volta ao topo.
+
+**Metade do site aparecia sem preparação.** Só o título entrava na galeria e no
+agendamento — os seis painéis e toda a máquina de passos já estavam plantados
+na tela quando a seção chegava. Agora entram atrás do título: os painéis em
+cascata de 60ms, o progresso e a pilha de passos em 120ms. A máscara de reveal
+não serve a eles (o corte apareceria nas bordas arredondadas), então usam
+`.entra-adiada` — sobem 26px e clareiam.
+
+**Cartão, pílula e resumo não devolviam nada ao dedo.** Só o botão da abertura
+tinha `:active`. No celular não existe hover, então tocar num cartão não dava
+retorno nenhum até a animação seguinte começar. Agora os três respondem com
+`scale(0.97)` em 120ms — `transform` puro, sem layout.
+
+**A travessia entre seções** ganhou um deslocamento curto preso ao scroll no
+título de cada uma, 14px para cada lado. É deliberadamente pequeno: não é para
+ser visto, é para ser sentido. Acima disso vira exibição e compete com a
+leitura.
+
+### Sobre scroll suavizado global (Lenis e equivalentes)
+
+Avaliado e **descartado**, pelos critérios do próprio projeto:
+
+- No celular — a prioridade — o Lenis não suaviza toque por padrão
+  (`syncTouch: false`), justamente porque substituir o momentum nativo piora a
+  sensação. Ou seja: na plataforma que mais importa ele não faria nada.
+- Ligado no toque, quebra o recolher da barra de endereço do navegador móvel e
+  o rubber-band, e passa a rodar um laço de interpolação por cima de um fundo
+  que já repinta a tela inteira a cada quadro.
+- O peso e a inércia vêm da deriva do glitter e da âncora com desaceleração
+  longa, sem sequestrar a rolagem de ninguém.
+
+### Um desvio conhecido
+
+A galeria anima `flex`, o que recalcula o layout dos seis painéis a cada
+quadro — é o único lugar do site que anima layout, e o candidato natural a
+engasgar em aparelho fraco. Foi mantido de propósito: o componente foi portado
+com a instrução de reproduzir fielmente todos os valores, e trocar por
+`transform: scale` mudaria a geometria dele. Fica registrado para trocar se
+aparecer travamento real no aparelho.
 
 ## Próximo passo
 

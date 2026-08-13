@@ -61,6 +61,16 @@
 }
 
 /* ---------- Reset enxuto ---------- */
+/* Âncora sem JS: rolagem suave nativa. Com JS ativo, quem rola é o
+   assets/js/fluidez.js, quadro a quadro e com desaceleração longa — e aí
+   o smooth nativo suavizaria cada quadro daquela animação, brigando com
+   ela. Por isso a regra exclui o .js. */
+html:not(.js) { scroll-behavior: smooth; }
+
+@media (prefers-reduced-motion: reduce) {
+  html:not(.js) { scroll-behavior: auto; }
+}
+
 *, *::before, *::after { box-sizing: border-box; }
 
 html {
@@ -390,8 +400,12 @@ body::after {
   text-align: center;
   color: var(--texto);
   transition: border-color 0.3s ease, background-color 0.3s ease,
-              color 0.3s ease;
+              color 0.3s ease, transform 0.12s ease-out;
 }
+
+/* No celular não existe hover: sem isto, tocar num cartão não devolve
+   nada ao dedo até a animação seguinte começar. */
+.cartao:active { transform: scale(0.97); }
 
 .cartao__icone {
   width: 1.9rem;
@@ -587,11 +601,29 @@ body::after {
    seis cartões empilham numa coluna só. */
 .js .cartoes.revela-adiada { display: grid; }
 
+/* Entrada sem máscara: sobe pouco e clareia. A máscara serve a texto em
+   linha, que pode ser cortado num retângulo limpo; painel de foto e pilha
+   de passos não podem — o corte apareceria nas bordas arredondadas. */
+.js .entra-adiada {
+  opacity: 0;
+  transform: translate3d(0, 26px, 0);
+  will-change: transform, opacity;
+}
+
 .js .servicos--revelada .revela-adiada,
-.js .galeria--revelada .revela-adiada { transform: none; will-change: auto; }
+.js .galeria--revelada .revela-adiada,
+.js .agendamento--revelada .revela-adiada { transform: none; will-change: auto; }
+
+.js .galeria--revelada .entra-adiada,
+.js .agendamento--revelada .entra-adiada {
+  opacity: 1;
+  transform: none;
+  will-change: auto;
+}
 
 @media (prefers-reduced-motion: reduce) {
   .js .revela-adiada { transform: none; will-change: auto; }
+  .js .entra-adiada { opacity: 1; transform: none; will-change: auto; }
   .cartao, .cartao__icone, .cartao__acao, .cartao__seta { transition: none; }
 }
 
@@ -613,7 +645,10 @@ body::after {
    transbordam para o deslocamento nunca esvaziar topo ou rodapé. */
 .glitter__camada {
   position: absolute;
-  inset: -12vh 0;
+  /* 16vh de sobra de cada lado: a deriva por inércia chega a 11% da
+     altura da tela na camada da frente, e a borda não pode aparecer no
+     pico do gesto */
+  inset: -16vh 0;
   will-change: transform;
 }
 
@@ -1095,8 +1130,11 @@ body::after { z-index: 2; }
           backdrop-filter: blur(8px);
   cursor: pointer;
   text-align: left;
-  transition: border-color 0.3s ease, background-color 0.3s ease;
+  transition: border-color 0.3s ease, background-color 0.3s ease,
+              transform 0.12s ease-out;
 }
+
+.passo__resumo:active { transform: scale(0.985); }
 
 /* o filete dourado ao lado do que foi escolhido */
 .passo__filete {
@@ -1200,8 +1238,10 @@ body::after { z-index: 2; }
   color: var(--texto);
   text-shadow: var(--halo-leve);
   transition: border-color 0.3s ease, background-color 0.3s ease,
-              color 0.3s ease;
+              color 0.3s ease, transform 0.12s ease-out;
 }
+
+.pilula:active { transform: scale(0.97); }
 
 /* a faixa de horário do período: presente, mas sem disputar com o nome */
 .pilula__hora {
@@ -1306,9 +1346,9 @@ body::after { z-index: 2; }
   text-shadow: var(--halo-leve);
 }
 
-.js .agendamento--revelada .revela-adiada { transform: none; will-change: auto; }
 
 @media (prefers-reduced-motion: reduce) {
   .progresso__traco, .progresso__rotulo,
   .passo__resumo, .pilula { transition: none; }
+  .cartao:active, .pilula:active, .passo__resumo:active { transform: none; }
 }

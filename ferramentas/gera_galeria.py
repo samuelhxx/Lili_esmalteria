@@ -40,7 +40,9 @@ def montar():
 
     for num, titulo, categoria, alt in PAINEIS:
         ativo = "true" if num == ATIVO else "false"
-        add(f'      <article class="painel-foto" data-painel="{num}" '
+        # entra-adiada: os seis painéis sobem em cascata quando a seção
+        # chega, em vez de já estarem plantados na tela
+        add(f'      <article class="painel-foto entra-adiada" data-painel="{num}" '
             f'tabindex="0" role="button" aria-pressed="{ativo}" '
             f'aria-label="{titulo}">')
         add('        <div class="painel-foto__midia">')

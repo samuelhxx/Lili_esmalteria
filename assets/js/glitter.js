@@ -137,9 +137,9 @@
      distância se lê pela opacidade e pela densidade, não encolhendo o
      que já está no piso. */
   var CAMADAS = [
-    { lado: 263, quantidade: 300, semente: 11, opacidade: 0.5,  porte: 1 },
-    { lado: 341, quantidade: 420, semente: 29, opacidade: 0.68, porte: 1.12 },
-    { lado: 421, quantidade: 520, semente: 47, opacidade: 0.9,  porte: 1.35 }
+    { lado: 263, quantidade: 255, semente: 11, opacidade: 0.5,  porte: 1 },
+    { lado: 341, quantidade: 355, semente: 29, opacidade: 0.68, porte: 1.12 },
+    { lado: 421, quantidade: 440, semente: 47, opacidade: 0.9,  porte: 1.35 }
   ];
 
   var camadas = [];
@@ -159,12 +159,18 @@
   var rnd = sorteio(20250812);
   function entre(a, b) { return a + rnd() * (b - a); }
 
-  var CENTELHAS = 18;
+  /* Mais numerosas e maiores que antes: são elas que fazem a purpurina
+     pegar a luz, e o pico do cintilar subiu junto. Ficam guardadas numa
+     lista porque cada uma gira e se espalha por conta própria — o
+     ladrilho não pode girar (a repetição mostraria as emendas), então a
+     rotação vive aqui, nas partículas que existem no DOM. */
+  var CENTELHAS = 24;
+  var centelhas = [];
   var brilhos = document.createElement("div");
   brilhos.className = "glitter__camada glitter__camada--centelhas";
 
   for (var i = 0; i < CENTELHAS; i++) {
-    var lado = entre(9, 16);
+    var lado = entre(10, 19);
     var svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ' +
       lado + " " + lado + '">' +
       '<path fill="' + CORES[Math.floor(entre(0, CORES.length))] + '" d="' +
@@ -179,10 +185,23 @@
     e.height = lado.toFixed(1) + "px";
     e.backgroundImage = 'url("data:image/svg+xml,' + encodeURIComponent(svg) + '")';
     /* ciclos longos e fora de fase: nenhuma acende junto com outra */
-    e.setProperty("--cintila-tempo", entre(4.5, 11).toFixed(1) + "s");
-    e.setProperty("--cintila-atraso", entre(-11, 0).toFixed(1) + "s");
-    e.setProperty("--cintila-pico", entre(0.55, 0.9).toFixed(2));
+    e.setProperty("--cintila-tempo", entre(3.2, 8.5).toFixed(1) + "s");
+    e.setProperty("--cintila-atraso", entre(-9, 0).toFixed(1) + "s");
+    e.setProperty("--cintila-pico", entre(0.78, 1).toFixed(2));
     brilhos.appendChild(c);
+
+    /* Só parte delas gira de verdade: girar todas viraria engrenagem.
+       Duas em cada três ficam quase paradas, o resto vira o suficiente
+       para o olho pegar a faceta mudando de lado. */
+    var giraMesmo = rnd() < 0.34;
+    var direcao = entre(0, Math.PI * 2);
+    centelhas.push({
+      el: c,
+      giro: giraMesmo ? entre(-0.12, 0.12) : entre(-0.02, 0.02),
+      dirX: Math.cos(direcao),
+      dirY: Math.sin(direcao),
+      escrito: ""
+    });
   }
   camadas.push(brilhos);
 
@@ -190,44 +209,54 @@
   camadas.forEach(function (c) { fragmento.appendChild(c); });
   caixa.appendChild(fragmento);
 
-  /* ---------- deriva por inércia ----------
+  /* ---------- o pó dentro do vidro ----------
 
-     O paralaxe antigo prendia a posição da camada à posição da rolagem:
-     70px de curso ao longo de 2264px de página, ou seja 3%. Medido, dava
-     6 a 28 pixels por tela inteira rolada — numa textura que cobre a tela
-     toda, isso é o efeito não existir.
+     O gesto mexe o pó, o pó reage, e demora um instante para assentar.
+     Cinco comportamentos, todos em transform e opacity:
 
-     Agora o que comanda é a VELOCIDADE do gesto, não a posição. O
-     deslocamento é proporcional à velocidade instantânea, contrário ao
-     sentido da rolagem, e volta ao repouso sozinho quando o dedo para —
-     mas não na hora: a camada continua e desacelera, como pó suspenso.
+     1. CONTRAMÃO. As partículas vão para o lado oposto do conteúdo.
+        Rolando para baixo o conteúdo sobe e o glitter DESCE, cruzando
+        com tudo o que se move na tela. Não é paralaxe de velocidade
+        diferente: é sinal trocado.
+     2. INÉRCIA. O deslocamento é proporcional à velocidade do gesto, e
+        quando o dedo para o pó continua e desacelera sozinho.
+     3. DERIVA LATERAL. Uma onda de lado, com período e fase próprios por
+        camada, para não parecerem correndo num trilho reto. A amplitude
+        acompanha o quanto a camada está deslocada — parada, não deriva.
+     4. GIRO. Parte das centelhas vira enquanto anda.
+     5. ESPALHAMENTO NA FRENAGEM. Quando a posição fica adiante do alvo,
+        a camada está voltando: é o momento de assentar, e as centelhas
+        se abrem um pouco antes de pousar.
 
-     Duas vantagens sobre o paralaxe: gesto rápido move muito e gesto
-     lento move pouco (a posição não sabe a diferença), e o estado de
-     descanso é sempre zero, então nada acumula deriva ao longo da
-     página.
-
-     Sem GSAP aqui de propósito: é um laço rAF que escreve translate3d em
-     quatro camadas e DORME quando tudo zera. Enquanto a página está
-     parada — que é a maior parte do tempo — não custa um quadro sequer.
+     Nada de scale nas camadas de ladrilho: mudar a escala de uma camada
+     composta obriga o navegador a rasterizar de novo, e é justamente o
+     que não se pode pagar no celular. Translação e rotação nunca pedem
+     nova rasterização.
      ---------------------------------------------------------------- */
 
   if (querMenosMovimento) return;
 
-  /* Profundidade: a camada do fundo se desloca um terço do que a da
-     frente se desloca. É a diferença entre os fatores que o olho lê como
-     distância. As centelhas vão na frente de todas. */
-  var FATORES = [0.35, 0.6, 1, 1.25];
+  /* Profundidade: a camada do fundo anda um terço do que a da frente
+     anda. É a diferença entre os fatores que o olho lê como distância. */
+  var FATORES  = [0.45, 0.72, 1, 1.3];
+  /* amplitude da onda lateral, em px, no deslocamento máximo */
+  var LATERAL  = [14, 22, 32, 40];
+  /* px de rolagem por radiano da onda: períodos diferentes para as
+     quatro camadas nunca ondularem juntas */
+  var PERIODO  = [70, 95, 125, 150];
+  var FASE     = [0, 1.9, 3.4, 5.1];
 
-  /* segundos: converte px/s de rolagem em px de deslocamento. A 2000px/s
-     (um gesto rápido de celular) dá 90px antes do teto. */
-  var GANHO = 0.045;
+  /* segundos: converte px/s de rolagem em px de deslocamento */
+  var GANHO = 0.12;
+  /* o quanto as centelhas se abrem no assentamento, em px */
+  var ESPALHA = 40;
 
-  /* Teto do deslocamento. Preso à altura da tela porque a camada
-     transborda 16vh de cada lado: passar disso descobriria a borda. */
-  var teto = 72;
+  /* Teto do deslocamento, preso à altura da tela porque a camada
+     transborda 34vh de cada lado: passar disso descobriria a borda.
+     Com o fator 1.3 da camada da frente, o pico é 24,7% da tela. */
+  var teto = 185;
   function medirTeto() {
-    teto = Math.min(72, window.innerHeight * 0.11);
+    teto = Math.min(185, window.innerHeight * 0.21);
   }
   medirTeto();
   window.addEventListener("resize", medirTeto);
@@ -237,17 +266,25 @@
     return {
       el: el,
       fator: fator,
+      lateral: LATERAL[i] || 20,
+      periodo: PERIODO[i] || 100,
+      fase: FASE[i] || 0,
       atual: 0,
-      escrito: 0,
+      lado: 0,
+      escrito: "",
       /* quem está mais longe segue o alvo mais devagar: além de andar
-         menos, chega atrasado. É o que dá peso diferente a cada camada. */
+         menos, chega atrasado */
       segue: 0.06 + fator * 0.045
     };
   });
 
+  var frente = estados[estados.length - 1];
+
   var ultimoY = window.pageYOffset || 0;
   var ultimoT = 0;
   var velocidade = 0;        /* px/s, suavizada */
+  var percorrido = 0;        /* px andados, alimenta a onda lateral */
+  var assenta = 0;           /* 0 a 1: o quanto está assentando agora */
   var anterior = 0;
   var laco = 0;
 
@@ -270,26 +307,60 @@
     var dt = anterior ? Math.min((t - anterior) / 1000, 0.05) : 1 / 60;
     anterior = t;
     var passos = dt * 60;    /* normaliza o amortecimento para 60fps */
+    var i, e;
 
     velocidade *= Math.pow(0.82, passos);
+    percorrido += Math.abs(velocidade) * dt;
 
-    var base = -velocidade * GANHO;
+    /* sinal POSITIVO: rolando para baixo (velocidade > 0) o glitter
+       desce, contra o conteúdo que sobe */
+    var base = velocidade * GANHO;
     if (base > teto) base = teto;
     else if (base < -teto) base = -teto;
 
+    /* Posição adiante do alvo quer dizer que a camada está voltando —
+       ou seja, freando. É aí que o pó se abre antes de pousar. */
+    var alvoFrente = Math.abs(base * frente.fator);
+    var alcance = teto * frente.fator;
+    var agora = (Math.abs(frente.atual) - alvoFrente) / alcance;
+    if (agora < 0) agora = 0; else if (agora > 1) agora = 1;
+    assenta += (agora - assenta) * Math.min(1, 0.3 * passos);
+
     var vivo = Math.abs(velocidade) > 4;
 
-    for (var i = 0; i < estados.length; i++) {
-      var e = estados[i];
+    for (i = 0; i < estados.length; i++) {
+      e = estados[i];
       e.atual += (base * e.fator - e.atual) * Math.min(1, e.segue * passos);
-      /* só escreve quando muda de verdade: abaixo disso o navegador
-         recompõe à toa */
-      if (Math.abs(e.atual - e.escrito) > 0.05) {
-        e.escrito = e.atual;
-        e.el.style.transform = "translate3d(0," + e.atual.toFixed(2) + "px,0)";
+
+      /* a deriva lateral só existe enquanto há deslocamento: parada, a
+         camada não fica balançando sozinha */
+      var quanto = Math.abs(e.atual) / (teto * e.fator);
+      if (quanto > 1) quanto = 1;
+      e.lado = Math.sin(percorrido / e.periodo + e.fase) * e.lateral * quanto;
+
+      var escrita = "translate3d(" + e.lado.toFixed(1) + "px," +
+                    e.atual.toFixed(1) + "px,0)";
+      if (escrita !== e.escrito) {
+        e.escrito = escrita;
+        e.el.style.transform = escrita;
       }
       if (Math.abs(e.atual) > 0.08) vivo = true;
     }
+
+    /* as centelhas herdam o movimento do grupo e ainda giram e se
+       espalham por conta própria */
+    var abre = assenta * ESPALHA;
+    for (i = 0; i < centelhas.length; i++) {
+      var c = centelhas[i];
+      var escrita2 = "translate3d(" + (c.dirX * abre).toFixed(1) + "px," +
+                     (c.dirY * abre).toFixed(1) + "px,0) rotate(" +
+                     (frente.atual * c.giro).toFixed(1) + "deg)";
+      if (escrita2 !== c.escrito) {
+        c.escrito = escrita2;
+        c.el.style.transform = escrita2;
+      }
+    }
+    if (assenta > 0.01) vivo = true;
 
     if (vivo) {
       laco = requestAnimationFrame(quadro);
@@ -300,10 +371,16 @@
     laco = 0;
     anterior = 0;
     velocidade = 0;
-    for (var j = 0; j < estados.length; j++) {
-      estados[j].atual = 0;
-      estados[j].escrito = 0;
-      estados[j].el.style.transform = "translate3d(0,0,0)";
+    assenta = 0;
+    for (i = 0; i < estados.length; i++) {
+      estados[i].atual = 0;
+      estados[i].lado = 0;
+      estados[i].escrito = "translate3d(0,0,0)";
+      estados[i].el.style.transform = "translate3d(0,0,0)";
+    }
+    for (i = 0; i < centelhas.length; i++) {
+      centelhas[i].escrito = "";
+      centelhas[i].el.style.transform = "";
     }
   }
 })();

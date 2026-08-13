@@ -95,8 +95,8 @@ arredonda de volta.
 
 A massa continua sendo **textura repetida, não elemento no DOM** — são
 milhares de cacos por tela, e como elementos isso seria impraticável. Cada
-ladrilho traz de 300 a 520 cacos, agrupados por cor e opacidade para o arquivo
-não triplicar de tamanho; os três somam 102 KB de data URI, gerados em memória
+ladrilho traz de 255 a 440 cacos, agrupados por cor e opacidade para o arquivo
+não triplicar de tamanho; os três somam 89 KB de data URI, gerados em memória
 e sem custo de rede.
 
 **A concentração é desigual de propósito:** em vez de espalhar por igual,
@@ -112,49 +112,97 @@ medida depende da fase do degradê no momento da captura: sobre a parte escura
 do ciclo os cacos destacam bem mais que sobre a clara, então só faz sentido
 comparar duas versões capturadas na mesma fase.
 
-**As centelhas** — 18 elementos, os únicos do DOM — são cacos maiores que
-acendem e apagam em ciclos de 4,5s a 11s, fora de fase, apagados na maior
-parte do tempo.
+**As centelhas** — 24 elementos, os únicos do DOM — são cacos maiores que
+acendem e apagam em ciclos de 3,2s a 8,5s, fora de fase, apagados na maior
+parte do tempo. São também as únicas que giram, pelo motivo explicado
+adiante.
 
-**A deriva é comandada pela velocidade do gesto, não pela posição da
-rolagem.** O paralaxe anterior prendia a camada à posição: 70px de curso ao
-longo de 2264px de página, ou seja 3%. Medido, dava de 6 a 28 pixels por tela
-inteira rolada — numa textura que cobre a tela toda, isso é o efeito não
-existir.
+**O pó dentro do vidro.** A intenção é a de agitar um vidro de esmalte com
+glitter: o gesto mexe o pó, o pó reage, e demora um instante para assentar.
+Cinco comportamentos, todos em `transform` e `opacity`.
 
-Agora o deslocamento é proporcional à velocidade instantânea da rolagem, no
-sentido contrário a ela: rolando para baixo o glitter sobe. Quando o dedo
-para, as partículas não param junto — continuam e desaceleram, como pó
-suspenso. Medido, por camada:
+**1. Contramão.** As partículas vão para o lado oposto do conteúdo. Rolando
+para baixo o conteúdo sobe e o glitter **desce**, cruzando com tudo o que se
+move na tela. Não é paralaxe de velocidade diferente: é sinal trocado. Medido,
+rolando para baixo as camadas dão `+38, +67, +102, +143`; para cima, os mesmos
+números negativos.
 
-| gesto | pico das quatro camadas | cauda até parar |
-| --- | --- | --- |
-| lento (300 px/s) | 3, 5, 8, 10 px | 0,53s |
-| médio (1080 px/s) | 9, 16, 28, 36 px | 0,77s |
-| rápido (2400 px/s) | 21, 37, 63, 80 px | 0,92s |
-
-Gesto rápido move muito, gesto lento move pouco — distinção que o paralaxe por
-posição não sabe fazer. E o repouso é sempre zero, então nada acumula deriva ao
+**2. Inércia.** O deslocamento é proporcional à velocidade do gesto, não à
+posição da rolagem — gesto rápido move muito, gesto lento move pouco, coisa
+que a posição não sabe distinguir. Quando o dedo para, o pó continua e
+desacelera sozinho. E o repouso é sempre zero, então nada acumula deriva ao
 longo da página.
 
-**A profundidade estava invertida.** As opacidades eram `0.85`, `0.7`, `0.55`
-enquanto o deslocamento subia na mesma ordem: a camada mais apagada corria na
-frente da mais brilhante, o contrário do que o olho espera. Agora as três
-coisas andam juntas — quem está longe é menor, mais apagado, mais denso e se
-desloca um terço do que a camada da frente se desloca. O porte não desce de 1:
-abaixo disso o caco cai sob um pixel em tela 1x e volta a parecer bolinha, que
-foi o problema original. Medida a diferença contra a página sem a camada, nas
-mesmas condições, a textura nova é **mais** presente que a antiga: 3,4% dos
-pixels contra 2,8%, pico de 44 níveis contra 38.
+| gesto | vertical (fundo → frente) | lateral | giro | espalhamento | assenta em |
+| --- | --- | --- | --- | --- | --- |
+| lento (300 px/s) | 9, 15, 21, 28 px | até 3px | 3° | 2px | 0,72s |
+| médio (1080 px/s) | 32, 53, 76, 100 px | até 17px | 12° | 8px | 0,97s |
+| rápido (2400 px/s) | 72, 119, 168, 223 px | até 34px | 26° | 17px | 1,14s |
 
-**Custo:** não usa GSAP. É um laço `rAF` que escreve `translate3d` em quatro
-camadas e **dorme quando tudo zera** — medido, com a página parada ele pede
-zero quadros (os dois pedidos por quadro que sobram são do próprio GSAP, e já
-existiam antes). Substituiu quatro ScrollTriggers com `scrub`, que atualizavam
-a cada quadro o tempo todo.
+No pico de um gesto rápido a camada da frente desloca 223px numa tela de
+900px — 25% da altura. Entre a página em repouso e o pico, **4,5% dos pixels
+da tela mudam**.
 
-Com `prefers-reduced-motion`, o glitter fica estático: sem cintilância e sem
-deriva.
+**3. Deriva lateral.** Uma onda de lado, com período e fase próprios por
+camada, para as partículas não parecerem correndo num trilho reto. A amplitude
+acompanha o quanto a camada está deslocada: parada, a camada não fica
+balançando sozinha.
+
+**4. Giro.** O ladrilho não pode girar — a repetição mostraria as emendas —,
+então a rotação vive nas centelhas, que são elementos de verdade no DOM. Só um
+terço delas gira de fato; girar todas viraria engrenagem.
+
+**5. Espalhamento na frenagem.** Quando a posição fica adiante do alvo, a
+camada está voltando: é o momento de assentar. Aí as centelhas se abrem, cada
+uma na sua direção, antes de pousar.
+
+### Os números, para calibrar
+
+Tudo no topo do bloco de deriva em `assets/js/glitter.js`:
+
+| constante | valor | o que faz |
+| --- | --- | --- |
+| `GANHO` | `0.12` | segundos: converte px/s de rolagem em px de deslocamento |
+| `teto` | `min(185, altura × 0.21)` | limite do deslocamento, preso à tela |
+| `FATORES` | `0.45, 0.72, 1, 1.3` | profundidade: fundo → frente → centelhas |
+| `LATERAL` | `14, 22, 32, 40` px | amplitude da onda de lado no deslocamento máximo |
+| `PERIODO` | `70, 95, 125, 150` | px de rolagem por radiano da onda |
+| `ESPALHA` | `40` px | abertura das centelhas no assentamento |
+| `giro` | `±0.12°/px` em 34% delas, `±0.02` no resto | rotação |
+| amortecimento | `0.82` por quadro | o quanto a velocidade morre a cada quadro |
+| `segue` | `0.06 + fator × 0.045` | o atraso de cada camada em seguir o alvo |
+
+Para **subir a intensidade**, mexer em `GANHO` e `teto` juntos — `GANHO`
+sozinho satura no teto. Para **mais lado**, `LATERAL`. Para **assentar mais
+devagar**, baixar o amortecimento (0.86 já alonga bastante). Se `teto` subir,
+a sobra de `.glitter__camada` no CSS precisa subir junto, senão a borda da
+camada aparece na tela.
+
+**A cintilância** vai a dois lampejos com um vinco escuro no meio, e não um
+só: a faceta que vira pega a luz duas vezes ao passar pelo ângulo certo. O
+pico subiu para 0,78–1 (era 0,55–0,9) e o ciclo encurtou para 3,2–8,5s (era
+4,5–11s). São 24 centelhas, de 10 a 19px (eram 18, de 9 a 16px).
+
+**Custo.** Não usa GSAP: é um laço `rAF` que escreve `transform` em 4 camadas
+e 24 centelhas e **dorme quando tudo zera** — medido, com a página parada ele
+pede zero quadros (os dois por quadro que sobram são do GSAP e já existiam
+antes). No pior caso, com os 28 elementos mudando todo quadro, o trabalho de
+JS mede **33,5µs**, ou 0,2% do orçamento de 16,7ms. Nada de `scale` nas
+camadas de ladrilho: mudar a escala de uma camada composta obriga o navegador
+a rasterizar de novo, e é justamente o que não se pode pagar no celular —
+translação e rotação nunca pedem nova rasterização.
+
+Como a camada precisou crescer para caber o curso novo (`-34vh -72px` de
+sobra, contra `-16vh 0`), a contagem de cacos por ladrilho desceu para
+255/355/440 (era 300/420/520): mais área de pintura, menos coisa por ladrilho.
+O peso dos três data URIs caiu de 102 KB para 89 KB.
+
+Medida a folga da borda nos três formatos, no pico do gesto — retrato 400×760,
+retrato alto 500×900 e celular deitado 740×360 —, a borda mais próxima ainda
+fica 18px fora da tela.
+
+Com `prefers-reduced-motion`, tudo isso desliga: `transform: none` nas quatro
+camadas, cintilância parada e as centelhas fixas em 0,28 de opacidade.
 
 O `html` recebe `background-color` como rede de segurança: o degradê é
 dimensionado pela caixa do `body`, então qualquer área além dela — a barra do

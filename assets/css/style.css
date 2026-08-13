@@ -645,10 +645,13 @@ body::after {
    transbordam para o deslocamento nunca esvaziar topo ou rodapé. */
 .glitter__camada {
   position: absolute;
-  /* 16vh de sobra de cada lado: a deriva por inércia chega a 11% da
-     altura da tela na camada da frente, e a borda não pode aparecer no
-     pico do gesto */
-  inset: -16vh 0;
+  /* Sobra nos dois eixos, e não só na vertical: no pico de um gesto
+     rápido a camada da frente chega a 27% da altura da tela e ainda
+     deriva até 40px de lado. Sem os -72px horizontais, a onda lateral
+     descobriria a borda esquerda ou direita. Medido nos três formatos —
+     retrato, retrato alto e celular deitado —, a borda mais próxima
+     ainda fica 24px fora da tela no pico. */
+  inset: -34vh -72px;
   will-change: transform;
 }
 
@@ -661,14 +664,23 @@ body::after {
   opacity: 0;
   animation: cintila var(--cintila-tempo, 7s) ease-in-out
              var(--cintila-atraso, 0s) infinite;
-  will-change: opacity;
+  /* o JS escreve transform aqui (giro e espalhamento); a opacidade
+     continua sendo do CSS, e as duas não se atrapalham */
+  will-change: opacity, transform;
 }
 
-/* Quase todo o ciclo apagada: a centelha é o pico curto no meio. */
+/* Quase todo o ciclo apagada, e o aceso agora vai mais alto: o contraste
+   entre apagado e aceso é o que faz parecer purpurina pegando a luz, e
+   não uma luzinha piscando devagar.
+
+   São dois lampejos com um vinco escuro no meio, e não um só: a faceta
+   que vira pega a luz duas vezes ao passar pelo ângulo certo. */
 @keyframes cintila {
-  0%, 62%, 100% { opacity: 0; }
-  76%           { opacity: var(--cintila-pico, 0.7); }
-  90%           { opacity: 0.08; }
+  0%, 58%, 100% { opacity: 0; }
+  68%           { opacity: var(--cintila-pico, 0.85); }
+  73%           { opacity: 0.12; }
+  79%           { opacity: var(--cintila-pico, 0.85); }
+  90%           { opacity: 0.05; }
 }
 
 /* O conteúdo fica acima do glitter; o grão de verniz, acima de tudo. */

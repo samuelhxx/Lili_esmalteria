@@ -148,7 +148,7 @@ def montar_rodape():
 
     # ----------------------------------------------------------- a marca
     add('      <div class="rodape__marca entra-adiada">')
-    add('        <img class="rodape__logo" src="assets/img/logo-lili.svg?v=1" '
+    add('        <img class="rodape__logo" src="assets/img/logo-lili.svg?v=2" '
         'alt="Lili Esmalteria" width="1111" height="752" loading="lazy" '
         'decoding="async">')
     add('        <p class="rodape__lema">Beleza · Estética · Presentes</p>')

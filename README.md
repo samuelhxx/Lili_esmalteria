@@ -633,8 +633,8 @@ Os quatro links do rodapé foram verificados contra os destinos: `#servicos`,
 | ~~Instagram~~ | `INSTAGRAM_USUARIO` em `gera_local.py` | **confirmado**: `_lili_esmalteria` |
 | ~~Endereço~~ | topo de `gera_local.py` | **confirmado**: Avenida Brasil, 322 |
 | **Branch padrão** | configurações do GitHub | `main` ainda não é a padrão; o proxy bloqueia a escrita daqui |
-| **Contraste da linha de apoio** | `.frase__apoio` na abertura | 2,31:1 contra o mínimo de 4,5:1 |
-| **Cores internas da logo** | `assets/img/logo-lili.svg` | "Esmalteria" é preto; some na fase clara do degradê |
+| ~~Contraste da linha de apoio~~ | `.frase__apoio .revela` | **feito**: fundo preto quente a 60% atrás da linha; pior caso 5,35:1 (pêssego) |
+| ~~Cores internas da logo~~ | `assets/img/logo-lili.svg` | **feito**: contorno creme de 5px nas letras (não na ilustração); "Esmalteria" aparece na fase escura e "Lili" na ferrugem |
 
 ## O peso no iPad
 

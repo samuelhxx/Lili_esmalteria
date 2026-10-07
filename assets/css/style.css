@@ -226,6 +226,18 @@ body::after {
   text-wrap: balance;
 }
 
+/* Fundo escuro só atrás da linha de apoio. Texto pequeno em creme não
+   alcança 4,5:1 só com sombra quando o degradê passa pelo pêssego (1,29:1).
+   Com o preto quente a 60% por trás, o pior caso vai a 5,35:1 (pêssego);
+   ouro 6,9:1, ferrugem 8,6:1, escuro 15:1. Fica dentro da .revela para
+   subir junto com o texto na abertura. */
+.frase__apoio .mascara > .revela {
+  display: inline-block;
+  padding: 0.28em 0.95em;
+  border-radius: 999px;
+  background: rgba(22, 17, 14, 0.6);
+}
+
 /* --- Botão --- */
 .botao {
   margin-top: clamp(2.25rem, 9vw, 3.5rem);

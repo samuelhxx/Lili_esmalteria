@@ -94,8 +94,8 @@ def montar_onde():
     add('          <dd class="endereco__valor">')
     # TELEFONE: trocar o texto e o href por igual. O href usa só dígitos,
     # com o 55 na frente: tel:+5511XXXXXXXXX.
-    add('            <a class="endereco__telefone" href="tel:+5511000000000">'
-        '(11) XXXXX-XXXX</a>')
+    add('            <a class="endereco__telefone" href="tel:+5511913649011">'
+        '(11) 91364-9011</a>')
     add('          </dd>')
     add('        </dl>')
 

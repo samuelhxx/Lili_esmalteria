@@ -26,7 +26,7 @@
      botão, dá para conferir pelo inspetor. Preencheu o número, o link
      passa a sair pronto, com o texto embutido.
      =================================================================== */
-  var NUMERO = "";
+  var NUMERO = "5511913649011";
 
   var passos = Array.prototype.slice.call(secao.querySelectorAll(".passo"));
   var marcas = Array.prototype.slice.call(secao.querySelectorAll(".progresso__marca"));

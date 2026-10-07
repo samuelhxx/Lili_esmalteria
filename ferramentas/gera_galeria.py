@@ -1,8 +1,12 @@
 """Gera a marcação da galeria elástica.
 
-Seis painéis, um por categoria. As fotos ainda não existem: cada painel
-já traz o <img> pronto, com loading, alt e proporção — falta só o src.
+Seis painéis, um por categoria. Cada painel traz o <img> pronto, com
+loading, alt e proporção. Se assets/img/galeria-NN.jpg existe, ele entra
+como src; se não, o painel mostra o espaço reservado.
 """
+import os
+
+RAIZ = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 TRACO = ('fill="none" stroke="currentColor" stroke-width="1.5" '
          'stroke-linecap="round" stroke-linejoin="round"')
@@ -46,9 +50,14 @@ def montar():
             f'tabindex="0" role="button" aria-pressed="{ativo}" '
             f'aria-label="{titulo}">')
         add('        <div class="painel-foto__midia">')
-        add('          <!-- FOTO: inserir o src aqui, ex.: src="assets/img/galeria-'
-            + num + '.jpg". Enquanto não houver, o espaço reservado abaixo aparece. -->')
-        add(f'          <img class="painel-foto__img" alt="{alt}" '
+        foto = f"assets/img/galeria-{num}.jpg"
+        if os.path.exists(os.path.join(RAIZ, foto)):
+            src = f'src="{foto}" '
+        else:
+            src = ''
+            add('          <!-- FOTO: falta assets/img/galeria-' + num
+                + '.jpg (1200x1600). Enquanto não houver, o espaço reservado abaixo aparece. -->')
+        add(f'          <img class="painel-foto__img" {src}alt="{alt}" '
             f'loading="lazy" decoding="async" width="1200" height="1600">')
         add('          <div class="painel-foto__vazio" aria-hidden="true">'
             + MOLDURA + '</div>')

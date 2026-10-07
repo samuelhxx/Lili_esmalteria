@@ -627,11 +627,11 @@ Os quatro links do rodapé foram verificados contra os destinos: `#servicos`,
 
 | o quê | onde | estado |
 | --- | --- | --- |
-| **Número do WhatsApp** | `NUMERO` em `assets/js/agendamento.js` **e** em `assets/js/local.js` | vazio nos dois — os três botões não navegam |
-| **Telefone** | `gera_local.py`, texto e `href` juntos | `(11) XXXXX-XXXX` / `tel:+5511000000000` |
-| **Fotos da galeria** | 6 `<img>` sem `src` em `index.html`, cada uma com comentário no lugar | espaço reservado 1200×1600 aparece no lugar |
-| **Instagram** | `INSTAGRAM_USUARIO` em `gera_local.py` | `_lili_esmalteria` — confirmar se é o certo |
-| **Endereço** | topo de `gera_local.py` | `Avenida Brasil, 322` — confirmar número e CEP |
+| ~~Número do WhatsApp~~ | `NUMERO` em `assets/js/agendamento.js` **e** em `assets/js/local.js` | **feito**: 5511913649011 nos dois |
+| ~~Telefone~~ | `gera_local.py`, texto e `href` juntos | **feito**: (11) 91364-9011 |
+| **Fotos da galeria** | `assets/img/galeria-NN.jpg` (1200×1600); `gera_galeria.py` põe o `src` sozinho quando o arquivo existe | 01 gel, 02 tradicional, 03 cílios e 04 sobrancelha **feitos**; 05 cabelo e 06 coloração seguem sem foto |
+| ~~Instagram~~ | `INSTAGRAM_USUARIO` em `gera_local.py` | **confirmado**: `_lili_esmalteria` |
+| ~~Endereço~~ | topo de `gera_local.py` | **confirmado**: Avenida Brasil, 322 |
 | **Branch padrão** | configurações do GitHub | `main` ainda não é a padrão; o proxy bloqueia a escrita daqui |
 | **Contraste da linha de apoio** | `.frase__apoio` na abertura | 2,31:1 contra o mínimo de 4,5:1 |
 | **Cores internas da logo** | `assets/img/logo-lili.svg` | "Esmalteria" é preto; some na fase clara do degradê |

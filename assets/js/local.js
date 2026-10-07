@@ -24,7 +24,7 @@
 
      Enquanto estiver vazio, os botões não navegam.
      =================================================================== */
-  var NUMERO = "";
+  var NUMERO = "5511913649011";
 
   var querMenosMovimento =
     window.matchMedia &&
